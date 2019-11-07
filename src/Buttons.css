@@ -1,0 +1,10 @@
+.container_buttons {
+    display: grid;
+    grid-template-columns: 175px 175px;
+}
+
+.zone {
+    /*display: inline-block;*/
+    text-align: center;
+    font-size: 10em;
+}

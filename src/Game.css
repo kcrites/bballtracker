@@ -1,12 +1,4 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
+.game-body {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -15,13 +7,4 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-body {
-  color: #282c34;
-  font-size: calc(10px + 2vmin);
-}
-
-.App-link {
-  color: #09d3ac;
 }
