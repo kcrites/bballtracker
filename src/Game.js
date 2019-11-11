@@ -1,6 +1,11 @@
 import React from 'react';
 import Buttons from './Buttons';
-import GameInfo from './GameInfo';
+//import GameInfo from './GameInfo';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import Table from 'react-bootstrap/Table';
 import './Game.css';
 
 const gameObject = {
@@ -9,6 +14,8 @@ const gameObject = {
     team: 'Apollo',
     opponent: 'MCBA',
     venue: 'Away',
+    qTime: '15:00',
+    currentQuarter: 1,
     firstQuarter: {
       started: false,
       timeIn: '',
@@ -78,7 +85,7 @@ const gameObject = {
       missedFT: 0,
     },
     totals: {
-        started: false,
+        
         timeIn: '',
         timeOut: '',
         baskets: 0,
@@ -103,18 +110,77 @@ class Game extends React.Component {
         
     };
 
+addPoints = (type, q, value) => {
     
 
-    render() {
-        //const { gameObject } = this.state;
-        return (
-            <div className='game-body'> 
-                <GameInfo gameObject={gameObject}/>
-                <Buttons gameObject={gameObject}/>
-            </div>
-        );
+    if(q === 1) {
+        let newValue = this.state.firstQuarter[type];
+        console.log('newValue1 ' + newValue);
+        newValue = newValue + value;
+        console.log('newValue2 ' + newValue);
+        let firstQuarter = {...this.state.firstQuarter, [type]: newValue};
+    this.setState({firstQuarter});
+
+
+    let newTotal = this.state.totals.baskets + value;
+    let totals = {...this.state.totals, baskets: newTotal};
+    this.setState({totals});
+
+     //   this.setState({firstQuarter: {
+      //      [type]: newValue
+       // }})
     }
 }
+
+render() {
+   // const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
+    const { team, opponent } = this.state;
+  //  const { route } = this.props;
+  
+    return (
+      <div className="App App-home">
+        <Container >
+            <Row>
+                <Col med="true">{team} vs {opponent}</Col>
+            </Row>
+            <Row>
+                <Col >
+                    <Card className='App-body'>
+                    <Card.Body>
+                    <Buttons addPoints={this.addPoints} currentQuarter={this.state.currentQuarter}/></Card.Body></Card></Col>
+
+            </Row>
+            <Row className="justify-content-md-center">
+            <Col xs={4}>Totals
+                <Table responsive striped bordered hover variant="dark" size="sm">
+                    <tbody >
+                        <tr>
+                            <td>Points</td>
+                            <td>{this.state.totals.baskets}</td>
+                        </tr>
+                        <tr>
+                            <td>Rebounds</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Assists</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td>Free Throws</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td>Personal Fouls</td>
+                            <td>14</td>
+                        </tr>
+                    </tbody></Table></Col>
+            </Row>
+      </Container>
+      </div>
+    );
+}
+};
 
 export default Game;
 

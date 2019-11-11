@@ -1,7 +1,9 @@
 import React from 'react';
-import logo from './bball.png';
 import Game from './Game';
+import Welcome from './Welcome';
+//import Home from './Home';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
   constructor(props){
@@ -11,31 +13,35 @@ class App extends React.Component {
         }
     };
 
-  handleGameClick = () => {
-    this.setState({route: 'game'});
-      };
+// Custom routing based on the 'route' variable in state
+onRouteChange = (route) => {
+ 
+  this.setState({route: route});
+}
 
       renderOption = (route) => {
-        if(route === 'game'){
-          return <div><Game /></div>
+        //const { stats, pack, loaded, user, indicator } = this.state;
+        
+        if(route === 'home'){
+          return <div> <Welcome onRouteChange={this.onRouteChange} /></div> 
+        }
+        else if (route === 'game'){
+          return <div> <Game onRouteChange={this.onRouteChange}/></div>
+        }  else if (route === 'report'){
+          return <div> <Game onRouteChange={this.onRouteChange}/></div>
         }
       }
 
+
   render() {
+
+    const { route } = this.state;
       return (
         <div className="App">
-          <header className="App-header">
-            <img src={logo} className="Bball-logo" alt="logo" /><br></br>
-            <button onClick={this.handleGameClick}>
-              Record a new game
-            </button>
-            <p>Look at Stats</p>
-          </header>
-          {(this.state.route === 'game' ? this.renderOption('game')
-        : 
-  
-            <p>SIGNIN</p>
-            )
+          {(route === 'home' ? this.renderOption('home')
+          : 
+          this.renderOption('game')
+          )
         }
         </div>
       );

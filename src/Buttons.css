@@ -1,10 +1,33 @@
 .container_buttons {
     display: grid;
-    grid-template-columns: 175px 175px;
+    grid-template-columns: 1fr 1fr;/*175px 175px;*/
+    gap: 15px;
+}
+
+.container_header_info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .zone {
     /*display: inline-block;*/
     text-align: center;
-    font-size: 10em;
+    font-size: .8em;
+    font-weight: 500;
+}
+
+.textbox {
+    border: ghostwhite;
+    border-width: 5px;
+    z-index: 1;
+}
+
+.inputbox {
+    width: 50px;
+}
+
+.timebox {
+    width: 75px;
+    text-align: right;
 }

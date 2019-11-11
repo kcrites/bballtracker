@@ -2,18 +2,23 @@
 
 import React from 'react';
 import './Buttons.css';
+import Button from 'react-bootstrap/Button';
 
-class Dashboard extends React.Component {
+
+class Buttons extends React.Component {
     constructor(props){
 		super(props);
-        this.state = {}
-        
+        this.state = {
+            started: false,
+        }
     };
 
 handleShot = (event) => {
    let name = event.target.name;
    let value = event.target.value;
+   value = parseInt(value);
    console.log(`Name: ${name} Value: ${value}`);
+   this.props.addPoints(name, this.props.currentQuarter, value);
 }
  
  handlePlay = (event) => {
@@ -22,24 +27,67 @@ handleShot = (event) => {
     console.log(`Name: ${name} Value: ${value}`);
  }
 
-    render() {
+ handleCheckbox = (event) => {
+     console.log(`started: ${event.target.value}`);
+     if(event.target.checked) {
+         this.setState({started: true});
+     } else {
+         this.setState({started: false});
+     }
+ }
+
+ handleTime = (event) => {
+   // let name = event.target.name;
+    let value = event.target.value;
+
+     if (event.target.name === 'timein') {
+         console.log(`Time in: ${value}`);
+     }
+         else {
+            console.log(`Time out: ${value}`);
+         }
+ }
+
+ handleEnd = (event) => {
+     let value = event.target.value;
+     if (value === 'eoq') {
+        //run END OF QUARTER FUNCTION to get score and save to DB
+     }
+ }
+
+render() {
+//const { currentQ } = this.props.currentQuarter; NOT WORKING??
+const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
+
         return (
-            <div className='container_buttons'> 
-               <button name='2 Points' value='2' onClick={this.handleShot}>2 Points</button>
-               <button name='Missed 2 point' value='2' onClick={this.handleShot}>Missed 2</button>
-               <button name='3 points' value='3' onClick={this.handleShot}>3 Points</button>
-               <button name='Missed 3 point' value='3' onClick={this.handleShot}>Missed 3</button>
-               <button name='Made Free Throw' value='1' onClick={this.handleShot}>Free Throw</button>
-               <button name='Missed Free Throw' value='1' onClick={this.handleShot}>Missed Free Throw</button>
-               <button name='Assist' value="1" onClick={this.handlePlay}>Assist</button>
-               <button name='Steal' value="1" onClick={this.handlePlay}>Steal</button>
-               <button name='Block' value="1" onClick={this.handlePlay}>Block</button>
-               <button name='D Rebound' value="1" onClick={this.handlePlay}>Defensive Rebound</button>
-               <button name='O Rebound' value="1" onClick={this.handlePlay}>Offensive Rebound</button>
-               <button name='PF' value="1" onClick={this.handlePlay}>Personal Foul</button>
+            <div> 
+                <div className='container_header_info zone'>
+                    <label className="textbox">Quarter {this.props.currentQuarter}</label>
+                    <div className="textbox">Started Quarter <input type="checkbox" name="Started" onChange={handleCheckbox} value='Yes'/></div>
+                    <div>{(this.state.started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' className="timebox" onChange={handleTime} defaultValue='0:00'></input></div>
+                    <div>Notes: <input name='notes' type='text'/></div> 
+                    <div>Apollo <input className="inputbox" name='our-score' type='text'/></div><div>MBCA <input className="inputbox" name='opponent-score' type='text'/></div>
+                </div>
+                <br/>
+                <div className='container_buttons'> 
+                    <Button variant="success" name='baskets' value='2' onClick={handleShot} className="font-weight-bold">2 Points</Button>
+                    <Button variant="warning" name='missedTwo' value='1' onClick={handleShot}>Missed 2</Button>
+                    <Button variant="success" name='threePointers' value='3' onClick={handleShot} className="font-weight-bold">3 Points</Button>
+                    <Button variant="warning" name='missedThree' value='1' onClick={handleShot}>Missed 3</Button>
+                    <Button variant="success" name='freeThrows' value='1' onClick={handleShot} className="font-weight-bold">Free Throw</Button>
+                    <Button variant="warning" name='Missed Free Throw' value='1' onClick={handleShot}>Missed Free Throw</Button>
+                    <Button variant="primary" name='assists' value="1" onClick={handlePlay}>Assist</Button>
+                    <Button variant="primary" name='steals' value="1" onClick={handlePlay}>Steal</Button>
+                    <Button variant="primary" name='blocks' value="1" onClick={handlePlay}>Block</Button>
+                    <Button variant="primary" name='Block Pass' value="1" onClick={handlePlay}>Blocked Pass</Button>
+                    <Button variant="primary" name='dRebound' value="1" onClick={handlePlay}>Defensive Rebound</Button>
+                    <Button variant="primary" name='oRebound' value="1" onClick={handlePlay}>Offensive Rebound</Button>
+                    <Button variant="danger" name='personalFouls' value="1" onClick={handlePlay}>Personal Foul</Button>
+                    <Button variant="dark" name='End of Quarter' value='eoq' onClick={handleEnd}>End of Quarter</Button>
+                </div>
             </div>
         );
     }
 }
 
-export default Dashboard;
+export default Buttons;
