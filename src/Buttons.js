@@ -10,9 +10,15 @@ class Buttons extends React.Component {
 		super(props);
         this.state = {
             started: false,
+            checked: false,
+            teamScore: 0,
+            opponentScore: 0
         }
     };
 
+componentWillMount(){
+   
+}
 handleShot = (event) => {
    let name = event.target.name;
    let value = event.target.value;
@@ -32,22 +38,35 @@ handleShot = (event) => {
  handleCheckbox = (event) => {
      console.log(`started: ${event.target.value}`);
      if(event.target.checked) {
-         this.setState({started: true});
+         this.setState({started: true, checked: true});
      } else {
-         this.setState({started: false});
+         this.setState({started: false, checked: false});
      }
  }
 
  handleTime = (event) => {
-   // let name = event.target.name;
+    const { subTime } = this.props;
     let value = event.target.value;
 
      if (event.target.name === 'timein') {
-         console.log(`Time in: ${value}`);
+         subTime(value, this.state.started);
      }
          else {
-            console.log(`Time out: ${value}`);
+            subTime(value, this.state.started);
          }
+ }
+
+ handleScore = (event) => {
+     let value = event.target.value;
+     let who = event.target.name;
+     
+    // let forthQuarter = {...this.state.forthQuarter, [who]: score};
+     this.setState({[who]: value});
+   
+ }
+ handleNotes = (event) => {
+     let notes = event.target.value;
+     this.props.saveNotes(notes); //FINISH THIS
  }
 
  handleEnd = (event) => {
@@ -56,9 +75,18 @@ handleShot = (event) => {
         //run END OF QUARTER FUNCTION to get score and save to DB
         //run a function to save quarter to DB
         //set quarter to next
+        let scoreArray = [this.state.teamScore,this.state.opponentScore]
+        this.props.gameScore(scoreArray);
         this.props.changeQuarter();
+        if(this.state.checked) {
+            this.setState({started: true})
+        } else {
+            this.setState({started: false})
+        }
      }
  }
+
+ 
 
 render() {
 //const { currentQ } = this.props.currentQuarter; NOT WORKING??
@@ -71,7 +99,7 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
                     <div className="textbox">Started Quarter <input type="checkbox" name="Started" onChange={handleCheckbox} value='Yes'/></div>
                     <div>{(this.state.started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' className="timebox" onChange={handleTime} defaultValue='0:00'></input></div>
                     <div>Notes: <input name='notes' type='text'/></div> 
-                    <div>Apollo <input className="inputbox" name='our-score' type='text'/></div><div>MBCA <input className="inputbox" name='opponent-score' type='text'/></div>
+                    <div>{this.props.info.team} <input className="inputbox" onChange={this.handleScore} name='teamScore' type='text'/></div><div>{this.props.info.opponent} <input onChange={this.handleScore} className="inputbox" name='opponentScore' type='text'/></div>
                 </div>
                 <br/>
                 <div className='container_buttons'> 

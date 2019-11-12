@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
 import './Game.css';
 
+let scoreArray = [];
 const gameObject = {
     info: {
         gameDate: '',
@@ -28,13 +29,15 @@ const gameObject = {
       blockedPass: 0,
       threePointers: 0,
       steals: 0,
-      dRebound: 0,
-      oRebound: 0,
+      dRebounds: 0,
+      oRebounds: 0,
       personalFouls: 0,
       freeThrows: 0,
       missedTwo: 0,
       missedThree: 0,
       missedFT: 0,
+      teamScore: 0,
+      opponentScore: 0,
     },
     secondQuarter: {
       started: false,
@@ -46,13 +49,15 @@ const gameObject = {
       blockedPass: 0,
       threePointers: 0,
       steals: 0,
-      dRebound: 0,
-      oRebound: 0,
+      dRebounds: 0,
+      oRebounds: 0,
       personalFouls: 0,
       freeThrows: 0,
       missedTwo: 0,
       missedThree: 0,
       missedFT: 0,
+      teamScore: 0,
+      opponentScore: 0,
     },
     thirdQuarter: {
       started: false,
@@ -64,13 +69,15 @@ const gameObject = {
       blockedPass: 0,
       threePointers: 0,
       steals: 0,
-      dRebound: 0,
-      oRebound: 0,
+      dRebounds: 0,
+      oRebounds: 0,
       personalFouls: 0,
       freeThrows: 0,
       missedTwo: 0,
       missedThree: 0,
       missedFT: 0,
+      teamScore: 0,
+      opponentScore: 0,
     },
     forthQuarter: {
       started: false,
@@ -82,16 +89,19 @@ const gameObject = {
       blockedPass: 0,
       threePointers: 0,
       steals: 0,
-      dRebound: 0,
-      oRebound: 0,
+      dRebounds: 0,
+      oRebounds: 0,
       personalFouls: 0,
       freeThrows: 0,
       missedTwo: 0,
       missedThree: 0,
       missedFT: 0,
+      teamScore: 0,
+      opponentScore: 0,
     },
     totals: {
-        
+        teamScore: 0,
+        opponentScore: 0,
         minutesPlayed: '',
         points: 0,
         baskets: 0,
@@ -120,7 +130,6 @@ class Game extends React.Component {
     };
 
     componentWillMount(){
-        const { team, gameDate, opponent, venue, qTime, player } = this.state;
         const { gameInfo } = this.props;
         let info = {...this.state, 
             team: gameInfo[0],
@@ -149,16 +158,17 @@ class Game extends React.Component {
                 current = 'forthQuarter';
             }
         
-       this.saveQuarterResults(current);
         tempQ++;
         this.setState({currentQuarter: tempQ});
+        console.log(`teamscore: ${this.state.firstQuarter.teamScore} opponentScore ${this.state.firstQuarter.opponentScore}`)
+        this.saveQuarterResults(current);
     }
 
     saveQuarterResults = (current) => {
         //manage end of 4th
-            const { started, timeIn, timeOut, baskets, assists, blocks, blockedPass, threePointers, steals, dRebound, oRebound, personalFouls,
-                    freeThrows,missedTwo, missedThree, missedFT} = this.state[current];
-
+            const { started, timeIn, timeOut, baskets, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
+                    freeThrows,missedTwo, missedThree, missedFT } = this.state[current];
+                //SEND TO DB
             gameTemp[current] = {
                 started: started,
                 timeIn: timeIn,
@@ -169,13 +179,15 @@ class Game extends React.Component {
                 blockedPass: blockedPass,
                 threePointers: threePointers,
                 steals: steals,
-                dRebound: dRebound,
-                oRebound: oRebound,
+                dRebounds: dRebounds,
+                oRebounds: oRebounds,
                 personalFouls: personalFouls,
                 freeThrows: freeThrows,
                 missedTwo: missedTwo,
                 missedThree: missedThree,
                 missedFT: missedFT,
+                teamScore: parseInt(scoreArray[0]),
+                opponentScore: parseInt(scoreArray[1]),
             }
         console.table(gameTemp[current]);
     }
@@ -186,25 +198,64 @@ class Game extends React.Component {
         if(q === 1){
             quarter = 'firstQuarter';
             let newValue = this.state.firstQuarter[type];
-          //  console.log('newValue1 ' + newValue);
             newValue = newValue + value;
-          //  console.log('newValue2 ' + newValue);
             let firstQuarter = {...this.state.firstQuarter, [type]: newValue};
             this.setState({firstQuarter});
 
             this.savePoints(value, type, quarter);
         }
+        if(q === 2){
+            quarter = 'secondQuarter';
+            let newValue = this.state.secondQuarter[type];
+            newValue = newValue + value;
+            let secondQuarter = {...this.state.secondQuarter, [type]: newValue};
+            this.setState({secondQuarter});
+
+            this.savePoints(value, type, quarter);
+        }
+        if(q === 3){
+            quarter = 'thirdQuarter';
+            let newValue = this.state.thirdQuarter[type];
+            newValue = newValue + value;
+            let thirdQuarter = {...this.state.thirdQuarter, [type]: newValue};
+            this.setState({thirdQuarter});
+
+            this.savePoints(value, type, quarter);
+        }
+        if(q === 4){
+            quarter = 'forthQuarter';
+            let newValue = this.state.forthQuarter[type];
+            newValue = newValue + value;
+            let forthQuarter = {...this.state.forthQuarter, [type]: newValue};
+            this.setState({forthQuarter});
+
+            this.savePoints(value, type, quarter);
+        }
     }
 
+   findQuarterName = (q) => {
+       let quarter='';
+    if(q === 1) {
+        quarter = 'firstQuarter';
+    } else  if(q === 2) {
+        quarter = 'secondQuarter';
+    } else  if(q === 3) {
+        quarter = 'thirdQuarter';
+    } else  if(q === 4) {
+        quarter = 'forthQuarter';
+    }
+    return quarter;
+   }
+   
     addPoints = (type, q, value) => {
         let quarter;
 
         if(q === 1) {
             quarter = 'firstQuarter';
             let newValue = this.state.firstQuarter[type];
-            console.log('newValue1 ' + newValue);
+           
             newValue = newValue + value;
-            console.log('newValue2 ' + newValue);
+            
             let firstQuarter = {...this.state.firstQuarter, [type]: newValue};
             this.setState({firstQuarter});
 
@@ -212,11 +263,33 @@ class Game extends React.Component {
         } else if(q === 2){
             quarter = 'secondQuarter';
             let newValue = this.state.secondQuarter[type];
-            console.log('newValue1 ' + newValue);
+           
             newValue = newValue + value;
-            console.log('newValue2 ' + newValue);
+           
             let secondQuarter = {...this.state.secondQuarter, [type]: newValue};
             this.setState({secondQuarter});
+
+            this.savePoints(value, type, quarter);
+        }
+        else if(q === 3){
+            quarter = 'thirdQuarter';
+            let newValue = this.state.thirdQuarter[type];
+           
+            newValue = newValue + value;
+           
+            let thirdQuarter = {...this.state.thirdQuarter, [type]: newValue};
+            this.setState({thirdQuarter});
+
+            this.savePoints(value, type, quarter);
+        }
+        else if(q === 4){
+            quarter = 'forthQuarter';
+            let newValue = this.state.forthQuarter[type];
+           
+            newValue = newValue + value;
+           
+            let forthQuarter = {...this.state.forthQuarter, [type]: newValue};
+            this.setState({forthQuarter});
 
             this.savePoints(value, type, quarter);
         }
@@ -228,6 +301,51 @@ class Game extends React.Component {
         let newTotal = this.state.totals[type] + value;
         let totals = {...this.state.totals, [type]: newTotal};
         this.setState({totals});
+    }
+
+    subTime = (value, started) => {
+        let q = this.state.currentQuarter;
+        let x = '';
+        if(started){x = 'timeOut'} else {x = 'timeIn'};
+        if(q === 1) {
+            let firstQuarter = {...this.state.firstQuarter, [x]: value, started: started};
+            this.setState({firstQuarter});
+        } else if(q === 2){
+            let secondQuarter = {...this.state.secondQuarter, [x]: value};
+            this.setState({secondQuarter});
+        }
+        else if(q === 3){
+            let thirdQuarter= {...this.state.thirdQuarter, [x]: value};
+            this.setState({thirdQuarter});
+        }
+        else if(q === 4){
+            let forthQuarter = {...this.state.forthQuarter, [x]: value};
+            this.setState({forthQuarter});
+        }     
+    }
+    
+    gameScore = (array) => {
+        let teamScore = array[0];
+        let opponentScore = array[1];
+        let q = this.state.currentQuarter;
+        scoreArray = array;
+        teamScore= parseInt(teamScore);
+        opponentScore = parseInt(opponentScore);
+        if(q === 1) {
+            let firstQuarter = {...this.state.firstQuarter, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({firstQuarter});
+        } else if(q === 2){
+            let secondQuarter = {...this.state.secondQuarter, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({secondQuarter});
+        }
+        else if(q === 3){
+            let thirdQuarter= {...this.state.thirdQuarter, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({thirdQuarter});
+        }
+        else if(q === 4){
+            let forthQuarter = {...this.state.forthQuarter, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({forthQuarter});
+        }
     }
 
     //Calculates totals for sidebar
@@ -242,6 +360,12 @@ class Game extends React.Component {
         else {
             return totalRebounds;
         }
+    }
+
+    gameStats = () => {
+        
+        let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.baskets/2);
+        console.log(`Final Stats: ${attempts} attempts`)
     }
 
 render() {
@@ -261,8 +385,9 @@ render() {
                 <Col >
                     <Card className='App-body'>
                     <Card.Body>
-                    <Buttons addPoints={this.addPoints} changeQuarter={this.changeQuarter}
-                             currentQuarter={this.state.currentQuarter} addPlay={this.addPlay} /></Card.Body></Card></Col>
+                    <Buttons addPoints={this.addPoints} changeQuarter={this.changeQuarter} info={this.state.info}
+                             currentQuarter={this.state.currentQuarter} addPlay={this.addPlay} gameScore={this.gameScore}
+                             subTime={this.subTime} /></Card.Body></Card></Col>
 
             </Row>
             <Row className="justify-content-md-center">
