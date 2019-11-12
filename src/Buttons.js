@@ -24,7 +24,9 @@ handleShot = (event) => {
  handlePlay = (event) => {
     let name = event.target.name;
     let value = event.target.value;
+    value = parseInt(value);
     console.log(`Name: ${name} Value: ${value}`);
+    this.props.addPlay(name, this.props.currentQuarter, value);
  }
 
  handleCheckbox = (event) => {
@@ -52,6 +54,9 @@ handleShot = (event) => {
      let value = event.target.value;
      if (value === 'eoq') {
         //run END OF QUARTER FUNCTION to get score and save to DB
+        //run a function to save quarter to DB
+        //set quarter to next
+        this.props.changeQuarter();
      }
  }
 
@@ -71,17 +76,17 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
                 <br/>
                 <div className='container_buttons'> 
                     <Button variant="success" name='baskets' value='2' onClick={handleShot} className="font-weight-bold">2 Points</Button>
-                    <Button variant="warning" name='missedTwo' value='1' onClick={handleShot}>Missed 2</Button>
+                    <Button variant="warning" name='missedTwo' value='1' onClick={handlePlay}>Missed 2</Button>
                     <Button variant="success" name='threePointers' value='3' onClick={handleShot} className="font-weight-bold">3 Points</Button>
-                    <Button variant="warning" name='missedThree' value='1' onClick={handleShot}>Missed 3</Button>
+                    <Button variant="warning" name='missedThree' value='1' onClick={handlePlay}>Missed 3</Button>
                     <Button variant="success" name='freeThrows' value='1' onClick={handleShot} className="font-weight-bold">Free Throw</Button>
-                    <Button variant="warning" name='Missed Free Throw' value='1' onClick={handleShot}>Missed Free Throw</Button>
+                    <Button variant="warning" name='missedFT' value='1' onClick={handlePlay}>Missed Free Throw</Button>
                     <Button variant="primary" name='assists' value="1" onClick={handlePlay}>Assist</Button>
                     <Button variant="primary" name='steals' value="1" onClick={handlePlay}>Steal</Button>
                     <Button variant="primary" name='blocks' value="1" onClick={handlePlay}>Block</Button>
-                    <Button variant="primary" name='Block Pass' value="1" onClick={handlePlay}>Blocked Pass</Button>
-                    <Button variant="primary" name='dRebound' value="1" onClick={handlePlay}>Defensive Rebound</Button>
-                    <Button variant="primary" name='oRebound' value="1" onClick={handlePlay}>Offensive Rebound</Button>
+                    <Button variant="primary" name='blockedPass' value="1" onClick={handlePlay}>Blocked Pass</Button>
+                    <Button variant="primary" name='dRebounds' value="1" onClick={handlePlay}>Defensive Rebound</Button>
+                    <Button variant="primary" name='oRebounds' value="1" onClick={handlePlay}>Offensive Rebound</Button>
                     <Button variant="danger" name='personalFouls' value="1" onClick={handlePlay}>Personal Foul</Button>
                     <Button variant="dark" name='End of Quarter' value='eoq' onClick={handleEnd}>End of Quarter</Button>
                 </div>

@@ -13,7 +13,7 @@
     return (
  <header className="App-header">
                 <img src={logo} className="Bball-logo" alt="logo" /><br></br>
-                <button onClick={handleGameClick} value="game">
+                <button onClick={handleGameClick} value="gameinfo">
                   Record a new game
                 </button>
                 <br/>

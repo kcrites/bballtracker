@@ -1,7 +1,7 @@
 import React from 'react';
 import Game from './Game';
 import Welcome from './Welcome';
-//import Home from './Home';
+import GameInfo from './GameInfo';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,9 +10,14 @@ class App extends React.Component {
 		super(props);
         this.state = {
           route: 'home',
+          gameInfo: [],
         }
     };
 
+
+    loadGameInfo = (details) => {
+      this.setState({gameInfo: details});
+    }
 // Custom routing based on the 'route' variable in state
 onRouteChange = (route) => {
  
@@ -26,9 +31,11 @@ onRouteChange = (route) => {
           return <div> <Welcome onRouteChange={this.onRouteChange} /></div> 
         }
         else if (route === 'game'){
-          return <div> <Game onRouteChange={this.onRouteChange}/></div>
+          return <div> <Game onRouteChange={this.onRouteChange} gameInfo={this.state.gameInfo}/></div>
         }  else if (route === 'report'){
-          return <div> <Game onRouteChange={this.onRouteChange}/></div>
+          return <div> <Game onRouteChange={this.onRouteChange} /></div>
+        } else if (route === 'gameinfo'){
+          return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>
         }
       }
 
@@ -40,7 +47,7 @@ onRouteChange = (route) => {
         <div className="App">
           {(route === 'home' ? this.renderOption('home')
           : 
-          this.renderOption('game')
+          this.renderOption(route)
           )
         }
         </div>
