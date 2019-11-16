@@ -97,7 +97,7 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
                 <div className='container_header_info zone'>
                     <label className="textbox">Quarter {this.props.currentQuarter}</label>
                     <div className="textbox">Started Quarter <input type="checkbox" name="Started" onChange={handleCheckbox} value='Yes'/></div>
-                    <div>{(this.state.started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' className="timebox" onChange={handleTime} defaultValue='0:00'></input></div>
+                    <div>{(this.state.started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' type="time" className="timebox" onChange={handleTime} ></input></div>
                     <div>Notes: <input name='notes' type='text'/></div> 
                     <div>{this.props.info.team} <input className="inputbox" onChange={this.handleScore} name='teamScore' type='text'/></div><div>{this.props.info.opponent} <input onChange={this.handleScore} className="inputbox" name='opponentScore' type='text'/></div>
                 </div>

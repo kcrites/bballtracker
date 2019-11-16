@@ -1,6 +1,5 @@
 import React from 'react';
 import Buttons from './Buttons';
-//import GameInfo from './GameInfo';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -349,16 +348,25 @@ class Game extends React.Component {
     }
 
     //Calculates totals for sidebar
-    totalsCalc = (type) => {
-        const { baskets, freeThrows, threePointers } = this.state.totals;
+    totalsCalc = (type, period) => {
+        const { baskets, freeThrows, threePointers, oRebounds, dRebounds, personalFouls } = this.state[period];
 
-        let totalRebounds = this.state.totals.oRebounds + this.state.totals.dRebounds;
+        let totalRebounds = oRebounds + dRebounds;
         let totalPoints = baskets + freeThrows + threePointers;
+        let totalFT = freeThrows;
+        let totalPF = personalFouls;
+        let totalAssists = 55;
 
         if(type === 'points'){
             return totalPoints;}
-        else {
+        else if(type === 'rebounds') {
             return totalRebounds;
+        } else if(type === 'freethrows') {
+            return totalFT;
+        } else if(type === 'personalfouls'){
+            return totalPF;
+        } else if(type === 'assists') {
+            return totalAssists;
         }
     }
 
@@ -372,8 +380,14 @@ render() {
    // const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
     const { team, opponent } = this.state.info;
     const { personalFouls, assists, freeThrows } = this.state.totals;
-    let tr = this.totalsCalc('rebounds');
-    let tp = this.totalsCalc('points');
+    let cq = this.findQuarterName(this.state.currentQuarter);
+    let tr = this.totalsCalc('rebounds', 'totals');
+    let qr = this.totalsCalc('rebounds', cq);
+    let tp = this.totalsCalc('points', 'totals');
+    let qp = this.totalsCalc('points', cq);
+    let qft = this.totalsCalc('freethrows', cq);
+    let qpf = this.totalsCalc('personalfouls', cq);
+    
   
     return (
       <div className="App App-home">
@@ -391,31 +405,47 @@ render() {
 
             </Row>
             <Row className="justify-content-md-center">
-            <Col xs={5}>Totals
+            <Col lg={7}>Totals
                 <Table responsive striped bordered hover variant="dark" size="sm">
-                    <tbody >
+                    <tbody className="text-left">
                         <tr>
                             <td>Points</td>
+                            <td>Quarter</td>
+                            <td>{qp}</td>
+                            <td>Total</td>
                             <td>{tp}</td>
                         </tr>
                         <tr>
                             <td>Rebounds</td>
+                            <td>Quarter</td>
+                            <td>{qr}</td>
+                            <td>Total</td>
                             <td>{tr}</td>
                         </tr>
                         <tr>
                             <td>Assists</td>
+                            <td>Quarter</td>
+                            <td>{qr}</td>
+                            <td>Total</td>
                             <td>{assists}</td>
                         </tr>
                         <tr>
                             <td>Free Throws</td>
+                            <td>Quarter</td>
+                            <td>{qft}</td>
+                            <td>Total</td>
                             <td>{freeThrows}</td>
                         </tr>
                         <tr>
                             <td>Personal Fouls</td>
+                            <td>Quarter</td>
+                            <td>{qpf}</td>
+                            <td>Total</td>
                             <td>{personalFouls}</td>
                         </tr>
                     </tbody></Table></Col>
             </Row>
+
       </Container>
       </div>
     );
