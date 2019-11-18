@@ -139,13 +139,17 @@ class Game extends React.Component {
             qTime: gameInfo[5]
         };
         this.setState({info});
+    }
 
-        
+    componentDidMount() {
+        //check to see if there is localStorage = 'bball'
+
     }
 
     changeQuarter = () => {
         let tempQ = this.state.currentQuarter;
         let current='';
+        let end = false;
         if(tempQ === 1){
             current = 'firstQuarter';
         } else if( tempQ === 2){
@@ -155,12 +159,16 @@ class Game extends React.Component {
                 current = 'thirdQuarter';
             } else if(tempQ === 4){
                 current = 'forthQuarter';
+                end = true;
             }
-        
+    //SAVE CURRENT SCORE TO TOTALS    
         tempQ++;
         this.setState({currentQuarter: tempQ});
         console.log(`teamscore: ${this.state.firstQuarter.teamScore} opponentScore ${this.state.firstQuarter.opponentScore}`)
         this.saveQuarterResults(current);
+        if(end){
+            this.endGame();
+        }
     }
 
     saveQuarterResults = (current) => {
@@ -188,7 +196,16 @@ class Game extends React.Component {
                 teamScore: parseInt(scoreArray[0]),
                 opponentScore: parseInt(scoreArray[1]),
             }
-        console.table(gameTemp[current]);
+       // console.table(gameTemp[current]);
+        let data = JSON.stringify(this.state);
+        localStorage.setItem('bball', data);
+        let test = localStorage.getItem('bball');
+        let nums = JSON.parse(test);
+        console.table(nums);
+    }
+
+    endGame =() => {
+        localStorage.removeItem('bball');
     }
     
     addPlay = (type, q, value) => {

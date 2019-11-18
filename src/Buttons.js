@@ -71,6 +71,10 @@ handleShot = (event) => {
 
  handleEnd = (event) => {
      let value = event.target.value;
+     //COMPARE TO TOTALS TO SEE IF THE SCORE HAS BEEN UPDATED
+     if(this.state.opponentScore === this.props.info.totals.opponentScore && this.state.teamScore === this.props.info.totals.teamScore){
+        return window.alert('Please enter the score first');
+     }
      if (value === 'eoq') {
         //run END OF QUARTER FUNCTION to get score and save to DB
         //run a function to save quarter to DB
