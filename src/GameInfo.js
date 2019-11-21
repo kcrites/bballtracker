@@ -40,27 +40,27 @@ class GameInfo extends React.Component {
                 <legend>Game Information</legend>
 
                         <div className="form-group">
-                            <label className="form-control-label" for="team">Team</label>
+                            <label className="form-control-label" htmlFor="team">Team</label>
                             <select className="form-control" onChange={this.handleInput} id="team" name="team"><option value="Apollo">Apollo U18-3</option><option value="ISA">ISA Varsity</option></select>
                         </div>
 
                         <div className="form-group">
-                            <label className="form-control-label" for="player">Player</label>
+                            <label className="form-control-label" htmlFor="player">Player</label>
                             <select className="form-control" onChange={this.handleInput} id="player" name="player"><option value="hayden">Hayden</option></select>
                         </div>
 
                         <div className="form-group">
-                            <label className="form-control-label" for="opponent">Opponent</label>
+                            <label className="form-control-label" htmlFor="opponent">Opponent</label>
                             <input className="form-control" onChange={this.handleInput} id="opponent" name="opponent" type="text"></input>
                         </div>
 
                         <div className="form-group">
-                            <label className="form-control-label" for="gameDate">Date</label>
-                            <input className="form-control" onChange={this.handleInput} id="gameDate" name="GameDate" type="date"></input>
+                            <label className="form-control-label" htmlFor="gameDate">Date</label>
+                            <input className="form-control" onChange={this.handleInput} id="gameDate" name="gameDate" type="date"></input>
                         </div>
 
                         <div className="form-group">
-                            <label className="form-control-label" for="venue">Venue</label>
+                            <label className="form-control-label" htmlFor="venue">Venue</label>
                             <select className="form-control" onChange={this.handleInput} id="venue" name="venue"><option value="Home">Home</option><option value="Away">Away</option></select>
                         </div>
                     

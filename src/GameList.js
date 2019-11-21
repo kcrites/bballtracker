@@ -1,6 +1,6 @@
 
     import React from 'react';
-    import Search from 'Search';
+    //import Search from 'Search';
     import './App.css';
     import 'bootstrap/dist/css/bootstrap.min.css';
  
@@ -9,7 +9,7 @@
 
 
     return (
-        <div><Search /></div>
+        <div>GAME LIST GOES HERE</div>
     );
  }
 

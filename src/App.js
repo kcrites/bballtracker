@@ -2,6 +2,7 @@ import React from 'react';
 import Game from './Game';
 import Welcome from './Welcome';
 import GameInfo from './GameInfo';
+import GameList from './GameList';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -32,8 +33,8 @@ onRouteChange = (route) => {
         }
         else if (route === 'game'){
           return <div> <Game onRouteChange={this.onRouteChange} gameInfo={this.state.gameInfo}/></div>
-        }  else if (route === 'report'){
-          return <div> <Game onRouteChange={this.onRouteChange} /></div>
+        }  else if (route === 'gameList'){
+          return <div> <GameList onRouteChange={this.onRouteChange} /></div>
         } else if (route === 'gameinfo'){
           return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>
         }

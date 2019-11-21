@@ -22,7 +22,7 @@ const gameObject = {
       started: false,
       timeIn: '',
       timeOut: '',
-      baskets: 0,
+      fieldGoals: 0,
       assists: 0,
       blocks: 0,
       blockedPass: 0,
@@ -37,12 +37,13 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      notes: '',
     },
     secondQuarter: {
       started: false,
       timeIn: '',
       timeOut: '',
-      baskets: 0,
+      fieldGoals: 0,
       assists: 0,
       blocks: 0,
       blockedPass: 0,
@@ -57,12 +58,13 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      notes: '',
     },
     thirdQuarter: {
       started: false,
       timeIn: '',
       timeOut: '',
-      baskets: 0,
+      fieldGoals: 0,
       assists: 0,
       blocks: 0,
       blockedPass: 0,
@@ -77,12 +79,13 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      notes: '',
     },
     forthQuarter: {
       started: false,
       timeIn: '',
       timeOut: '',
-      baskets: 0,
+      fieldGoals: 0,
       assists: 0,
       blocks: 0,
       blockedPass: 0,
@@ -97,13 +100,14 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      notes: '',
     },
     totals: {
         teamScore: 0,
         opponentScore: 0,
         minutesPlayed: '',
         points: 0,
-        baskets: 0,
+        fieldGoals: 0,
         assists: 0,
         blocks: 0,
         blockedPass: 0,
@@ -130,7 +134,7 @@ class Game extends React.Component {
 
     componentWillMount(){
         const { gameInfo } = this.props;
-        let info = {...this.state, 
+        let info = {...this.state.info, 
             team: gameInfo[0],
             player: gameInfo[1],
             opponent: gameInfo[2],
@@ -146,12 +150,14 @@ class Game extends React.Component {
 
     }
 
-    changeQuarter = () => {
+    changeQuarter = (checked) => {
         let tempQ = this.state.currentQuarter;
         let current='';
         let end = false;
         if(tempQ === 1){
             current = 'firstQuarter';
+           // let current = {...this.state.firstQuarter, started: checked}
+            //this.setState([current]);
         } else if( tempQ === 2){
             current = 'secondQuarter';
         }
@@ -161,10 +167,13 @@ class Game extends React.Component {
                 current = 'forthQuarter';
                 end = true;
             }
-    //SAVE CURRENT SCORE TO TOTALS    
+    //SAVE CURRENT SCORE TO TOTALS    for form verification
+    //let tempTotal = {...this.state.totals, teamScore: this.state.};
+    //this.setState({tempTotal});
+
         tempQ++;
         this.setState({currentQuarter: tempQ});
-        console.log(`teamscore: ${this.state.firstQuarter.teamScore} opponentScore ${this.state.firstQuarter.opponentScore}`)
+      //  console.log(`teamscore: ${this.state.firstQuarter.teamScore} opponentScore ${this.state.firstQuarter.opponentScore}`)
         this.saveQuarterResults(current);
         if(end){
             this.endGame();
@@ -173,14 +182,14 @@ class Game extends React.Component {
 
     saveQuarterResults = (current) => {
         //manage end of 4th
-            const { started, timeIn, timeOut, baskets, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
+            const { started, timeIn, timeOut, fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
                     freeThrows,missedTwo, missedThree, missedFT } = this.state[current];
                 //SEND TO DB
             gameTemp[current] = {
                 started: started,
                 timeIn: timeIn,
                 timeOut: timeOut,
-                baskets: baskets,
+                fieldGoals: fieldGoals,
                 assists: assists,
                 blocks: blocks,
                 blockedPass: blockedPass,
@@ -197,11 +206,12 @@ class Game extends React.Component {
                 opponentScore: parseInt(scoreArray[1]),
             }
        // console.table(gameTemp[current]);
-        let data = JSON.stringify(this.state);
+      /*   let data = JSON.stringify(this.state);
         localStorage.setItem('bball', data);
         let test = localStorage.getItem('bball');
         let nums = JSON.parse(test);
-        console.table(nums);
+        console.table(nums); */
+        console.table(gameTemp);
     }
 
     endGame =() => {
@@ -319,6 +329,25 @@ class Game extends React.Component {
         this.setState({totals});
     }
 
+    addNotes = (type, value) => {
+        let q = this.state.currentQuarter;
+        if(q === 1) {
+            let firstQuarter = {...this.state.firstQuarter, [type]: value};
+            this.setState({firstQuarter});
+        } else if(q === 2){
+            let secondQuarter = {...this.state.secondQuarter, [type]: value};
+            this.setState({secondQuarter});
+        }
+        else if(q === 3){
+            let thirdQuarter = {...this.state.thirdQuarter, [type]: value};
+            this.setState({thirdQuarter});
+        }
+        else if(q === 4){
+            let forthQuarter = {...this.state.forthQuarter, [type]: value};
+            this.setState({forthQuarter});
+        }
+    }
+
     subTime = (value, started) => {
         let q = this.state.currentQuarter;
         let x = '';
@@ -327,7 +356,7 @@ class Game extends React.Component {
             let firstQuarter = {...this.state.firstQuarter, [x]: value, started: started};
             this.setState({firstQuarter});
         } else if(q === 2){
-            let secondQuarter = {...this.state.secondQuarter, [x]: value};
+            let secondQuarter = {...this.state.secondQuarter, [x]: value, started: started};
             this.setState({secondQuarter});
         }
         else if(q === 3){
@@ -341,38 +370,45 @@ class Game extends React.Component {
     }
     
     gameScore = (array) => {
+        //Called from Buttons, saves game scores, time, and started bool to state
         let teamScore = array[0];
         let opponentScore = array[1];
+        let time = array[2];
+        let started = array[3];
         let q = this.state.currentQuarter;
         scoreArray = array;
         teamScore= parseInt(teamScore);
         opponentScore = parseInt(opponentScore);
         if(q === 1) {
-            let firstQuarter = {...this.state.firstQuarter, teamScore: teamScore, opponentScore: opponentScore};
-            this.setState({firstQuarter});
+            let firstQuarter = {...this.state.firstQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({firstQuarter, totals});
         } else if(q === 2){
-            let secondQuarter = {...this.state.secondQuarter, teamScore: teamScore, opponentScore: opponentScore};
-            this.setState({secondQuarter});
+            let secondQuarter = {...this.state.secondQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({secondQuarter, totals});
         }
         else if(q === 3){
-            let thirdQuarter= {...this.state.thirdQuarter, teamScore: teamScore, opponentScore: opponentScore};
-            this.setState({thirdQuarter});
+            let thirdQuarter= {...this.state.thirdQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({thirdQuarter, totals});
         }
         else if(q === 4){
-            let forthQuarter = {...this.state.forthQuarter, teamScore: teamScore, opponentScore: opponentScore};
-            this.setState({forthQuarter});
+            let forthQuarter = {...this.state.forthQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            this.setState({forthQuarter, totals});
         }
     }
 
     //Calculates totals for sidebar
     totalsCalc = (type, period) => {
-        const { baskets, freeThrows, threePointers, oRebounds, dRebounds, personalFouls } = this.state[period];
+        const { fieldGoals, freeThrows, threePointers, oRebounds, dRebounds, personalFouls, assists } = this.state[period];
 
         let totalRebounds = oRebounds + dRebounds;
-        let totalPoints = baskets + freeThrows + threePointers;
+        let totalPoints = (fieldGoals * 2) + freeThrows + (threePointers * 3);
         let totalFT = freeThrows;
         let totalPF = personalFouls;
-        let totalAssists = 55;
+        let totalAssists = assists;
 
         if(type === 'points'){
             return totalPoints;}
@@ -389,7 +425,10 @@ class Game extends React.Component {
 
     gameStats = () => {
         
-        let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.baskets/2);
+        let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
+        let finalArray = [];
+        console.table(finalArray);
+        
         console.log(`Final Stats: ${attempts} attempts`)
     }
 
@@ -402,6 +441,7 @@ render() {
     let qr = this.totalsCalc('rebounds', cq);
     let tp = this.totalsCalc('points', 'totals');
     let qp = this.totalsCalc('points', cq);
+    let qa = this.totalsCalc('assists', cq);
     let qft = this.totalsCalc('freethrows', cq);
     let qpf = this.totalsCalc('personalfouls', cq);
     
@@ -418,7 +458,7 @@ render() {
                     <Card.Body>
                     <Buttons addPoints={this.addPoints} changeQuarter={this.changeQuarter} info={this.state.info}
                              currentQuarter={this.state.currentQuarter} addPlay={this.addPlay} gameScore={this.gameScore}
-                             subTime={this.subTime} /></Card.Body></Card></Col>
+                             subTime={this.subTime} totals={this.state.totals} addNotes={this.addNotes} /></Card.Body></Card></Col>
 
             </Row>
             <Row className="justify-content-md-center">
@@ -442,7 +482,7 @@ render() {
                         <tr>
                             <td>Assists</td>
                             <td>Quarter</td>
-                            <td>{qr}</td>
+                            <td>{qa}</td>
                             <td>Total</td>
                             <td>{assists}</td>
                         </tr>

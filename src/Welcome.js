@@ -1,8 +1,8 @@
-
-    import React from 'react';
-    import logo from './bball.png';
-    import './App.css';
-    import 'bootstrap/dist/css/bootstrap.min.css';
+//Renders a screen to choose starting a game or going to list of previous games
+import React from 'react';
+import logo from './bball.png';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
  
  const Welcome = (props) => {
 
@@ -17,7 +17,7 @@
                   Record a new game
                 </button>
                 <br/>
-                <button onClick={handleGameClick} value="report">Look at Games</button>
+                <button onClick={handleGameClick} value="gameList">List of Previous Games</button>
               
             </header>
     );
