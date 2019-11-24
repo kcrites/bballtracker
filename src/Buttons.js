@@ -38,11 +38,13 @@ handleShot = (event) => {
  }
 
  handleCheckbox = (event) => {
-     console.log(`started: ${event.target.value}`);
+     //console.log(`started: ${event.target.value}`);
      if(event.target.checked) {
          this.setState({started: true, checked: true});
+         this.props.checked(true);
      } else {
          this.setState({started: false, checked: false});
+         this.props.checked(false);
      }
  }
 
@@ -51,12 +53,9 @@ handleShot = (event) => {
     let value = event.target.value;
 
     this.setState({time: value});
-     if (event.target.name === 'timein') {
-         subTime(value, this.state.started);
-     }
-         else {
-            subTime(value, this.state.started);
-         }
+ 
+    subTime(value, this.state.started);
+         
  }
 
  handleScore = (event) => {
@@ -74,9 +73,10 @@ handleShot = (event) => {
  }
 
  handleEnd = (event) => {
+     const { time, started, opponentScore, teamScore } = this.state;
      let value = event.target.value;
      
-     if(this.state.opponentScore === this.props.totals.opponentScore && this.state.teamScore === this.props.totals.teamScore){
+     if(opponentScore === this.props.totals.opponentScore && teamScore === this.props.totals.teamScore){
         return window.alert('Please enter the score first');
      }
      if (value === 'eoq') {
@@ -84,9 +84,9 @@ handleShot = (event) => {
         //run a function to save quarter to DB
         //set quarter to next
 
-        let scoreArray = [this.state.teamScore,this.state.opponentScore, this.state.time, this.state.started];
-        let started = this.state.started;
-        let endTime = this.state.time;
+        let scoreArray = [teamScore,opponentScore, time, started];
+       // let started = this.state.started;
+        let endTime = time;
         if(endTime === '') {
             endTime = '0:00';
         }
@@ -104,15 +104,17 @@ handleShot = (event) => {
  
 
 render() {
-//const { currentQ } = this.props.currentQuarter; NOT WORKING??
+const { currentQuarter } = this.props;
+const { started, time } = this.state;
 const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleScore, handleNotes} = this;
+
 
         return (
             <div> 
                 <div className='container_header_info zone'>
-                    <label className="textbox">Quarter {this.props.currentQuarter}</label>
+                    <label className="textbox">Quarter {currentQuarter}</label>
                     <div className="textbox">Started Quarter <input type="checkbox" name="Started" onChange={handleCheckbox} value='Yes'/></div>
-                    <div>{(this.state.started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' type="text" className="timebox" value={this.state.time} onChange={handleTime} ></input></div>
+                    <div>{(started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' type="text" className="timebox" value={time} onChange={handleTime} ></input></div>
                     <div>Notes: <input name='notes' onChange={handleNotes} type='text'/></div> 
                     <div>{this.props.info.team} <input className="inputbox" onChange={handleScore} name='teamScore' type='text'/></div><div>{this.props.info.opponent} <input onChange={this.handleScore} className="inputbox" name='opponentScore' type='text'/></div>
                 </div>

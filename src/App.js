@@ -33,7 +33,7 @@ onRouteChange = (route) => {
         }
         else if (route === 'game'){
           return <div> <Game onRouteChange={this.onRouteChange} gameInfo={this.state.gameInfo}/></div>
-        }  else if (route === 'gameList'){
+        }  else if (route === 'gameList' || route === 'end'){
           return <div> <GameList onRouteChange={this.onRouteChange} /></div>
         } else if (route === 'gameinfo'){
           return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>

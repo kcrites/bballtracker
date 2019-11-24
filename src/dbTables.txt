@@ -1,0 +1,74 @@
+dbTables
+
+Game
+
+CREATE TABLE game (
+    id serial PRIMARY KEY,
+    player text NOT NULL,
+    team text NOT NULL,
+    opponent text NOT NULL,
+    venue text NOT NULL,
+    gamedate date NOT NULL);
+
+db('game')
+.returning('*')
+.insert({	
+			player: player,
+            team: team,
+            opponent: opponent,
+            venue: venue,
+            gamedate: gamedate
+
+Quarters
+
+CREATE TABLE quarters (
+    id serial PRIMARY KEY,
+    game smallint NOT NULL,
+    started boolean NOT NULL,
+    timein text NOT NULL,
+    timeout text NOT NULL,
+    fg smallint NOT NULL,
+    assists smallint NOT NULL,
+    blocks smallint NOT null,
+    blockedpass smallint NOT NULL,
+    3fg ,
+    steals ,
+    drebounds ,
+    orebounds,
+    pf ,
+    ft ,
+    mfg ,
+    m3fg ,
+    mft ,
+    teamscore ,
+    opponentscore ,
+    notes 
+    );
+
+db('stats')
+.returning('*')
+.insert({	
+	quarter: currentquarter,
+      started: false,
+      timeIn: '',
+      timeOut: '',
+      fieldGoals: 0,
+      assists: 0,
+      blocks: 0,
+      blockedPass: 0,
+      threePointers: 0,
+      steals: 0,
+      dRebounds: 0,
+      oRebounds: 0,
+      personalFouls: 0,
+      freeThrows: 0,
+      missedTwo: 0,
+      missedThree: 0,
+      missedFT: 0,
+      teamScore: 0,
+      opponentScore: 0,
+      notes: '',
+    }
+
+Totals
+
