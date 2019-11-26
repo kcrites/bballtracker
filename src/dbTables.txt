@@ -3,11 +3,11 @@ dbTables
 Game
 
 CREATE TABLE game (
-    id serial PRIMARY KEY,
+    gameid serial NOT NULL PRIMARY KEY,
     player text NOT NULL,
     team text NOT NULL,
     opponent text NOT NULL,
-    venue text NOT NULL,
+    venue text,
     gamedate date NOT NULL);
 
 db('game')

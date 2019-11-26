@@ -17,7 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                   Record a new game
                 </button>
                 <br/>
-                <button onClick={handleGameClick} value="gameList">List of Previous Games</button>
+                <button onClick={handleGameClick} value="gamelist">List of Previous Games</button>
               
             </header>
     );

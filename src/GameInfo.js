@@ -9,10 +9,11 @@ class GameInfo extends React.Component {
         this.state = {
             team: 'Apollo',
             player: 'Hayden',
-            opponent: '',
-            gameDate: '',
+            opponent: 'MBCA',
+            gameDate: '2019-11-30',
             venue: 'Home',
-            qTime: 10
+            qTime: 10,
+            gameId: 0,
         }
         
     };
@@ -22,13 +23,54 @@ class GameInfo extends React.Component {
 
     };
 
-    handleSubmit = (event) => {
+     handleSubmit = () => {
         const { loadGameInfo, onRouteChange } = this.props;
         const { team, player, opponent, gameDate, venue, qTime }= this.state;
         let details = [team, player, opponent, gameDate, venue, qTime];
-       
+        //PREVENT DEFAULT
+        //preventDefault();
+                      
+      /*   fetch('http://localhost:3005/startgame', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                team: team,
+                player: player,
+                opponent: opponent,
+                gameDate: gameDate,
+                venue: venue,
+                qTime: qTime,
+            }) 
+        })
+        .then(response => response.json())
+        .then(game => {
+            if(game.id){
+                //details.push(results.id);
+               //loadGameInfo(details, game);
+                onRouteChange('game'); 
+            } else {
+                onRouteChange('gameList');
+            }
+            
+        }).catch(err => {console.log(err)});
+      // console.table(details); */
+     //details.push(15);
         loadGameInfo(details);
-		onRouteChange('game');
+        onRouteChange('game'); 
+
+    }
+
+    handleSubmit2 = (event) => {
+        const { loadGameInfo, onRouteChange } = this.props;
+        const { team, player, opponent, gameDate, venue, qTime }= this.state;
+        let details = [team, player, opponent, gameDate, venue, qTime];
+        
+   let gameId = 12;
+       details.push(gameId);
+       console.table(details);
+      loadGameInfo(details);
+       onRouteChange('game'); 
+
     };
 
     render() {

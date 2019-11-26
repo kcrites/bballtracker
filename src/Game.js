@@ -15,7 +15,8 @@ const gameObject = {
         team: '',
         opponent: '',
         venue: '',
-        qTime: ''
+        qTime: '',
+        gameId: 0,
     },
     currentQuarter: 1,
     firstQuarter: {
@@ -123,8 +124,6 @@ const gameObject = {
     }
   }
 
- // let gameTemp = gameObject;
-
 class Game extends React.Component {
     constructor(props){
 		super(props);
@@ -133,22 +132,26 @@ class Game extends React.Component {
     };
 
     componentWillMount(){
+
+    }
+
+    componentDidMount() {
+        //check to see if there is localStorage = 'bball'
         const { gameInfo } = this.props;
+       
         let info = {...this.state.info, 
             team: gameInfo[0],
             player: gameInfo[1],
             opponent: gameInfo[2],
             gameDate: gameInfo[3],
             venue: gameInfo[4],
-            qTime: gameInfo[5]
+            qTime: gameInfo[5],
+            gameId: gameInfo[6],
         };
         this.setState({info});
+        console.table(info, gameInfo); 
     }
 
-    componentDidMount() {
-        //check to see if there is localStorage = 'bball'
-
-    }
 
     changeQuarter = (checked) => {
         let tempQ = this.state.currentQuarter;
@@ -186,13 +189,15 @@ class Game extends React.Component {
             const { started, timeIn, timeOut, fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
                     freeThrows,missedTwo, missedThree, missedFT } = this.state[current];
             const { currentQuarter } = this.state;
-            //let currentQuarter = 1;
-            //console.log(currentQuarter);
-                
+            
+            let info = {...this.state.info, gameId: this.props.gameInfo[6]};
+            this.setState({info});
+          
                 fetch('http://localhost:3005/savequarter', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
+                        gameId: this.props.gameInfo[6],
                         quarter: currentQuarter,
                         started: started,
                         timeIn: timeIn,
@@ -218,7 +223,6 @@ class Game extends React.Component {
                 .then(results => {
                     if(results.id){
                         //reload page showing status of insert to DB
-                      //  this.setState({success: true});
                         console.log(results);
                     }
                 }).catch(err => {console.log(err)});
@@ -463,6 +467,7 @@ class Game extends React.Component {
 render() {
    // const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
    let cq = '';
+   console.log(this.props.gameInfo[6]);
    const { currentQuarter } = this.state;
     const { team, opponent } = this.state.info;
     const { personalFouls, assists, freeThrows } = this.state.totals;
