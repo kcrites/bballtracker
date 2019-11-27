@@ -3,6 +3,7 @@ import Game from './Game';
 import Welcome from './Welcome';
 import GameInfo from './GameInfo';
 import GameList from './GameList';
+import GameReport from './GameReport';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -63,9 +64,11 @@ onRouteChange = (route) => {
         else if (route === 'game'){
           return <div> <Game onRouteChange={this.onRouteChange} gameInfo={this.state.gameInfo}/></div>
         }  else if (route === 'gamelist' || route === 'end'){
-          return <div> <GameList onRouteChange={this.onRouteChange} /></div>
+          return <div> <GameList onRouteChange={this.onRouteChange} player={'Hayden'}/></div>
         } else if (route === 'gameinfo'){
           return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>
+        }else if (route === 'gamereport'){
+          return <div> <GameReport onRouteChange={this.onRouteChange} game={9}/></div>
         }
       }
 
@@ -75,7 +78,7 @@ onRouteChange = (route) => {
     const { route } = this.state;
       return (
         <div className="App">
-          {(route === 'home' ? this.renderOption('gameinfo')
+          {(route === 'home' ? this.renderOption('home')
           : 
           this.renderOption(route)
           )
