@@ -37,8 +37,8 @@ class App extends React.Component {
     })
     .then(response => response.json())
     .then(game => {
-        if(game.id){
-          details.push(game.id);
+        if(game.gameid){
+          details.push(game.gameid);
             this.setState({gameInfo: details});
         } else {
             this.onRouteChange('gameList');

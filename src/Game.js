@@ -153,21 +153,12 @@ class Game extends React.Component {
     }
 
 
-    changeQuarter = (checked) => {
+    changeQuarter = () => {
         let tempQ = this.state.currentQuarter;
         let current='';
         
-        if(tempQ === 1){
-            current = 'firstQuarter';
-        } else if( tempQ === 2){
-            current = 'secondQuarter';
-        }
-            else if(tempQ === 3){
-                current = 'thirdQuarter';
-            } else if(tempQ === 4){
-                current = 'forthQuarter';
-               
-            } 
+        current = this.findQuarterName(tempQ);
+ 
             let tp = this.totalsCalc('points', 'totals');
             let totals = {...this.state.totals, points: tp} 
         if(tempQ <= 3) {
@@ -187,17 +178,17 @@ class Game extends React.Component {
     saveQuarterResults = (current) => {
         //manage end of 4th
             const { started, timeIn, timeOut, fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
-                    freeThrows,missedTwo, missedThree, missedFT } = this.state[current];
+                    freeThrows,missedTwo, missedThree, missedFT, notes } = this.state[current];
             const { currentQuarter } = this.state;
             
             let info = {...this.state.info, gameId: this.props.gameInfo[6]};
             this.setState({info});
-          
+         // console.log(`gameid: ${this.props.gameInfo[6]}`)
                 fetch('http://localhost:3005/savequarter', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        gameId: this.props.gameInfo[6],
+                        gameid: this.props.gameInfo[6],
                         quarter: currentQuarter,
                         started: started,
                         timeIn: timeIn,
@@ -217,12 +208,13 @@ class Game extends React.Component {
                         missedFT: missedFT,
                         teamScore: parseInt(scoreArray[0]),
                         opponentScore: parseInt(scoreArray[1]),
+                        notes: notes
                     })
                 })
                 .then(response => response.json())
                 .then(results => {
                     if(results.id){
-                        //reload page showing status of insert to DB
+                       
                         console.log(results);
                     }
                 }).catch(err => {console.log(err)});
@@ -375,14 +367,17 @@ class Game extends React.Component {
         }
     }
 
-    checked = (boolChecked) => {
-        this.subTime('', boolChecked)
+    checked = (checked) => {
+        this.subTime('', checked)
+        //this.setState()
     }
-
+    //Records time in or out of a quarter, and started status (Bool)
+    //Called from checked() and Buttons/handleTime()
     subTime = (value, started) => {
         let q = this.state.currentQuarter;
         let x = '';
-        if(started){x = 'timeOut'} else {x = 'timeIn'};
+        if(started)
+            { x = 'timeOut';} else {x = 'timeIn'};
     console.log(`started: ${started}`)
         if(q === 1) {
             let firstQuarter = {...this.state.firstQuarter, [x]: value, started: started};
@@ -406,27 +401,33 @@ class Game extends React.Component {
         let teamScore = array[0];
         let opponentScore = array[1];
         let time = array[2];
-        let started = array[3];
+        let inOrOut = array[3];
+        let other = '';
         let q = this.state.currentQuarter;
         scoreArray = array;
         teamScore= parseInt(teamScore);
         opponentScore = parseInt(opponentScore);
+
+        if(inOrOut === 'timeIn'){
+            other = "timeOut";
+        } else other = "timeIn";
+
         if(q === 1) {
-            let firstQuarter = {...this.state.firstQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let firstQuarter = {...this.state.firstQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
             let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
             this.setState({firstQuarter, totals});
         } else if(q === 2){
-            let secondQuarter = {...this.state.secondQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let secondQuarter = {...this.state.secondQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
             let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
             this.setState({secondQuarter, totals});
         }
         else if(q === 3){
-            let thirdQuarter= {...this.state.thirdQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let thirdQuarter= {...this.state.thirdQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
             let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
             this.setState({thirdQuarter, totals});
         }
         else if(q === 4){
-            let forthQuarter = {...this.state.forthQuarter, teamScore: teamScore, opponentScore: opponentScore, timeIn: time, started: started};
+            let forthQuarter = {...this.state.forthQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
             let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
             this.setState({forthQuarter, totals});
         }

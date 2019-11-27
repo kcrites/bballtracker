@@ -15,7 +15,6 @@ class GameInfo extends React.Component {
             qTime: 10,
             gameId: 0,
         }
-        
     };
 
     handleInput = (event) => {
@@ -27,40 +26,13 @@ class GameInfo extends React.Component {
         const { loadGameInfo, onRouteChange } = this.props;
         const { team, player, opponent, gameDate, venue, qTime }= this.state;
         let details = [team, player, opponent, gameDate, venue, qTime];
-        //PREVENT DEFAULT
-        //preventDefault();
-                      
-      /*   fetch('http://localhost:3005/startgame', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                team: team,
-                player: player,
-                opponent: opponent,
-                gameDate: gameDate,
-                venue: venue,
-                qTime: qTime,
-            }) 
-        })
-        .then(response => response.json())
-        .then(game => {
-            if(game.id){
-                //details.push(results.id);
-               //loadGameInfo(details, game);
-                onRouteChange('game'); 
-            } else {
-                onRouteChange('gameList');
-            }
-            
-        }).catch(err => {console.log(err)});
-      // console.table(details); */
-     //details.push(15);
+       
         loadGameInfo(details);
         onRouteChange('game'); 
 
     }
 
-    handleSubmit2 = (event) => {
+/*     handleSubmit2 = (event) => {
         const { loadGameInfo, onRouteChange } = this.props;
         const { team, player, opponent, gameDate, venue, qTime }= this.state;
         let details = [team, player, opponent, gameDate, venue, qTime];
@@ -71,7 +43,7 @@ class GameInfo extends React.Component {
       loadGameInfo(details);
        onRouteChange('game'); 
 
-    };
+    }; */
 
     render() {
         //const { player, team, opponent, gameDate, venue } = this.props.gameObject;

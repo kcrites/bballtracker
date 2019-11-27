@@ -2,6 +2,7 @@
 
 import React from 'react';
 import './Buttons.css';
+import Checkbox from './Checkbox';
 import Button from 'react-bootstrap/Button';
 
 
@@ -9,7 +10,6 @@ class Buttons extends React.Component {
     constructor(props){
 		super(props);
         this.state = {
-            started: false,
             checked: false,
             teamScore: 0,
             opponentScore: 0,
@@ -38,14 +38,9 @@ handleShot = (event) => {
  }
 
  handleCheckbox = (event) => {
-     //console.log(`started: ${event.target.value}`);
-     if(event.target.checked) {
-         this.setState({started: true, checked: true});
-         this.props.checked(true);
-     } else {
-         this.setState({started: false, checked: false});
-         this.props.checked(false);
-     }
+     let tempCheck = !this.state.checked;
+     this.setState({checked: tempCheck});
+     this.props.checked(tempCheck);
  }
 
  handleTime = (event) => {
@@ -54,7 +49,7 @@ handleShot = (event) => {
 
     this.setState({time: value});
  
-    subTime(value, this.state.started);
+    subTime(value, this.state.checked);
          
  }
 
@@ -73,31 +68,24 @@ handleShot = (event) => {
  }
 
  handleEnd = (event) => {
-     const { time, started, opponentScore, teamScore } = this.state;
+     const { time, opponentScore, teamScore, checked } = this.state;
      let value = event.target.value;
-     
+     let inOrOut = '', tempTime = '';
      if(opponentScore === this.props.totals.opponentScore && teamScore === this.props.totals.teamScore){
         return window.alert('Please enter the score first');
      }
      if (value === 'eoq') {
-        //run END OF QUARTER FUNCTION to get score and save to DB
-        //run a function to save quarter to DB
-        //set quarter to next
-
-        let scoreArray = [teamScore,opponentScore, time, started];
-       // let started = this.state.started;
-        let endTime = time;
-        if(endTime === '') {
-            endTime = '0:00';
-        }
-
+        (checked) ? inOrOut = 'timeOut' : inOrOut = 'timeIn';
+    if(time === '') {
+            tempTime = '0:00';
+        } else tempTime = time;
+        let scoreArray = [teamScore,opponentScore, tempTime, inOrOut];
+       
         this.props.gameScore(scoreArray);
-        this.props.changeQuarter(started);
-        if(this.state.checked) {
-            this.setState({started: true, time: ''})
-        } else {
-            this.setState({started: false, time: ''})
-        }
+        this.props.changeQuarter();
+        
+        this.setState({time: ''});
+       
      }
  }
 
@@ -105,7 +93,7 @@ handleShot = (event) => {
 
 render() {
 const { currentQuarter } = this.props;
-const { started, time } = this.state;
+const { checked, time } = this.state;
 const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleScore, handleNotes} = this;
 
 
@@ -113,8 +101,8 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleSco
             <div> 
                 <div className='container_header_info zone'>
                     <label className="textbox">Quarter {currentQuarter}</label>
-                    <div className="textbox">Started Quarter <input type="checkbox" name="Started" onChange={handleCheckbox} value='Yes'/></div>
-                    <div>{(started ? <label>Time out </label> : <label>Time in </label>)} <input name='time' type="text" className="timebox" value={time} onChange={handleTime} ></input></div>
+                    <div className="textbox">Started Quarter <Checkbox handleCheckbox={handleCheckbox} isSelected={this.state.checked}/></div>
+                    <div>{(checked ? <label>Time out </label> : <label>Time in </label>)} <input name='time' type="text" className="timebox" value={time} onChange={handleTime} ></input></div>
                     <div>Notes: <input name='notes' onChange={handleNotes} type='text'/></div> 
                     <div>{this.props.info.team} <input className="inputbox" onChange={handleScore} name='teamScore' type='text'/></div><div>{this.props.info.opponent} <input onChange={this.handleScore} className="inputbox" name='opponentScore' type='text'/></div>
                 </div>
