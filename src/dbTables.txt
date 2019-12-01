@@ -73,3 +73,24 @@ db('stats')
 
 Totals
 
+create table totals (
+    id serial NOT NULL PRIMARY KEY,
+    game SMALLINT NOT NULL,
+    teamscore SMALLINT,
+    opponentscore SMALLINT,
+    minutesplayed text,
+    points SMALLINT,
+    fg SMALLINT,
+    assists SMALLINT,
+    blocks SMALLINT,
+    blockedpass SMALLINT,
+    threefg SMALLINT,
+    steals SMALLINT,
+    drebounds SMALLINT,
+    orebounds SMALLINT,
+    pf SMALLINT,
+    ft SMALLINT,
+    mfg SMALLINT,
+    m3fg SMALLINT,
+    mft SMALLINT
+);

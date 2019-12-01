@@ -10,7 +10,7 @@
     })
   }
   
-  const renderRow= (array) =>{
+  const renderRow= (array, handleButtonClick) =>{
      fixDate(array);
       return array.map((item, index)  => 
             <tr key={index}>
@@ -19,7 +19,7 @@
                     <td>{item.team}</td>
                     <td>{item.opponent}</td>
                     <td>W</td>
-                <th scope="col"><button type="button" className="btn btn-info">Details</button></th>
+                <th scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info">Details</button></th>
             </tr>
     
         );
@@ -58,7 +58,8 @@
         }).catch(err => {console.log(err)});
     }
 handleButtonClick = (event) => {
-    this.props.onRouteChange('gamereport');
+    //this.props.onRouteChange('gamereport');
+    this.props.gameDetails(event.target.value);
 }
 handleHomeClick = (event) => {
     this.props.onRouteChange("home");
@@ -72,7 +73,7 @@ render(){
 	
             <nav className="navbar navbar-dark bg-dark">
                 <a className="navbar-brand" href="www.krc.com">
-                    <img src="./bball_logo.png" width="30" height="30" classNme="d-inline-block align-top" alt=""/>
+                    <img src="./bball_logo.png" width="30" height="30" className="d-inline-block align-top" alt=""/>
                     BBall Game List
                 </a>
             </nav>
@@ -114,7 +115,7 @@ render(){
 		      <td>W</td>
 		      <th scope="col"><button type="button" className="btn btn-outline-dark">Details</button></th>
 		    </tr> */}
-            {renderRow(this.state.games)}
+            {renderRow(this.state.games, this.handleButtonClick)}
 		  </tbody>
 		</table>
 

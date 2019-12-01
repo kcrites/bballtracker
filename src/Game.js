@@ -149,7 +149,7 @@ class Game extends React.Component {
             gameId: gameInfo[6],
         };
         this.setState({info});
-        console.table(info, gameInfo); 
+      //  console.table(info, gameInfo); 
     }
 
 
@@ -222,19 +222,57 @@ class Game extends React.Component {
 
 
        // console.table(gameTemp[current]);
-      /*   let data = JSON.stringify(this.state);
+        let data = JSON.stringify(this.state);
         localStorage.setItem('bball', data);
-        let test = localStorage.getItem('bball');
-        let nums = JSON.parse(test);
-        console.table(nums); */
+      // let test = localStorage.getItem('bball');
+       // let nums = JSON.parse(test);
+       // console.table(nums); */
        
+    }
+
+    sendTotals = () => {
+        const { fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
+            freeThrows,missedTwo, missedThree, missedFT, teamScore, opponentScore, points, minutesPlayed } = this.state.totals;
+        const { gameId } = this.state.info;
+        fetch('http://localhost:3005/savetotals', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                game: gameId,
+                teamScore: teamScore,
+                opponentScore: opponentScore,
+                minutesPlayed: minutesPlayed,
+                points: points,
+                fieldGoals: fieldGoals,
+                assists: assists,
+                blocks: blocks,
+                blockedPass: blockedPass,
+                threePointers: threePointers,
+                steals: steals,
+                dRebounds: dRebounds,
+                oRebounds: oRebounds,
+                personalFouls: personalFouls,
+                freeThrows: freeThrows,
+                missedTwo: missedTwo,
+                missedThree: missedThree,
+                missedFT: missedFT,
+            })
+        })
+        .then(response => response.json())
+        .then(results => {
+            if(results.id){
+               
+                console.log(results);
+            }
+        }).catch(err => {console.log(err)});
     }
 
     endGame =() => {
         //called at the end of 4th q. cleans up localStorage and finalizes stats
         localStorage.removeItem('bball');
-        console.log('endgame');
-        this.props.onRouteChange("end");
+       // console.log('endgame');
+        this.sendTotals();
+        this.props.onRouteChange("home");
     }
     
     addPlay = (type, q, value) => {
@@ -276,6 +314,35 @@ class Game extends React.Component {
 
             this.savePoints(value, type, quarter);
         }
+    }
+
+    gameTime = (time, inOrOut) => {
+        const { qTime } = this.state.info;
+        let tempArray = time.split(":");
+        let min = parseInt(tempArray[0]);
+        let sec = parseInt(tempArray[1]);
+        let timeArray = [];
+        
+        if(time === '0:00'){
+            tempArray[0] = 10;
+            tempArray[1] = 0;
+            return tempArray;
+        }
+
+        if(inOrOut === 'timeIn') {
+            // Difference between qTime and timeIn (i.e. 10:00, 3:52 = 6:08) 2:00
+            timeArray[0] = qTime - min;// 7  8
+            timeArray[1]= 60 - sec; //08  60
+            if (timeArray[1] > 0) timeArray[0]-- ; //6  7
+            if (timeArray[1] === 60) timeArray[1] = 0;
+            return timeArray;
+            
+        } else if (inOrOut === 'timeOut') {
+            timeArray[0] = min;
+            timeArray[1] = sec;
+            return timeArray;
+        }
+
     }
 
    findQuarterName = (q) => {
@@ -368,22 +435,23 @@ class Game extends React.Component {
     }
 
     checked = (checked) => {
-        this.subTime('', checked)
-        //this.setState()
+        this.subTime('0', checked)
     }
+
     //Records time in or out of a quarter, and started status (Bool)
     //Called from checked() and Buttons/handleTime()
     subTime = (value, started) => {
         let q = this.state.currentQuarter;
         let x = '';
+      //  console.log(`subtime started: ${started}, ${q}`)
         if(started)
             { x = 'timeOut';} else {x = 'timeIn'};
-    console.log(`started: ${started}`)
         if(q === 1) {
             let firstQuarter = {...this.state.firstQuarter, [x]: value, started: started};
             this.setState({firstQuarter});
         } else if(q === 2){
             let secondQuarter = {...this.state.secondQuarter, [x]: value, started: started};
+         //   console.log(`second quarter: ${started}, ${value}, ${x}`)
             this.setState({secondQuarter});
         }
         else if(q === 3){
@@ -460,15 +528,15 @@ class Game extends React.Component {
         
         let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
         let finalArray = [];
-        console.table(finalArray);
+       // console.table(finalArray);
         
-        console.log(`Final Stats: ${attempts} attempts`)
+       // console.log(`Final Stats: ${attempts} attempts`)
     }
 
 render() {
    // const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
    let cq = '';
-   console.log(this.props.gameInfo[6]);
+   //console.log(this.props.gameInfo[6]);
    const { currentQuarter } = this.state;
     const { team, opponent } = this.state.info;
     const { personalFouls, assists, freeThrows } = this.state.totals;

@@ -13,6 +13,7 @@ class App extends React.Component {
         this.state = {
           route: 'home',
           gameInfo: [],
+          gameId: 0,
         }
     };
 
@@ -48,6 +49,12 @@ class App extends React.Component {
     }).catch(err => {console.log(err)});
     }
 
+    gameDetails=(game) => {
+      //takes game id and uses it in game report
+      this.setState({gameId: game});
+      this.onRouteChange('gamereport');
+    }
+
 
 // Custom routing based on the 'route' variable in state
 onRouteChange = (route) => {
@@ -64,11 +71,11 @@ onRouteChange = (route) => {
         else if (route === 'game'){
           return <div> <Game onRouteChange={this.onRouteChange} gameInfo={this.state.gameInfo}/></div>
         }  else if (route === 'gamelist' || route === 'end'){
-          return <div> <GameList onRouteChange={this.onRouteChange} player={'Hayden'}/></div>
+          return <div> <GameList onRouteChange={this.onRouteChange} gameDetails={this.gameDetails} player={'Hayden'}/></div>
         } else if (route === 'gameinfo'){
           return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>
         }else if (route === 'gamereport'){
-          return <div> <GameReport onRouteChange={this.onRouteChange} game={9}/></div>
+          return <div> <GameReport onRouteChange={this.onRouteChange} game={this.state.gameId}/></div>
         }
       }
 

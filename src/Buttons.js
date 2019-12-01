@@ -74,17 +74,18 @@ handleShot = (event) => {
      if(opponentScore === this.props.totals.opponentScore && teamScore === this.props.totals.teamScore){
         return window.alert('Please enter the score first');
      }
+     
      if (value === 'eoq') {
         (checked) ? inOrOut = 'timeOut' : inOrOut = 'timeIn';
     if(time === '') {
             tempTime = '0:00';
         } else tempTime = time;
         let scoreArray = [teamScore,opponentScore, tempTime, inOrOut];
-       
+        this.props.checked(this.state.checked);
         this.props.gameScore(scoreArray);
         this.props.changeQuarter();
         
-        this.setState({time: ''});
+        this.setState({time: '', checked: false});
        
      }
  }
