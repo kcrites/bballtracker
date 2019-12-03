@@ -153,7 +153,7 @@ class Game extends React.Component {
     }
 
 
-    changeQuarter = () => {
+    changeQuarter = (array) => {
         let tempQ = this.state.currentQuarter;
         let current='';
         
@@ -165,11 +165,15 @@ class Game extends React.Component {
             tempQ++;
            // let tp = this.totalsCalc('points', 'totals');
            // let totals = {...this.state.totals, points: tp} 
+            
+            this.saveQuarterResults(current);
+            this.gameScore(array);
             this.setState({currentQuarter: tempQ, totals});
-            this.saveQuarterResults(current);
         } else {
-            this.setState({currentQuarter: 0, totals});
+           
             this.saveQuarterResults(current);
+            this.gameScore(array);
+            this.setState({currentQuarter: 0, totals});
             this.endGame();
         }
         
@@ -272,7 +276,8 @@ class Game extends React.Component {
         localStorage.removeItem('bball');
        // console.log('endgame');
         this.sendTotals();
-        this.props.onRouteChange("home");
+        this.setState({gameObject});
+        this.props.onRouteChange("gamereport");
     }
     
     addPlay = (type, q, value) => {
@@ -443,62 +448,64 @@ class Game extends React.Component {
     subTime = (value, started) => {
         let q = this.state.currentQuarter;
         let x = '';
+        let y = ';'
       //  console.log(`subtime started: ${started}, ${q}`)
         if(started)
-            { x = 'timeOut';} else {x = 'timeIn'};
+            { x = 'timeOut'; y = "timeIn"} else {x = 'timeIn'; y = 'timeOut'};
         if(q === 1) {
-            let firstQuarter = {...this.state.firstQuarter, [x]: value, started: started};
+            let firstQuarter = {...this.state.firstQuarter, [x]: value, [y]: '0:00', started: started};
             this.setState({firstQuarter});
         } else if(q === 2){
-            let secondQuarter = {...this.state.secondQuarter, [x]: value, started: started};
+            let secondQuarter = {...this.state.secondQuarter, [x]: value, [y]: '0:00',started: started};
          //   console.log(`second quarter: ${started}, ${value}, ${x}`)
             this.setState({secondQuarter});
         }
         else if(q === 3){
-            let thirdQuarter= {...this.state.thirdQuarter, [x]: value, started: started};
+            let thirdQuarter= {...this.state.thirdQuarter, [x]: value, [y]: '0:00',started: started};
             this.setState({thirdQuarter});
         }
         else if(q === 4){
-            let forthQuarter = {...this.state.forthQuarter, [x]: value, started: started};
+            let forthQuarter = {...this.state.forthQuarter, [x]: value, [y]: '0:00',started: started};
             this.setState({forthQuarter});
         }     
     }
     
     gameScore = (array) => {
         //Called from Buttons, saves game scores, time, and started bool to state
-        let teamScore = array[0];
-        let opponentScore = array[1];
+        let ts = array[0];
+        let os = array[1];
         let time = array[2];
         let inOrOut = array[3];
         let other = '';
         let q = this.state.currentQuarter;
         scoreArray = array;
-        teamScore= parseInt(teamScore);
-        opponentScore = parseInt(opponentScore);
-
+        ts= parseInt(ts);
+        os = parseInt(os);
+        let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
         if(inOrOut === 'timeIn'){
             other = "timeOut";
         } else other = "timeIn";
 
         if(q === 1) {
-            let firstQuarter = {...this.state.firstQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
-            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
-            this.setState({firstQuarter, totals});
+            let firstQuarter = {...this.state.firstQuarter, teamScore: ts, opponentScore: os, [inOrOut]: time, [other]: '0:00'};
+            
+            this.setState({firstQuarter});
         } else if(q === 2){
-            let secondQuarter = {...this.state.secondQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
-            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            let secondQuarter = {...this.state.secondQuarter, teamScore: ts, opponentScore: os, [inOrOut]: time, [other]: '0:00'};
+          //  let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
             this.setState({secondQuarter, totals});
         }
         else if(q === 3){
-            let thirdQuarter= {...this.state.thirdQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
-            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            let thirdQuarter= {...this.state.thirdQuarter, teamScore: ts, opponentScore: os, [inOrOut]: time, [other]: '0:00'};
+           // let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
             this.setState({thirdQuarter, totals});
         }
         else if(q === 4){
-            let forthQuarter = {...this.state.forthQuarter, teamScore: teamScore, opponentScore: opponentScore, [inOrOut]: time, [other]: '0:00'};
-            let totals = {...this.state.totals, teamScore: teamScore, opponentScore: opponentScore};
+            let forthQuarter = {...this.state.forthQuarter, teamScore: ts, opponentScore: os, [inOrOut]: time, [other]: '0:00'};
+          //  let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
             this.setState({forthQuarter, totals});
         }
+        this.setState({totals});
     }
 
     //Calculates totals for sidebar
@@ -524,14 +531,7 @@ class Game extends React.Component {
         }
     }
 
-    gameStats = () => {
-        
-        let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
-        let finalArray = [];
-       // console.table(finalArray);
-        
-       // console.log(`Final Stats: ${attempts} attempts`)
-    }
+
 
 render() {
    // const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;

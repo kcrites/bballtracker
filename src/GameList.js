@@ -1,6 +1,6 @@
 
     import React from 'react';
-    //import './bballlogo.png'
+    import logo from './bballlogo.png'
   
     const fixDate = (array) => {
         array.map((item) => {
@@ -72,10 +72,10 @@ render(){
 		        <div className="pos-f-t">
 	
             <nav className="navbar navbar-dark bg-dark">
-                <a className="navbar-brand" href="www.krc.com">
-                    <img src="./bball_logo.png" width="30" height="30" className="d-inline-block align-top" alt=""/>
-                    BBall Game List
-                </a>
+                <p className="navbar-brand" >
+                    <img src={logo}  width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
+                    &nbsp; BBall Game List
+                </p>
             </nav>
             </div>
 
@@ -91,30 +91,6 @@ render(){
 		    </tr>
 		  </thead>
 		  <tbody>
-	{/* 	    <tr>
-		      <th scope="row">1</th>
-		      <td>11/11/2019</td>
-		      <td>Apollo</td>
-		      <td>MBCA</td>
-		      <td>W</td>
-		      <th scope="col"><button type="button" className="btn btn-info">Details</button></th>
-		    </tr>
-		    <tr>
-		      <th scope="row">2</th>
-		      <td>12/12/2019</td>
-		      <td>Apollo</td>
-		      <td>Triple Threat</td>
-		      <td>W</td>
-		      <th scope="col"><button type="button" className="btn btn-outline-secondary">Details</button></th>
-		    </tr>
-		    <tr>
-		      <th scope="row">3</th>
-		      <td>12/14/2019</td>
-		      <td>ISA V</td>
-		      <td>ISD</td>
-		      <td>W</td>
-		      <th scope="col"><button type="button" className="btn btn-outline-dark">Details</button></th>
-		    </tr> */}
             {renderRow(this.state.games, this.handleButtonClick)}
 		  </tbody>
 		</table>

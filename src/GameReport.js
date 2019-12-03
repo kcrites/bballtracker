@@ -1,39 +1,51 @@
 
-    import React from 'react';
+	import React from 'react';
+	import logo from './bballlogo.png';
    
-    const fixDate = (array) => {
+ /*    const fixDate = (array) => {
         array.map((item) => {
         let d1 = new Date(item.gamedate);
         item.gamedate = d1.toLocaleDateString();
         return array;
     })
-  }
-  
-  const renderRow= (array) =>{
+  } */
      //fixDate(array);
-      return array.map((item, index)  => 
-                <tr key={index} className="stripe-dark">
-                <td className="pa3">{index+1}</td>
-                  <td className="pa3">{item.game}</td>
-                  <td className="pa3">{item.quarter}</td>
-                  <td className="pa3">{item.fg}</td>
-                  <td className="pa3">{item.teamscore}</td>
-                </tr>
-              
-        );
-  }
+
  
  class GameReport extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            games: []
+			games: [],
+			totals: []
         }
     };
 
     componentWillMount(){
+		this.getGameTotals();
         this.getGameDetails();
-    }
+	}
+	
+	getGameTotals = () => {
+		const { game } = this.props;
+
+		let totalsArr = [];
+
+		fetch('http://localhost:3005/gettotals', {
+			method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                game: game
+		})
+	})
+	.then(response => response.json())
+	.then(results => {
+		if(results.length > 0){
+			//results.forEach(e => {totalsArr.push(e)});
+			this.setState({totals: results[0]});
+		}
+	}).catch(err => {console.log(err)});
+	}
 
     getGameDetails = () => {
         const { game } = this.props;
@@ -53,21 +65,37 @@
                 this.setState({games:gameArr});
             }
         }).catch(err => {console.log(err)});
-    }
+	}
+	
+ 	gameStats = () => {
+        
+        let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
+        let finalArray = [];
+    	console.table(finalArray);
+    	console.log(`Final Stats: ${attempts} attempts`)
+    } 
     
 render(){
 	
+const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg} = this.state.totals;
 
+let attempts = fg + threefg + mfg + m3fg;
+let made = fg + threefg;
+let sp = (100 * made)/attempts;
+let ftAttempts = ft + mft;
+let ftp = (100 * ft)/ftAttempts;
+
+let totalRebounds = orebounds + drebounds;
     return (
         <div>
             <div className="container">
 		<div className="pos-f-t">
 
 			<nav className="navbar navbar-dark bg-dark">
-			  <a className="navbar-brand" href="#">
-			    <img src="./bball_logo.png" width="30" height="30" className="d-inline-block align-top" alt=""/>
-			    Game Report
-			  </a>
+			  <p className="navbar-brand">
+			    <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
+			    &nbsp; Game Report
+			  </p>
 			</nav>
 		</div>
 
@@ -111,15 +139,15 @@ render(){
 				<div className="col-sm-6">
 					<div className="card shadow">
 				  		<div className="card-body">
-	<h5 className="card-title">Points: 77</h5>
-	<p className="card-text">55/55 shooting (80%) - 5 FG - 2 3FG - 2 FT</p>
+							<h5 className="card-title">Points: {points}</h5>
+								<p className="card-text">{made}/{attempts} shooting ({sp}) - {fg} FG - {threefg} 3FG - {ft} FT</p>
 				  		</div>
 					</div>
 				</div>
 				<div className="col-sm-6">
 					<div className="card shadow">
 				  		<div className="card-body">
-				   			<h5 className="card-title">Assists: 6</h5>
+							<h5 className="card-title">Assists: {assists}</h5>
 				    		
 				  		</div>
 					</div>
@@ -130,15 +158,15 @@ render(){
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Rebounds: 5</h5>
-			        <p className="card-text">3 Offensive - 2 Defensive</p>
+			        <h5 className="card-title">Rebounds: {totalRebounds} </h5>
+			        <p className="card-text">{orebounds} Offensive - {drebounds} Defensive</p>
 			      </div>
 			    </div>
 			  </div>
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Steals: 5</h5>
+			        <h5 className="card-title">Steals: {steals}</h5>
 			      </div>
 			    </div>
 			  </div>
@@ -149,8 +177,8 @@ render(){
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Free Throws: 4 for 5</h5>
-			        <p className="card-text">FTP 90%</p>
+			        <h5 className="card-title">Free Throws: {ft} for {ftAttempts} </h5>
+			        <p className="card-text">FTP {ftp} </p>
 			       
 			      </div>
 			    </div>
@@ -158,7 +186,7 @@ render(){
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Blocks: 5</h5>
+			        <h5 className="card-title">Blocks: {blocks}</h5>
 			        
 			      </div>
 			    </div>
@@ -167,13 +195,13 @@ render(){
 		
 			<nav className="navbar navbar-dark bg-dark "> 
 				<div className="container">
-	 			 <a className="navbar-brand" href="#"><small>Home</small></a>
+	 			 <p className="navbar-brand" onClick={this.handleHomeClick}><small>Home</small></p>
 	 			</div>
 			</nav>
 	
 
 	</div>
-           {renderRow(this.state.games)}
+          
         </div>
     );
     }
