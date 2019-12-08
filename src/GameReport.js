@@ -71,8 +71,8 @@
         
         let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
         let finalArray = [];
-    	console.table(finalArray);
-    	console.log(`Final Stats: ${attempts} attempts`)
+    	//console.table(finalArray);
+    	//console.log(`Final Stats: ${attempts} attempts`)
     } 
     
 render(){

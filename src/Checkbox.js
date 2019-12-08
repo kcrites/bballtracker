@@ -5,7 +5,7 @@
  const Checkbox = (props) => {
   
 const {handleCheckbox} = props;
-console.log('call to checkbox');
+//console.log('call to checkbox');
 
     return (
          <div><input type="checkbox" name="Started" onChange={handleCheckbox} checked={props.isSelected} value='Yes'/></div>

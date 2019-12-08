@@ -41,7 +41,7 @@ class App extends React.Component {
     .then(game => {
         if(game.gameid){
           details.push(game.gameid);
-            this.setState({gameInfo: details});
+            this.setState({gameInfo: details, gameId: game.gameid});
         } else {
             this.onRouteChange('gameList');
         }

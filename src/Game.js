@@ -151,29 +151,25 @@ class Game extends React.Component {
         this.setState({info});
       //  console.table(info, gameInfo); 
     }
+// During Quarter 
 
 
+// End of Quarter
     changeQuarter = (array) => {
         let tempQ = this.state.currentQuarter;
-        let current='';
         
-        current = this.findQuarterName(tempQ);
+        let current = this.findQuarterName(tempQ);
  
             let tp = this.totalsCalc('points', 'totals');
             let totals = {...this.state.totals, points: tp} 
-        if(tempQ <= 3) {
+            console.log(`points ${tp} at quarter ${current}`)
+            this.saveQuarterResults(current);
+            this.gameScore(array);
             tempQ++;
-           // let tp = this.totalsCalc('points', 'totals');
-           // let totals = {...this.state.totals, points: tp} 
-            
-            this.saveQuarterResults(current);
-            this.gameScore(array);
             this.setState({currentQuarter: tempQ, totals});
-        } else {
-           
-            this.saveQuarterResults(current);
-            this.gameScore(array);
-            this.setState({currentQuarter: 0, totals});
+            
+
+        if(tempQ > 4) {
             this.endGame();
         }
         
@@ -555,7 +551,7 @@ render() {
   
     return (
       <div className="App App-home">
-        <Container >
+        <Container name="Main Container">
             <Row>
                 <Col med="true">{team} vs {opponent}</Col>
             </Row>
