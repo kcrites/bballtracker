@@ -2,26 +2,45 @@
 	import React from 'react';
 	import logo from './bballlogo.png';
    
- /*    const fixDate = (array) => {
-        array.map((item) => {
-        let d1 = new Date(item.gamedate);
-        item.gamedate = d1.toLocaleDateString();
-        return array;
-    })
-  } */
-     //fixDate(array);
+let gamesInit = {
+	q1: {
+		game: 0,
+		quarter: 0,
+		started: false,
+		timein: 0,
+		timeout: 0,
+		fg: 0,
+		assists: 0,
+		blocks: 0,
+		blockedpass: 0,
+		threefg: 0,
+		steals: 0,
+		drebounds: 0,
+		orebounds: 0,
+		pf: 0,
+		ft: 0,
+		mfg: 0,
+		m3fg: 0,
+		mft: 0,
+		teamscore: 0,
+		opponentscore: 0,
+		notes: ''
+	}
+}
 
  
  class GameReport extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-			games: [],
-			totals: []
+			games: {},
+			totals: [],
+			q1Toggle: false
         }
     };
 
     componentWillMount(){
+		this.setState({games: gamesInit});
 		this.getGameTotals();
         this.getGameDetails();
 	}
@@ -29,7 +48,7 @@
 	getGameTotals = () => {
 		const { game } = this.props;
 
-		let totalsArr = [];
+		//let totalsArr = [];
 
 		fetch('http://localhost:3005/gettotals', {
 			method: 'post',
@@ -61,30 +80,49 @@
         .then(response => response.json())
         .then(results => {
             if(results.length > 0){
-                results.forEach(e => {gameArr.push(e)});
-                this.setState({games:gameArr});
+			
+                results.forEach(e => {
+					gameArr.push(e)
+				}); 
+			
+				let gameObj = {
+					q1: gameArr[0],
+					q2: gameArr[1],
+					q3: gameArr[2],
+					q4: gameArr[3]
+				};
+				this.setState({games:gameObj});
+				console.log('game details sent to state');
             }
         }).catch(err => {console.log(err)});
 	}
 	
  	gameStats = () => {
         
-        let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
-        let finalArray = [];
+      //  let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
+      //  let finalArray = [];
     	//console.table(finalArray);
     	//console.log(`Final Stats: ${attempts} attempts`)
-    } 
+	} 
+	
+	handleHomeClick = () => {
+		this.props.onRouteChange('home');
+	}
+
+	handleCollapseClick = (event) => {
+		console.log(event);
+	}
     
 render(){
 	
 const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg} = this.state.totals;
 
+
 let attempts = fg + threefg + mfg + m3fg;
 let made = fg + threefg;
 let sp = (100 * made)/attempts;
 let ftAttempts = ft + mft;
-let ftp = (100 * ft)/ftAttempts;
-
+let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
 let totalRebounds = orebounds + drebounds;
     return (
         <div>
@@ -103,7 +141,7 @@ let totalRebounds = orebounds + drebounds;
 		  <a className="btn btn-primary" data-toggle="collapse" href="#collapseQ1" role="button" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 1
 		  </a>
-		  <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseQ2" aria-expanded="false" aria-controls="collapseExample">
+		  <button className="btn btn-primary" type="button" data-toggle="collapse" onClick="this.handleCollapseClick" data-target="#collapseQ2" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 2
 		  </button>
 		  <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseQ3" aria-expanded="false" aria-controls="collapseExample">
@@ -115,7 +153,8 @@ let totalRebounds = orebounds + drebounds;
 		</p>
 		<div className="collapse" id="collapseQ1">
 		  <div className="card card-body">
-		    QUARTER 1 STATS
+		    <p>Quarter 1 Stats</p>
+			<p>Shots {this.state.games.q1.fg}</p>
 		  </div>
 		</div>
 		<div className="collapse" id="collapseQ2">
@@ -140,7 +179,7 @@ let totalRebounds = orebounds + drebounds;
 					<div className="card shadow">
 				  		<div className="card-body">
 							<h5 className="card-title">Points: {points}</h5>
-								<p className="card-text">{made}/{attempts} shooting ({sp}) - {fg} FG - {threefg} 3FG - {ft} FT</p>
+								<p className="card-text">{made}/{attempts} shooting ({sp.toFixed(2)}%) - {fg} FG - {threefg} 3FG - {ft} FT</p>
 				  		</div>
 					</div>
 				</div>
@@ -178,7 +217,7 @@ let totalRebounds = orebounds + drebounds;
 			    <div className="card shadow">
 			      <div className="card-body">
 			        <h5 className="card-title">Free Throws: {ft} for {ftAttempts} </h5>
-			        <p className="card-text">FTP {ftp} </p>
+			        <p className="card-text">FTP {ftp}% </p>
 			       
 			      </div>
 			    </div>
@@ -201,7 +240,7 @@ let totalRebounds = orebounds + drebounds;
 	
 
 	</div>
-          
+
         </div>
     );
     }
