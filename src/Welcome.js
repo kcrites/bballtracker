@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  <header className="App-header">
                 <img src={logo} className="Bball-logo" alt="logo" /><br></br>
                 <button onClick={handleGameClick} value="gameinfo">
-                  Record a new game
+                  Record a New Game
                 </button>
                 <br/>
                 <button onClick={handleGameClick} value="gamelist">List of Previous Games</button>
