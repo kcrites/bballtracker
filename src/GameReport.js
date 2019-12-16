@@ -108,6 +108,7 @@ import logo from './bballlogo.png';
     };
 
     componentWillMount(){
+		console.log(`game in report: ${this.props.game}`)
 		this.setState({games: gamesInit});
 		this.getGameTotals();
         this.getGameDetails();
@@ -115,8 +116,6 @@ import logo from './bballlogo.png';
 	
 	getGameTotals = () => {
 		const { game } = this.props;
-
-		//let totalsArr = [];
 
 		fetch('http://localhost:3005/gettotals', {
 			method: 'post',
@@ -128,12 +127,12 @@ import logo from './bballlogo.png';
 	.then(response => response.json())
 	.then(results => {
 		if(results.length > 0){
-			//results.forEach(e => {totalsArr.push(e)});
 			this.setState({totals: results[0]});
 		}
 	}).catch(err => {console.log(err)});
 	}
 
+	//Quarters Information
     getGameDetails = () => {
         const { game } = this.props;
         
@@ -159,7 +158,6 @@ import logo from './bballlogo.png';
 					q4: gameArr[3]
 				};
 				this.setState({games:gameObj});
-				console.log('game details sent to state');
             }
         }).catch(err => {console.log(err)});
 	}

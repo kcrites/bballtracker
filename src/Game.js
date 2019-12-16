@@ -132,7 +132,7 @@ class Game extends React.Component {
     };
 
     componentWillMount(){
-
+        this.startGame();
     }
 
     componentDidMount() {
@@ -149,9 +149,14 @@ class Game extends React.Component {
             gameId: gameInfo[6],
         };
         this.setState({info});
-      //  console.table(info, gameInfo); 
     }
-// During Quarter 
+
+    // Before Quarter
+    startGame = () => {
+        this.setState({gameObject});
+    }
+    
+    // During Quarter 
 
 
 // End of Quarter
@@ -162,7 +167,6 @@ class Game extends React.Component {
  
             let tp = this.totalsCalc('points', 'totals');
             let totals = {...this.state.totals, points: tp} 
-            console.log(`points ${tp} at quarter ${current}`)
             this.saveQuarterResults(current);
             this.gameScore(array);
             tempQ++;
@@ -170,9 +174,8 @@ class Game extends React.Component {
             
 
         if(tempQ > 4) {
-            this.endGame();
+            this.endGame(array);
         }
-        
     }
 
     saveQuarterResults = (current) => {
@@ -183,7 +186,7 @@ class Game extends React.Component {
             
             let info = {...this.state.info, gameId: this.props.gameInfo[6]};
             this.setState({info});
-         // console.log(`gameid: ${this.props.gameInfo[6]}`)
+         
                 fetch('http://localhost:3005/savequarter', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
@@ -219,30 +222,25 @@ class Game extends React.Component {
                     }
                 }).catch(err => {console.log(err)});
 
-
-
-       // console.table(gameTemp[current]);
         let data = JSON.stringify(this.state);
-        localStorage.setItem('bball', data);
-      // let test = localStorage.getItem('bball');
-       // let nums = JSON.parse(test);
-       // console.table(nums); */
-       
+        localStorage.setItem('bball', data);       
     }
 
-    sendTotals = () => {
+    sendTotals = (array) => {
         const { fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
-            freeThrows,missedTwo, missedThree, missedFT, teamScore, opponentScore, points, minutesPlayed } = this.state.totals;
+            freeThrows,missedTwo, missedThree, missedFT, minutesPlayed } = this.state.totals;
         const { gameId } = this.state.info;
+            //Get Totals, minutes played, scores
+            let tp = this.totalsCalc('points', 'totals');
         fetch('http://localhost:3005/savetotals', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 game: gameId,
-                teamScore: teamScore,
-                opponentScore: opponentScore,
+                teamScore: array[0],
+                opponentScore: array[1],
                 minutesPlayed: minutesPlayed,
-                points: points,
+                points: tp,
                 fieldGoals: fieldGoals,
                 assists: assists,
                 blocks: blocks,
@@ -261,19 +259,17 @@ class Game extends React.Component {
         .then(response => response.json())
         .then(results => {
             if(results.id){
-               
-                console.log(results);
+                this.props.gameDetails(this.state.info.gameId);
             }
         }).catch(err => {console.log(err)});
     }
 
-    endGame =() => {
+    endGame =(array) => {
         //called at the end of 4th q. cleans up localStorage and finalizes stats
+        let totals = {...this.state.totals, teamScore: array[0], opponentScore: array[1]};
+        this.setState({totals});
         localStorage.removeItem('bball');
-       // console.log('endgame');
-        this.sendTotals();
-        this.setState({gameObject});
-        this.props.onRouteChange("gamereport");
+        this.sendTotals(array);
     }
     
     addPlay = (type, q, value) => {
@@ -409,7 +405,7 @@ class Game extends React.Component {
     }
 
     savePoints = (value, type, quarter) => {
-        //one function to save to state for each quarter - called fom addPoints
+        //one function to save to state for each quarter - called from addPoints
         
         let newTotal = this.state.totals[type] + value;
         let totals = {...this.state.totals, [type]: newTotal};
@@ -467,6 +463,7 @@ class Game extends React.Component {
     }
     
     gameScore = (array) => {
+       // console.log(`scoreArray from gameScore: ${array[0]}, ${array[1]}`);
         //Called from Buttons, saves game scores, time, and started bool to state
         let ts = array[0];
         let os = array[1];
@@ -475,9 +472,10 @@ class Game extends React.Component {
         let other = '';
         let q = this.state.currentQuarter;
         scoreArray = array;
-        ts= parseInt(ts);
+        ts = parseInt(ts);
         os = parseInt(os);
         let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
+       // this.setState({totals});
         if(inOrOut === 'timeIn'){
             other = "timeOut";
         } else other = "timeIn";
@@ -485,7 +483,7 @@ class Game extends React.Component {
         if(q === 1) {
             let firstQuarter = {...this.state.firstQuarter, teamScore: ts, opponentScore: os, [inOrOut]: time, [other]: '0:00'};
             
-            this.setState({firstQuarter});
+            this.setState({firstQuarter, totals});
         } else if(q === 2){
             let secondQuarter = {...this.state.secondQuarter, teamScore: ts, opponentScore: os, [inOrOut]: time, [other]: '0:00'};
           //  let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
@@ -501,7 +499,7 @@ class Game extends React.Component {
           //  let totals = {...this.state.totals, teamScore: ts, opponentScore: os};
             this.setState({forthQuarter, totals});
         }
-        this.setState({totals});
+       // this.setState({totals});
     }
 
     //Calculates totals for sidebar

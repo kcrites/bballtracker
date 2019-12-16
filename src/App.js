@@ -51,6 +51,7 @@ class App extends React.Component {
 
     gameDetails=(game) => {
       //takes game id and uses it in game report
+     
       this.setState({gameId: game});
       this.onRouteChange('gamereport');
     }
@@ -69,7 +70,7 @@ onRouteChange = (route) => {
           return <div> <Welcome onRouteChange={this.onRouteChange} /></div> 
         }
         else if (route === 'game'){
-          return <div> <Game onRouteChange={this.onRouteChange} gameInfo={this.state.gameInfo}/></div>
+          return <div> <Game onRouteChange={this.onRouteChange} gameDetails={this.gameDetails} gameInfo={this.state.gameInfo}/></div>
         }  else if (route === 'gamelist' || route === 'end'){
           return <div> <GameList onRouteChange={this.onRouteChange} gameDetails={this.gameDetails} player={'Hayden'}/></div>
         } else if (route === 'gameinfo'){
