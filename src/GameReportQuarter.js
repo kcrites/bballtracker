@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from './bballlogo.png'
+import logo from './bballlogo.png';
 
 const GameReportQuarter = (props) => {
   const{ quarter, started, timein, timeout, fg, assists, blocks, blockedpass, threefg, steals,
-            drebounds, orebounds, pf, ft, mfg, m3fg, mft, teamscore, opponentscore, notes} = this.props.quarterInfo;
+            drebounds, orebounds, pf, ft, mfg, m3fg, mft, teamscore, opponentscore, notes} = props.quarterInfo;
 
     let attempts = fg + threefg + mfg + m3fg;
     let points = fg + threefg + ft;
@@ -13,6 +13,10 @@ const GameReportQuarter = (props) => {
     let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
     let totalRebounds = orebounds + drebounds;
 
+    const handleHomeClick = () => {
+		props.onRouteChange('home');
+    }
+    
     return (
         
             <div>
@@ -110,13 +114,12 @@ const GameReportQuarter = (props) => {
                       </div>
                     </div>
                   </div>
-
-
                 </div>
             
                 <nav className="navbar navbar-dark bg-dark "> 
                     <div className="container">
-                      <p className="navbar-brand" onClick={this.handleHomeClick}><small>Home</small></p>
+                      <p className="navbar-brand" onClick={handleHomeClick}><small>Home</small></p>
+                      <p className="navbar-brand" onClick={props.handle2Click}><small>Back to the Game</small></p>
                      </div>
                 </nav>
 

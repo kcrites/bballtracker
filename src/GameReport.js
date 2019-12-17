@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './bballlogo.png';
+import GameReportQuarter from './GameReportQuarter';
    
  let gamesInit = {
 	q1: {
@@ -176,16 +177,24 @@ import logo from './bballlogo.png';
 
 	handleCollapseClick = (event) => {
 		this.setState({
-			showTermsPopup: !this.state.showTermsPopup
+			qSelected: event.target.name,
+			qToggle: !this.state.qToggle
+
 		});
-		
+	}
+
+	handle2Click = (event) => {
+		this.setState({
+			qToggle: !this.state.qToggle
+
+		});
 	}
     
 render(){
 	
 const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg} = this.state.totals;
 
-
+let quarterSelected = this.state.qSelected;
 let attempts = fg + threefg + mfg + m3fg;
 let made = fg + threefg;
 let sp = (100 * made)/attempts;
@@ -194,6 +203,8 @@ let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
 let totalRebounds = orebounds + drebounds;
 
     return (
+		(this.state.qToggle) ? <GameReportQuarter quarterInfo={this.state.games[quarterSelected]} onRouteChange={this.props.onRouteChange} handle2Click={this.handle2Click} /> : 
+
         <div>
             <div className="container">
 		<div className="pos-f-t">
@@ -207,16 +218,16 @@ let totalRebounds = orebounds + drebounds;
 		</div>
 
 		<p className="pt-1">
-		  <a className="btn btn-primary" data-toggle="collapse" href="#collapseQ1" role="button" aria-expanded="false" aria-controls="collapseExample">
+		  <a className="btn btn-primary" name="q1" data-toggle="collapse" href="#collapseQ1" onClick={this.handleCollapseClick} role="button" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 1
 		  </a>
-		  <button className="btn btn-primary" type="button" data-toggle="collapse"  data-target="#collapseQ2" aria-expanded="false" aria-controls="collapseExample">
+		  <button className="btn btn-primary" name="q2" type="button" data-toggle="collapse"  onClick={this.handleCollapseClick} data-target="#collapseQ2" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 2
 		  </button>
-		  <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseQ3" aria-expanded="false" aria-controls="collapseExample">
+		  <button className="btn btn-primary" name="q3" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ3" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 3
 		  </button>
-		  <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseQ4" aria-expanded="false" aria-controls="collapseExample">
+		  <button className="btn btn-primary" name="q4" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ4" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 4
 		  </button>
 		</p>
