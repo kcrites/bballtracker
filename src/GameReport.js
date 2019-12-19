@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './bballlogo.png';
 import GameReportQuarter from './GameReportQuarter';
    
+
+
  let gamesInit = {
 	q1: {
 		game: 0,
@@ -109,10 +111,11 @@ import GameReportQuarter from './GameReportQuarter';
     };
 
     componentWillMount(){
-		console.log(`game in report: ${this.props.game}`)
+	
 		this.setState({games: gamesInit});
 		this.getGameTotals();
-        this.getGameDetails();
+		this.getGameDetails();
+		
 	}
 	
 	getGameTotals = () => {
@@ -163,6 +166,7 @@ import GameReportQuarter from './GameReportQuarter';
         }).catch(err => {console.log(err)});
 	}
 	
+
  	gameStats = () => {
         
       //  let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
@@ -192,7 +196,7 @@ import GameReportQuarter from './GameReportQuarter';
     
 render(){
 	
-const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg} = this.state.totals;
+const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, opponentscore} = this.state.totals;
 
 let quarterSelected = this.state.qSelected;
 let attempts = fg + threefg + mfg + m3fg;
@@ -201,6 +205,8 @@ let sp = (100 * made)/attempts;
 let ftAttempts = ft + mft;
 let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
 let totalRebounds = orebounds + drebounds;
+let threeAttempts = threefg + m3fg;
+let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 
     return (
 		(this.state.qToggle) ? <GameReportQuarter quarterInfo={this.state.games[quarterSelected]} onRouteChange={this.props.onRouteChange} handle2Click={this.handle2Click} /> : 
@@ -260,15 +266,16 @@ let totalRebounds = orebounds + drebounds;
 				<div className="col-sm-6">
 					<div className="card shadow">
 				  		<div className="card-body">
-							<h5 className="card-title">Points: {points}</h5>
-								<p className="card-text">{made}/{attempts} shooting ({sp.toFixed(2)}%) | {fg} FG | {threefg} 3FG | {ft} FT</p>
+								<h5 className="card-title">Points: {points}</h5>
+                                <p className="card-text">{fg} FG | {threefg} 3FG | {ft} FT</p>
 				  		</div>
 					</div>
 				</div>
 				<div className="col-sm-6">
 					<div className="card shadow">
 				  		<div className="card-body">
-							<h5 className="card-title">Assists: {assists}</h5>
+						  <h5 className="card-title">Rebounds: {totalRebounds} </h5>
+                            <p className="card-text">{orebounds} Offensive | {drebounds} Defensive</p>
 				  		</div>
 					</div>
 				</div>
@@ -278,15 +285,20 @@ let totalRebounds = orebounds + drebounds;
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Rebounds: {totalRebounds} </h5>
-			        <p className="card-text">{orebounds} Offensive | {drebounds} Defensive</p>
+				  <h5 className="card-title">Shooting:</h5>
+                        <div className="card-text"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
+                        <div className="card-text"><strong>3 Pointers:</strong> {threefg} for {m3fg}, {threeP.toFixed(1)}% </div>
+                        <div className="card-text"><strong>Free throws:</strong> {ft} for {ftAttempts}, {ftp.toFixed(1)}% </div>
 			      </div>
 			    </div>
 			  </div>
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Steals: {steals}</h5>
+				  <h5 className="card-title">Play Stats</h5>
+                        <div className="card-text "> <strong>Steals: </strong>{steals} | <strong>Assists:</strong> {assists}</div>
+                        <div className="card-text"><strong>Blocks: </strong>{blocks}</div>
+                        <div className="card-text"><strong>Blocked Passes:</strong> {blockedpass}</div>
 			      </div>
 			    </div>
 			  </div>
@@ -295,15 +307,18 @@ let totalRebounds = orebounds + drebounds;
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Free Throws: {ft} for {ftAttempts} </h5>
-			        <p className="card-text">FTP {ftp}% </p>		       
+				  <h5 className="card-title">Score</h5>
+                         <div className="card-text">Team {teamscore} - Opponent {opponentscore}</div>		       
 			      </div>
 			    </div>
 			  </div>
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Blocks: {blocks}</h5>
+			        <h5 className="card-title">Game Info</h5>
+					<div className="card-text">Date</div>	
+					<div className="card-text">Opponent</div>	
+					<div className="card-text">Venue</div>	
 			      </div>
 			    </div>
 			  </div>

@@ -32,19 +32,6 @@ class GameInfo extends React.Component {
 
     }
 
-/*     handleSubmit2 = (event) => {
-        const { loadGameInfo, onRouteChange } = this.props;
-        const { team, player, opponent, gameDate, venue, qTime }= this.state;
-        let details = [team, player, opponent, gameDate, venue, qTime];
-        
-   let gameId = 12;
-       details.push(gameId);
-       console.table(details);
-      loadGameInfo(details);
-       onRouteChange('game'); 
-
-    }; */
-
     render() {
         //const { player, team, opponent, gameDate, venue } = this.props.gameObject;
         return (
@@ -76,6 +63,10 @@ class GameInfo extends React.Component {
                         <div className="form-group">
                             <label className="form-control-label" htmlFor="venue">Venue</label>
                             <select className="form-control" onChange={this.handleInput} id="venue" name="venue"><option value="Home">Home</option><option value="Away">Away</option></select>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-control-label" htmlFor="qTime">Quarter Length</label>
+                            <select className="form-control" onChange={this.handleInput} id="qTime" name="qTime"><option value="10">10:00</option><option value="8">8:00</option></select>
                         </div>
                     
                         <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>

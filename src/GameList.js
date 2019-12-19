@@ -58,7 +58,6 @@
         }).catch(err => {console.log(err)});
     }
 handleButtonClick = (event) => {
-    //this.props.onRouteChange('gamereport');
     this.props.gameDetails(event.target.value);
 }
 handleHomeClick = (event) => {

@@ -1,5 +1,5 @@
-1) determine quarter to use for GameReportQuarter
-2) determine how to get back to the game and home
+1) determine quarter to use for GameReportQuarter x
+2) determine how to get back to the game and home x
 3) Format each report page
 4) Test with 2-3 games & on phone
 5) Set up in Heroku

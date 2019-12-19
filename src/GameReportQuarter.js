@@ -6,12 +6,14 @@ const GameReportQuarter = (props) => {
             drebounds, orebounds, pf, ft, mfg, m3fg, mft, teamscore, opponentscore, notes} = props.quarterInfo;
 
     let attempts = fg + threefg + mfg + m3fg;
-    let points = fg + threefg + ft;
+    let points = (2*fg) + (3*threefg) + ft;
     let made = fg + threefg;
     let sp = (100 * made)/attempts;
     let ftAttempts = ft + mft;
     let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
     let totalRebounds = orebounds + drebounds;
+    let threeAttempts = threefg + m3fg;
+    let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 
     const handleHomeClick = () => {
 		props.onRouteChange('home');
@@ -37,59 +39,52 @@ const GameReportQuarter = (props) => {
                 <div className='row'>
                     <div className="col-sm-6">
                         <div className="card shadow">
-                              <div className="card-body">
+                            <div className="card-body">
                                 <h5 className="card-title">Points: {points}</h5>
-                                    <p className="card-text">{made}/{attempts} shooting ({sp.toFixed(2)}%) | {fg} FG | {threefg} 3FG | {ft} FT</p>
-                              </div>
+                                <p className="card-text">{fg} FG | {threefg} 3FG | {ft} FT</p>
+                            </div>
                         </div>
-                    </div>
+                    </div>               
                     <div className="col-sm-6">
                         <div className="card shadow">
-                              <div className="card-body">
-                                <h5 className="card-title">Assists: {assists}</h5>
-                              </div>
+                          <div className="card-body">
+                            <h5 className="card-title">Rebounds: {totalRebounds} </h5>
+                            <p className="card-text">{orebounds} Offensive | {drebounds} Defensive</p>
                         </div>
                     </div>
+                  </div>
                 </div>
     
                 <div className="row">
-                  <div className="col-sm-6">
-                    <div className="card shadow">
-                      <div className="card-body">
-                        <h5 className="card-title">Rebounds: {totalRebounds} </h5>
-                        <p className="card-text">{orebounds} Offensive | {drebounds} Defensive</p>
-                      </div>
+                <div className="col-sm-6">
+                        <div className="card shadow">
+                            <div className="card-body">
+                              <h5 className="card-title">Shooting:</h5>
+                                <div className="card-text"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
+                                <div className="card-text"><strong>3 Pointers:</strong> {threefg} for {m3fg}, {threeP.toFixed(1)}% </div>
+                                <div className="card-text"><strong>Free throws:</strong> {ft} for {ftAttempts}, {ftp.toFixed(1)}% </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                   <div className="col-sm-6">
                     <div className="card shadow">
                       <div className="card-body">
-                        <h5 className="card-title">Steals: {steals}</h5>
+                      <h5 className="card-title">Play Stats</h5>
+                        <div className="card-text "> <strong>Steals: </strong>{steals} | <strong>Assists:</strong> {assists}</div>
+                      
+                        <div className="card-text"><strong>Blocks: </strong>{blocks}</div>
+                        <div className="card-text"><strong>Blocked Passes:</strong> {blockedpass}</div>
                       </div>
                     </div>
                   </div>
                 </div>
+               
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="card shadow">
                       <div className="card-body">
-                        <h5 className="card-title">Free Throws: {ft} for {ftAttempts} </h5>
-                        <p className="card-text">FTP {ftp}% </p>		       
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="card shadow">
-                      <div className="card-body">
-                        <h5 className="card-title">Blocks: {blocks}, Blocked Passes: {blockedpass}</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="card shadow">
-                      <div className="card-body">
-                        <h5 className="card-title">Time: {started}, timein{timein}, timeout{timeout}</h5>
-                        
+                        <h5 className="card-title">Time</h5>
+                        <div className="card-text">{(started) ? 'Started' : ""} timein {timein}, timeout {timeout}</div>
                       </div>
                     </div>
                   </div>
@@ -100,10 +95,13 @@ const GameReportQuarter = (props) => {
                       </div>
                     </div>
                   </div>
+                  </div>
+                  <div className="row">
                   <div className="col-sm-6">
                     <div className="card shadow">
                       <div className="card-body">
-                         <h5 className="card-title">Score: Us {teamscore}, Them {opponentscore}</h5>
+                         <h5 className="card-title">Score</h5>
+                         <div className="card-text">Team {teamscore} - Opponent {opponentscore}</div>
                       </div>
                     </div>
                   </div>
@@ -114,7 +112,8 @@ const GameReportQuarter = (props) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                
             
                 <nav className="navbar navbar-dark bg-dark "> 
                     <div className="container">
