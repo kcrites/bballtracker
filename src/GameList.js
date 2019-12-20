@@ -58,7 +58,9 @@
         }).catch(err => {console.log(err)});
     }
 handleButtonClick = (event) => {
-    this.props.gameDetails(event.target.value);
+    let location = this.state.games.findIndex(item => item.gameid === event.target.value)
+    console.log(location);
+    this.props.gameDetails(event.target.value, this.state.games[0]);
 }
 handleHomeClick = (event) => {
     this.props.onRouteChange("home");

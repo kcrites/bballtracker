@@ -176,6 +176,7 @@ import GameReportQuarter from './GameReportQuarter';
 	} 
 	
 	handleHomeClick = () => {
+		//this.props.holdGameInfo();
 		this.props.onRouteChange('home');
 	}
 
@@ -192,6 +193,10 @@ import GameReportQuarter from './GameReportQuarter';
 			qToggle: !this.state.qToggle
 
 		});
+	}
+
+	handleListClick = (event) => {
+		this.props.onRouteChange('gamelist');
 	}
     
 render(){
@@ -224,9 +229,9 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 		</div>
 
 		<p className="pt-1">
-		  <a className="btn btn-primary" name="q1" data-toggle="collapse" href="#collapseQ1" onClick={this.handleCollapseClick} role="button" aria-expanded="false" aria-controls="collapseExample">
+		  <button className="btn btn-primary" name="q1" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ1" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 1
-		  </a>
+		  </button>
 		  <button className="btn btn-primary" name="q2" type="button" data-toggle="collapse"  onClick={this.handleCollapseClick} data-target="#collapseQ2" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 2
 		  </button>
@@ -237,7 +242,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 		    Quarter 4
 		  </button>
 		</p>
-		<div className="collapse" id="collapseQ1">
+{/* 		<div className="collapse" id="collapseQ1">
 		  <div className="card card-body">
 		    <p>Quarter 1 Stats</p>
 			<p>Shots {this.state.games.q1.fg}</p>
@@ -257,7 +262,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 		  <div className="card card-body">
 		    QUARTER 4 STATS
 		  </div>
-		</div>
+		</div> */}
 		
 
 		<h2>Game Totals</h2>
@@ -327,6 +332,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			<nav className="navbar navbar-dark bg-dark "> 
 				<div className="container">
 	 			 <p className="navbar-brand" onClick={this.handleHomeClick}><small>Home</small></p>
+				  <p className="navbar-brand" onClick={this.handleListClick}><small>Game List</small></p>
 	 			</div>
 			</nav>
 	

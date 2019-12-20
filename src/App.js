@@ -49,10 +49,11 @@ class App extends React.Component {
     }).catch(err => {console.log(err)});
     }
 
-    gameDetails=(game) => {
+    gameDetails=(game, array) => {
       //takes game id and uses it in game report
      
-      this.setState({gameId: game});
+      this.setState({gameId: game, gameInfo: array});
+      console.log(array);
       this.onRouteChange('gamereport');
     }
 
