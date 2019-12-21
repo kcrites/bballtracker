@@ -65,7 +65,7 @@ onRouteChange = (route) => {
 }
 
       renderOption = (route) => {
-        //const { stats, pack, loaded, user, indicator } = this.state;
+        const { gameInfo, gameId } = this.state;
         
         if(route === 'home'){
           return <div> <Welcome onRouteChange={this.onRouteChange} /></div> 
@@ -77,7 +77,7 @@ onRouteChange = (route) => {
         } else if (route === 'gameinfo'){
           return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>
         }else if (route === 'gamereport'){
-          return <div> <GameReport onRouteChange={this.onRouteChange} game={this.state.gameId}/></div>
+          return <div> <GameReport onRouteChange={this.onRouteChange} game={gameId} gameInfo={gameInfo}/></div>
         }
       }
 

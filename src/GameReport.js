@@ -202,6 +202,7 @@ import GameReportQuarter from './GameReportQuarter';
 render(){
 	
 const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, opponentscore} = this.state.totals;
+const { team, opponent, venue, gamedate } = this.props.gameInfo;
 
 let quarterSelected = this.state.qSelected;
 let attempts = fg + threefg + mfg + m3fg;
@@ -301,7 +302,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			    <div className="card shadow">
 			      <div className="card-body">
 				  <h5 className="card-title">Play Stats</h5>
-                        <div className="card-text "> <strong>Steals: </strong>{steals} | <strong>Assists:</strong> {assists}</div>
+                        <div className="card-text"><strong>Steals: </strong>{steals} | <strong>Assists:</strong> {assists}</div>
                         <div className="card-text"><strong>Blocks: </strong>{blocks}</div>
                         <div className="card-text"><strong>Blocked Passes:</strong> {blockedpass}</div>
 			      </div>
@@ -313,7 +314,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			    <div className="card shadow">
 			      <div className="card-body">
 				  <h5 className="card-title">Score</h5>
-                         <div className="card-text">Team {teamscore} - Opponent {opponentscore}</div>		       
+                         <div className="card-text">{team} {teamscore} - {opponent} {opponentscore}</div>		       
 			      </div>
 			    </div>
 			  </div>
@@ -321,9 +322,10 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			    <div className="card shadow">
 			      <div className="card-body">
 			        <h5 className="card-title">Game Info</h5>
-					<div className="card-text">Date</div>	
-					<div className="card-text">Opponent</div>	
-					<div className="card-text">Venue</div>	
+					<div className="card-text"><strong>Date</strong> {gamedate}</div>	
+					<div className="card-text"><strong>Team</strong> {team}</div>	
+					<div className="card-text"><strong>Opponent</strong> {opponent}</div>	
+					<div className="card-text"><strong>Venue</strong> {venue}</div>	
 			      </div>
 			    </div>
 			  </div>
