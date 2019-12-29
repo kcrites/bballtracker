@@ -9,6 +9,7 @@
         return array;
     })
   }
+
   
   const renderRow= (array, handleButtonClick) =>{
      fixDate(array);
@@ -18,7 +19,7 @@
                     <td>{item.gamedate}</td>
                     <td>{item.team}</td>
                     <td>{item.opponent}</td>
-                    <td>W</td>
+                  
                 <th scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info">Details</button></th>
             </tr>
     
@@ -58,9 +59,10 @@
         }).catch(err => {console.log(err)});
     }
 handleButtonClick = (event) => {
-    let location = this.state.games.findIndex(item => item.gameid === event.target.value)
-    console.log(location);
-    this.props.gameDetails(event.target.value, this.state.games[0]);
+    let gameTemp = parseInt(event.target.value);
+    let location = this.state.games.findIndex(item => item.gameid === gameTemp)
+   // console.log(location, event.target.value);
+    this.props.gameDetails(event.target.value, this.state.games[location]);
 }
 handleHomeClick = (event) => {
     this.props.onRouteChange("home");
@@ -87,7 +89,7 @@ render(){
 		      <th scope="col">Date</th>
 		      <th scope="col">Team</th>
 		      <th scope="col">Opponent</th>
-		      <th scope="col">W/L</th>
+		     
 		      <th scope="col">Details</th>
 		    </tr>
 		  </thead>

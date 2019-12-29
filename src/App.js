@@ -35,10 +35,10 @@ class App extends React.Component {
             gameDate: details[3],
             venue: details[4],
             qTime: details[5],
-        }) 
-    })
-    .then(response => response.json())
-    .then(game => {
+          }) 
+      })
+      .then(response => response.json())
+      .then(game => {
         if(game.gameid){
           details.push(game.gameid);
             this.setState({gameInfo: details, gameId: game.gameid});
@@ -46,25 +46,23 @@ class App extends React.Component {
             this.onRouteChange('gameList');
         }
         
-    }).catch(err => {console.log(err)});
+     }).catch(err => {console.log(err)});
     }
 
+    //takes game id and uses it in game report
     gameDetails=(game, array) => {
-      //takes game id and uses it in game report
-     
       this.setState({gameId: game, gameInfo: array});
-      console.log(array);
+     // console.log(array);
       this.onRouteChange('gamereport');
     }
 
 
-// Custom routing based on the 'route' variable in state
-onRouteChange = (route) => {
- 
-  this.setState({route: route});
-}
+    // Custom routing based on the 'route' variable in state
+    onRouteChange = (route) => {
+       this.setState({route: route});
+    }
 
-      renderOption = (route) => {
+    renderOption = (route) => {
         const { gameInfo, gameId } = this.state;
         
         if(route === 'home'){

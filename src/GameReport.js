@@ -205,8 +205,8 @@ const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft,
 const { team, opponent, venue, gamedate } = this.props.gameInfo;
 
 let quarterSelected = this.state.qSelected;
-let attempts = fg + threefg + mfg + m3fg;
-let made = fg + threefg;
+let attempts = fg + mfg ;
+let made = fg ;
 let sp = (100 * made)/attempts;
 let ftAttempts = ft + mft;
 let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
@@ -243,28 +243,6 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 		    Quarter 4
 		  </button>
 		</p>
-{/* 		<div className="collapse" id="collapseQ1">
-		  <div className="card card-body">
-		    <p>Quarter 1 Stats</p>
-			<p>Shots {this.state.games.q1.fg}</p>
-		  </div>
-		</div>
-		<div className="collapse" id="collapseQ2">
-		  <div className="card card-body">
-		    QUARTER 2 STATS
-		  </div>
-		</div>
-		<div className="collapse" id="collapseQ3">
-		  <div className="card card-body">
-		    QUARTER 3 STATS
-		  </div>
-		</div>
-		<div className="collapse" id="collapseQ4">
-		  <div className="card card-body">
-		    QUARTER 4 STATS
-		  </div>
-		</div> */}
-		
 
 		<h2>Game Totals</h2>
 
@@ -291,20 +269,25 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-				  <h5 className="card-title">Shooting:</h5>
-                        <div className="card-text"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
-                        <div className="card-text"><strong>3 Pointers:</strong> {threefg} for {m3fg}, {threeP.toFixed(1)}% </div>
-                        <div className="card-text"><strong>Free throws:</strong> {ft} for {ftAttempts}, {ftp.toFixed(1)}% </div>
-			      </div>
+				  <h5 className="card-header">Shooting:</h5>
+				  <ul className="list-group list-group-flush text-left">
+                        <div className="list-group-item"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
+                        <div className="list-group-item"><strong>3 Pointers:</strong> {threefg} for {threeAttempts}, {threeP.toFixed(1)}% </div>
+                        <div className="list-group-item"><strong>Free throws:</strong> {ft} for {ftAttempts}, {ftp.toFixed(1)}% </div>
+			      </ul>
+				  </div>
 			    </div>
 			  </div>
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-				  <h5 className="card-title">Play Stats</h5>
-                        <div className="card-text"><strong>Steals: </strong>{steals} | <strong>Assists:</strong> {assists}</div>
-                        <div className="card-text"><strong>Blocks: </strong>{blocks}</div>
-                        <div className="card-text"><strong>Blocked Passes:</strong> {blockedpass}</div>
+				  <h5 className="card-header">Play Stats</h5>
+				  <ul className="list-group list-group-flush text-left">
+				  		<div className="list-group-item"><strong>Assists:</strong> {assists}</div>
+						<div className="list-group-item"><strong>Steals: </strong>{steals}</div>
+                        <div className="list-group-item"><strong>Blocks: </strong>{blocks}</div>
+                        <div className="list-group-item"><strong>Blocked Passes:</strong> {blockedpass}</div>
+						</ul>
 			      </div>
 			    </div>
 			  </div>
@@ -321,11 +304,13 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-			        <h5 className="card-title">Game Info</h5>
-					<div className="card-text"><strong>Date</strong> {gamedate}</div>	
-					<div className="card-text"><strong>Team</strong> {team}</div>	
-					<div className="card-text"><strong>Opponent</strong> {opponent}</div>	
-					<div className="card-text"><strong>Venue</strong> {venue}</div>	
+			        <h5 className="card-header">Game Info</h5>
+					<ul className="list-group list-group-flush text-left">
+					<div className="list-group-item"><strong>Date</strong> {gamedate}</div>	
+					<div className="list-group-item"><strong>Team</strong> {team}</div>	
+					<div className="list-group-item"><strong>Opponent</strong> {opponent}</div>	
+					<div className="list-group-item"><strong>Venue</strong> {venue}</div>	
+					</ul>
 			      </div>
 			    </div>
 			  </div>

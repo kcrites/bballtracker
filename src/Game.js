@@ -259,7 +259,7 @@ class Game extends React.Component {
         .then(response => response.json())
         .then(results => {
             if(results.id){
-                this.props.gameDetails(this.state.info.gameId);
+                this.props.gameDetails(this.state.info.gameId, this.state.info);
             }
         }).catch(err => {console.log(err)});
     }
