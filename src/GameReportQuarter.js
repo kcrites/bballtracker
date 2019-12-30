@@ -14,6 +14,15 @@ const GameReportQuarter = (props) => {
     let totalRebounds = orebounds + drebounds;
     let threeAttempts = threefg + m3fg;
     let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
+    
+    const timeDisplay = (started, timein, timeout) => {
+      if(started){
+        if(timeout === '0' || timeout === '0:00'){
+          return 'Started';
+        } else return 'Started, Time Out: ' + timeout;
+      }
+      else return 'Time In: ' + timein;
+    }
 
     const handleHomeClick = () => {
 		props.onRouteChange('home');
@@ -84,7 +93,7 @@ const GameReportQuarter = (props) => {
                     <div className="card shadow">
                       <div className="card-body">
                         <h5 className="card-title">Time</h5>
-                        <div className="card-text">{(started) ? 'Started' : ""} timein {timein}, timeout {timeout}</div>
+                        <div className="card-text">{timeDisplay(started, timein, timeout)}</div>
                       </div>
                     </div>
                   </div>

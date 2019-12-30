@@ -4,3 +4,11 @@
 4) Test with 2-3 games & on phone
 5) Set up in Heroku
 6) Test with real game in Heroku
+
+Bugs - 30 Dec
+
+Date didn't show up in report after gameend
+Notes don't clear after quarter end
+text in notes is bold in quarter report
+FG% is NaN if no shots in quarter report
+Game list needs to be grouped by date and then team
