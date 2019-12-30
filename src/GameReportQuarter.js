@@ -8,7 +8,7 @@ const GameReportQuarter = (props) => {
     let attempts = fg + threefg + mfg + m3fg;
     let points = (2*fg) + (3*threefg) + ft;
     let made = fg + threefg;
-    let sp = (100 * made)/attempts;
+    let sp = (attempts > 0) ? (100 * made)/attempts : 0;
     let ftAttempts = ft + mft;
     let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
     let totalRebounds = orebounds + drebounds;
@@ -50,7 +50,8 @@ const GameReportQuarter = (props) => {
                         <div className="card shadow">
                             <div className="card-body">
                                 <h5 className="card-title">Points: {points}</h5>
-                                <p className="card-text">{fg} FG | {threefg} 3FG | {ft} FT</p>
+                                <p className="card-text">{fg} FG <strong>|</strong> {threefg} 3FG <strong>|</strong> {ft} FT</p>
+                                <i className="fas fa-basketball-ball"></i>
                             </div>
                         </div>
                     </div>               
@@ -58,7 +59,7 @@ const GameReportQuarter = (props) => {
                         <div className="card shadow">
                           <div className="card-body">
                             <h5 className="card-title">Rebounds: {totalRebounds} </h5>
-                            <p className="card-text">{orebounds} Offensive | {drebounds} Defensive</p>
+                            <p className="card-text">{orebounds} Offensive <strong>|</strong> {drebounds} Defensive</p>
                         </div>
                     </div>
                   </div>
@@ -117,7 +118,8 @@ const GameReportQuarter = (props) => {
                   <div className="col-sm-6">
                     <div className="card shadow">
                       <div className="card-body">
-                        <h5 className="card-title">Notes: {notes}</h5>
+                        <h5 className="card-title">Notes</h5>
+                        <div className="card-text">{notes}</div>
                       </div>
                     </div>
                   </div>

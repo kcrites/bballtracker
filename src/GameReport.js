@@ -251,7 +251,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 					<div className="card shadow">
 				  		<div className="card-body">
 								<h5 className="card-title">Points: {points}</h5>
-                                <p className="card-text">{fg} FG | {threefg} 3FG | {ft} FT</p>
+                                <p className="card-text">{fg} FG <strong>|</strong> {threefg} 3FG <strong>|</strong> {ft} FT</p>
 				  		</div>
 					</div>
 				</div>
@@ -259,7 +259,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 					<div className="card shadow">
 				  		<div className="card-body">
 						  <h5 className="card-title">Rebounds: {totalRebounds} </h5>
-                            <p className="card-text">{orebounds} Offensive | {drebounds} Defensive</p>
+                            <p className="card-text">{orebounds} Offensive <strong>|</strong> {drebounds} Defensive</p>
 				  		</div>
 					</div>
 				</div>
@@ -269,7 +269,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-				  <h5 className="card-header">Shooting:</h5>
+				  <h5 className="card-header">Shooting</h5>
 				  <ul className="list-group list-group-flush text-left">
                         <div className="list-group-item"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
                         <div className="list-group-item"><strong>3 Pointers:</strong> {threefg} for {threeAttempts}, {threeP.toFixed(1)}% </div>
@@ -306,7 +306,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			      <div className="card-body">
 			        <h5 className="card-header">Game Info</h5>
 					<ul className="list-group list-group-flush text-left">
-					<div className="list-group-item"><strong>Date</strong> {gamedate}</div>	
+					<div className="list-group-item"><strong>Date</strong> {(this.props.gameDate) ? this.props.gameDate : gamedate}</div>	
 					<div className="list-group-item"><strong>Team</strong> {team}</div>	
 					<div className="list-group-item"><strong>Opponent</strong> {opponent}</div>	
 					<div className="list-group-item"><strong>Venue</strong> {venue}</div>	

@@ -13,7 +13,8 @@ class Buttons extends React.Component {
             checked: false,
             teamScore: 0,
             opponentScore: 0,
-            time: ''
+            time: '',
+            notes: '',
         }
     };
 
@@ -65,6 +66,7 @@ handleShot = (event) => {
  handleNotes = (event) => {
      let notes = event.target.value;
      this.props.addNotes("notes", notes); 
+     this.setState({notes: notes});
  }
 
  handleEnd = (event) => {
@@ -94,7 +96,7 @@ handleShot = (event) => {
 
 render() {
 const { currentQuarter } = this.props;
-const { checked, time } = this.state;
+const { checked, time, notes } = this.state;
 const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleScore, handleNotes} = this;
 
 
@@ -104,7 +106,7 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleSco
                     <label className="textbox">Quarter {currentQuarter}</label>
                     <div className="textbox">Started Quarter <Checkbox handleCheckbox={handleCheckbox} isSelected={this.state.checked}/></div>
                     <div>{(checked ? <label>Time out </label> : <label>Time in </label>)} <input name='time' type="text" className="timebox" value={time} onChange={handleTime} ></input></div>
-                    <div>Notes: <input name='notes' onChange={handleNotes} type='text'/></div> 
+                    <div>Notes: <input name='notes' onChange={handleNotes} value={notes} type='text'/></div> 
                     <div>{this.props.info.team} <input className="inputbox" onChange={handleScore} name='teamScore' type='text'/></div><div>{this.props.info.opponent} <input onChange={this.handleScore} className="inputbox" name='opponentScore' type='text'/></div>
                 </div>
                 <br/>

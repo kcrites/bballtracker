@@ -7,8 +7,10 @@
 
 Bugs - 30 Dec
 
-Date didn't show up in report after gameend
-Notes don't clear after quarter end
-text in notes is bold in quarter report
-FG% is NaN if no shots in quarter report
-Game list needs to be grouped by date and then team
+Date didn't show up in report after gameend -- WIP (gameDate vs gamedate)
+Notes don't clear after quarter end -- WIP added notes to state as a blank and set value = to that
+text in notes is bold in quarter report X COMPLETED
+FG% is NaN if no shots in quarter report X COMPLETED
+Game list needs to be grouped by date and then team X COMPLETED
+
+

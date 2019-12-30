@@ -217,8 +217,7 @@ class Game extends React.Component {
                 .then(response => response.json())
                 .then(results => {
                     if(results.id){
-                       
-                        console.log(results);
+                        console.log('Quarter saved: ' + results);
                     }
                 }).catch(err => {console.log(err)});
 
