@@ -14,10 +14,12 @@ FG% is NaN if no shots in quarter report X COMPLETED
 Game list needs to be grouped by date and then team X COMPLETED
 
 Bugs - 2 Jan
-Date still is not showing up
+Date still is not showing up (WIP - changed all fields from gameDate to gamedate)
 Need to verify the Notes issue above
+add quarter length to game table? (10 min v 8 min)
+format player report
 
 
 ER - 2 Jan
-Player Totals report
+Player Totals report (WIP)
 

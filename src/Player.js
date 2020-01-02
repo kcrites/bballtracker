@@ -62,8 +62,27 @@
             if(results.length > 0){
                 results.forEach(e => {playerArr.push(e)});
                 this.setState({player: playerArr});
+                this.getTotals(playerArr);
             }
         }).catch(err => {console.log(err)});
+    }
+
+    getTotals = (array) => {
+        let pointsTotal = 0, reboundsTotal = 0, assistTotal = 0, stealsTotal = 0;
+        array.map((e) => {
+           pointsTotal += e.points;
+           reboundsTotal += (e.orebounds + e.drebounds);
+           assistTotal += e.assists;
+           stealsTotal += e.steals
+           return array;
+        })
+        console.log(pointsTotal, reboundsTotal);
+        this.setState({totals: {
+            pointsTotal: pointsTotal,
+            reboundsTotal: reboundsTotal,
+            assistTotal: assistTotal,
+            stealsTotal: stealsTotal
+        }})
     }
 
 handleButtonClick = (event) => {

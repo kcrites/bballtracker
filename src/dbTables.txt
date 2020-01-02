@@ -94,3 +94,6 @@ create table totals (
     m3fg SMALLINT,
     mft SMALLINT
 );
+
+SELECT * FROM totals WHERE game IN (SELECT gameid FROM game WHERE player = 'Hayden');
+
