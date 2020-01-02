@@ -52,7 +52,6 @@ class App extends React.Component {
     //takes game id and uses it in game report
     gameDetails=(game, array) => {
       this.setState({gameId: game, gameInfo: array});
-     // console.log(array);
       this.onRouteChange('gamereport');
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './bballlogo.png';
-
+//<i className="fas fa-basketball-ball"></i>
 const GameReportQuarter = (props) => {
   const{ quarter, started, timein, timeout, fg, assists, blocks, blockedpass, threefg, steals,
             drebounds, orebounds, pf, ft, mfg, m3fg, mft, teamscore, opponentscore, notes} = props.quarterInfo;
@@ -51,7 +51,6 @@ const GameReportQuarter = (props) => {
                             <div className="card-body">
                                 <h5 className="card-title">Points: {points}</h5>
                                 <p className="card-text">{fg} FG <strong>|</strong> {threefg} 3FG <strong>|</strong> {ft} FT</p>
-                                <i className="fas fa-basketball-ball"></i>
                             </div>
                         </div>
                     </div>               
@@ -69,21 +68,25 @@ const GameReportQuarter = (props) => {
                 <div className="col-sm-6">
                         <div className="card shadow">
                             <div className="card-body">
-                              <h5 className="card-title">Shooting:</h5>
-                                <div className="card-text"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
-                                <div className="card-text"><strong>3 Pointers:</strong> {threefg} for {m3fg}, {threeP.toFixed(1)}% </div>
-                                <div className="card-text"><strong>Free throws:</strong> {ft} for {ftAttempts}, {ftp.toFixed(1)}% </div>
+                              <h5 className="card-header">Shooting:</h5>
+                              <ul className="list-group list-group-flush text-left">
+                                <div className="list-group-item"><strong>Field goals:</strong> {made} for {attempts}, {sp.toFixed(1)}% </div>
+                                <div className="list-group-item"><strong>3 Pointers:</strong> {threefg} for {m3fg}, {threeP.toFixed(1)}% </div>
+                                <div className="list-group-item"><strong>Free throws:</strong> {ft} for {ftAttempts}, {ftp.toFixed(1)}% </div>
+                            </ul>
                             </div>
                         </div>
                     </div>
                   <div className="col-sm-6">
                     <div className="card shadow">
                       <div className="card-body">
-                      <h5 className="card-title">Play Stats</h5>
-                        <div className="card-text "> <strong>Steals: </strong>{steals} | <strong>Assists:</strong> {assists}</div>
-                      
-                        <div className="card-text"><strong>Blocks: </strong>{blocks}</div>
-                        <div className="card-text"><strong>Blocked Passes:</strong> {blockedpass}</div>
+                      <h5 className="card-header">Play Stats</h5>
+                      <ul className="list-group list-group-flush text-left">
+                        <div className="list-group-item"><strong>Assists:</strong> {assists}</div>
+						            <div className="list-group-item"><strong>Steals: </strong>{steals}</div>
+                        <div className="list-group-item"><strong>Blocks: </strong>{blocks}</div>
+                        <div className="list-group-item"><strong>Blocked Passes:</strong> {blockedpass}</div>
+                      </ul>
                       </div>
                     </div>
                   </div>
@@ -109,10 +112,13 @@ const GameReportQuarter = (props) => {
                   <div className="row">
                   <div className="col-sm-6">
                     <div className="card shadow">
-                      <div className="card-body">
-                         <h5 className="card-title">Score</h5>
-                         <div className="card-text">Team {teamscore} - Opponent {opponentscore}</div>
-                      </div>
+                    <div className="card-body">
+			            	  <h5 className="card-header">Score</h5>
+		            		  <ul className="list-group list-group-flush text-left">
+                         <div className="list-group-item"><strong>team:</strong> {teamscore}</div>
+			          			 <div className='list-group-item'><strong>opponent:</strong> {opponentscore}</div>		       
+			                </ul>
+				            </div>
                     </div>
                   </div>
                   <div className="col-sm-6">

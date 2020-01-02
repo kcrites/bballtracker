@@ -296,9 +296,12 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			  <div className="col-sm-6">
 			    <div className="card shadow">
 			      <div className="card-body">
-				  <h5 className="card-title">Score</h5>
-                         <div className="card-text">{team} {teamscore} - {opponent} {opponentscore}</div>		       
-			      </div>
+				  <h5 className="card-header">Score</h5>
+				  <ul className="list-group list-group-flush text-left">
+                         <div className="list-group-item"><strong>{team}:</strong> {teamscore}</div>
+						 <div className='list-group-item'><strong>{opponent}:</strong> {opponentscore}</div>		       
+			      </ul>
+				  </div>
 			    </div>
 			  </div>
 			  <div className="col-sm-6">
