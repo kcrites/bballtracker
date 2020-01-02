@@ -32,7 +32,7 @@ class App extends React.Component {
             team: details[0],
             player: details[1],
             opponent: details[2],
-            gameDate: details[3],
+            gamedate: details[3],
             venue: details[4],
             qTime: details[5],
           }) 

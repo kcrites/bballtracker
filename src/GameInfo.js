@@ -10,7 +10,7 @@ class GameInfo extends React.Component {
             team: 'Apollo',
             player: 'Hayden',
             opponent: 'MBCA',
-            gameDate: '2019-11-30',
+            gamedate: '2019-11-30',
             venue: 'Home',
             qTime: 10,
             gameId: 0,
@@ -24,8 +24,8 @@ class GameInfo extends React.Component {
 
      handleSubmit = () => {
         const { loadGameInfo, onRouteChange } = this.props;
-        const { team, player, opponent, gameDate, venue, qTime }= this.state;
-        let details = [team, player, opponent, gameDate, venue, qTime];
+        const { team, player, opponent, gamedate, venue, qTime }= this.state;
+        let details = [team, player, opponent, gamedate, venue, qTime];
        
         loadGameInfo(details);
         onRouteChange('game'); 
@@ -33,7 +33,7 @@ class GameInfo extends React.Component {
     }
 
     render() {
-        //const { player, team, opponent, gameDate, venue } = this.props.gameObject;
+        //const { player, team, opponent, gamedate, venue } = this.props.gameObject;
         return (
             <div className="container list-body"> 
               <form>
@@ -56,8 +56,8 @@ class GameInfo extends React.Component {
                         </div>
 
                         <div className="form-group">
-                            <label className="form-control-label" htmlFor="gameDate">Date</label>
-                            <input className="form-control" onChange={this.handleInput} id="gameDate" name="gameDate" type="date"></input>
+                            <label className="form-control-label" htmlFor="gamedate">Date</label>
+                            <input className="form-control" onChange={this.handleInput} id="gamedate" name="gamedate" type="date"></input>
                         </div>
 
                         <div className="form-group">

@@ -10,7 +10,7 @@ import './Game.css';
 let scoreArray = [];
 const gameObject = {
     info: {
-        gameDate: '',
+        gamedate: '',
         player: '',
         team: '',
         opponent: '',
@@ -143,7 +143,7 @@ class Game extends React.Component {
             team: gameInfo[0],
             player: gameInfo[1],
             opponent: gameInfo[2],
-            gameDate: gameInfo[3],
+            gamedate: gameInfo[3],
             venue: gameInfo[4],
             qTime: gameInfo[5],
             gameId: gameInfo[6],
@@ -217,7 +217,7 @@ class Game extends React.Component {
                 .then(response => response.json())
                 .then(results => {
                     if(results.id){
-                        console.log('Quarter saved: ' + results);
+                        console.log('Quarter saved: ');
                     }
                 }).catch(err => {console.log(err)});
 
