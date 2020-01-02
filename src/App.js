@@ -4,6 +4,7 @@ import Welcome from './Welcome';
 import GameInfo from './GameInfo';
 import GameList from './GameList';
 import GameReport from './GameReport';
+import Player from './Player';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -73,8 +74,10 @@ class App extends React.Component {
           return <div> <GameList onRouteChange={this.onRouteChange} gameDetails={this.gameDetails} player={'Hayden'}/></div>
         } else if (route === 'gameinfo'){
           return <div> <GameInfo onRouteChange={this.onRouteChange} loadGameInfo={this.loadGameInfo}/></div>
-        }else if (route === 'gamereport'){
+        } else if (route === 'gamereport'){
           return <div> <GameReport onRouteChange={this.onRouteChange} game={gameId} gameInfo={gameInfo}/></div>
+        } else if (route === 'player'){
+          return <div> <Player onRouteChange={this.onRouteChange} player={'Hayden'} /></div>
         }
       }
 

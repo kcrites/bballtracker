@@ -18,6 +18,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 </button>
                 <br/>
                 <button onClick={handleGameClick} value="gamelist">List of Previous Games</button>
+                <br/>
+                <button onClick={handleGameClick} value="player">Player Stats Report</button>
+
               
             </header>
     );
