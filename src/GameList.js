@@ -40,10 +40,10 @@
     }
 
     getGame = () => {
-        const { player } = this.props;
+        const { player, serverURL } = this.props;
         
         let gameArr = [];
-        fetch('http://localhost:3005/gamelist', {
+        fetch(serverURL + 'gamelist', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

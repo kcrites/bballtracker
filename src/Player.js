@@ -27,7 +27,7 @@
                     <td>{item.orebounds}</td>
                     <td>{item.pf}</td>
                     <td>{item.ft}</td>
-                <th scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info">Details</button></th>
+                <th scope="col"><button type="button" value={item.game} onClick={handleButtonClick} className="btn btn-info">Details</button></th>
             </tr>
     
         );
@@ -38,8 +38,23 @@
     constructor(props){
         super(props);
         this.state = {
-            player: []
-        }
+            player: [],
+            games: 0,
+            totals: {
+                pointsTotal: 0,
+                reboundsTotal: 0,
+                assistTotal: 0,
+                stealsTotal: 0,
+                fgTotal: 0,
+                threefgTotal: 0,
+                ftTotal: 0,
+                blocksTotal: 0,
+                bpTotal: 0,
+                dreboundTotal: 0,
+                oreboundTotal: 0,
+                pfTotal: 0
+            }  
+        } 
     };
 
     componentWillMount(){
@@ -47,10 +62,10 @@
     }
 
     getStats = () => {
-        const { player } = this.props;
+        const { player, serverURL } = this.props;
         
         let playerArr = [];
-        fetch('http://localhost:3005/getplayertotals', {
+        fetch(serverURL + 'getplayertotals', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -61,7 +76,7 @@
         .then(results => {
             if(results.length > 0){
                 results.forEach(e => {playerArr.push(e)});
-                this.setState({player: playerArr});
+                this.setState({player: playerArr, games: playerArr.length});
                 this.getTotals(playerArr);
             }
         }).catch(err => {console.log(err)});
@@ -69,27 +84,47 @@
 
     getTotals = (array) => {
         let pointsTotal = 0, reboundsTotal = 0, assistTotal = 0, stealsTotal = 0;
+        let fgTotal = 0, threefgTotal = 0, ftTotal = 0, blocksTotal = 0, bpTotal = 0;
+        let dreboundTotal = 0, oreboundTotal = 0, pfTotal = 0;
+
         array.map((e) => {
            pointsTotal += e.points;
            reboundsTotal += (e.orebounds + e.drebounds);
            assistTotal += e.assists;
-           stealsTotal += e.steals
+           stealsTotal += e.steals;
+           fgTotal += e.fg;
+           threefgTotal += e.threefg;
+           ftTotal += e.ft;
+           blocksTotal += e.blocks;
+           bpTotal += e.blockedpass;
+           dreboundTotal += e.drebounds;
+           oreboundTotal += e.orebounds;
+           pfTotal += e.pf;
+
            return array;
         })
-        console.log(pointsTotal, reboundsTotal);
+       
         this.setState({totals: {
             pointsTotal: pointsTotal,
             reboundsTotal: reboundsTotal,
             assistTotal: assistTotal,
-            stealsTotal: stealsTotal
+            stealsTotal: stealsTotal,
+            fgTotal: fgTotal,
+            threefgTotal: threefgTotal,
+            ftTotal: ftTotal,
+            blocksTotal: blocksTotal,
+            bpTotal: bpTotal,
+            dreboundTotal: dreboundTotal,
+            oreboundTotal: oreboundTotal,
+            pfTotal: pfTotal
         }})
     }
-
+   
 handleButtonClick = (event) => {
-  /*   let gameTemp = parseInt(event.target.value);
-    let location = this.state.games.findIndex(item => item.gameid === gameTemp)
-   console.log(location, event.target.value);
-    this.props.gameDetails(event.target.value, this.state.games[location]); */
+    let gameTemp = parseInt(event.target.value);
+    let array = [];
+    this.props.gameDetails(gameTemp, array);
+   
 }
 
 handleHomeClick = (event) => {
@@ -97,6 +132,11 @@ handleHomeClick = (event) => {
 }
     
 render(){
+    const{ pointsTotal, reboundsTotal, assistTotal, stealsTotal, fgTotal, threefgTotal,
+    ftTotal, blocksTotal, bpTotal, dreboundTotal, oreboundTotal, pfTotal } = this.state.totals;
+    const { games } = this.state;
+    const { player } = this.props;
+
     return (
         <div>
             <div className="container">
@@ -105,33 +145,73 @@ render(){
             <nav className="navbar navbar-dark bg-dark">
                 <p className="navbar-brand" >
                     <img src={logo}  width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
-                    &nbsp; BBall Player Stats
+                    &nbsp; BBall Player Stats - {player}
                 </p>
             </nav>
             </div>
-
-		<table className="table table-hover">
+            <h3>Totals</h3>
+        <div style={{overflow: 'auto'}}>
+            <table className='table table-small'>
+                <thead>
+                    <tr>
+                        <th scope="col">G</th>
+                        <th scope="col">Points</th>
+                        <th scope="col">Rebounds</th>
+                        <th scope="col">Assists</th>
+                        <th scope="col">Steals</th>
+                        <th scope="col">FG</th>
+                        <th scope="col">3FG</th>
+                        <th scope="col">FT</th>
+                        <th scope="col">Blocks</th>
+                        <th scope="col">Blocked Passes</th>
+                        <th scope="col">D Rebounds</th>
+                        <th scope="col">O Rebounds</th>
+                        <th scope="col">PF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{games}</td>
+                        <td>{pointsTotal}</td>
+                        <td>{reboundsTotal}</td>
+                        <td>{assistTotal}</td>
+                        <td>{stealsTotal}</td>
+                        <td>{fgTotal}</td>
+                        <td>{threefgTotal}</td>
+                        <td>{ftTotal}</td>
+                        <td>{blocksTotal}</td>
+                        <td>{bpTotal}</td>
+                        <td>{dreboundTotal}</td>
+                        <td>{oreboundTotal}</td>
+                        <td>{pfTotal}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <h3>Game Stats</h3>
+            <div style={{overflow: 'auto'}}>
+		<table className="table table-hover table-small">
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
 		      <th scope="col">Points</th>
-		      <th scope="col">Field Goals</th>
+		      <th scope="col">FG</th>
 		      <th scope="col">Assists</th>
               <th scope="col">Blocks</th>
               <th scope="col">Blocked Passes</th>
-              <th scope="col">3 Pointers</th>
+              <th scope="col">3 FG</th>
               <th scope="col">Steals</th>
-              <th scope="col">Def Rebounds</th>
-              <th scope="col">Off Rebounds</th>
-              <th scope="col">Personal Fouls</th>
-              <th scope="col">Free Throws</th>
+              <th scope="col">D Rebounds</th>
+              <th scope="col">O Rebounds</th>
+              <th scope="col">PF</th>
+              <th scope="col">FT</th>
 		      <th scope="col">Details</th>
 		    </tr>
 		  </thead>
 		  <tbody>
             {renderRow(this.state.player, this.handleButtonClick)}
 		  </tbody>
-		</table>
+		</table> </div>
 
 			<nav className="navbar navbar-dark bg-dark "> 
 				<div className="container">

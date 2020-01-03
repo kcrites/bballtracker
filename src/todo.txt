@@ -17,6 +17,7 @@ Bugs - 2 Jan
 Date still is not showing up (WIP - changed all fields from gameDate to gamedate)
 Need to verify the Notes issue above
 add quarter length to game table? (10 min v 8 min)
+add serverURL to all files
 format player report
 
 

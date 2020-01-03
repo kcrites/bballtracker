@@ -119,29 +119,29 @@ import GameReportQuarter from './GameReportQuarter';
 	}
 	
 	getGameTotals = () => {
-		const { game } = this.props;
+		const { game, serverURL } = this.props;
 
-		fetch('http://localhost:3005/gettotals', {
+		fetch(serverURL + 'gettotals', {
 			method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 game: game
+			})
 		})
-	})
-	.then(response => response.json())
-	.then(results => {
-		if(results.length > 0){
-			this.setState({totals: results[0]});
-		}
-	}).catch(err => {console.log(err)});
+		.then(response => response.json())
+		.then(results => {
+			if(results.length > 0){
+				this.setState({totals: results[0]});
+			}
+		}).catch(err => {console.log(err)});
 	}
 
 	//Quarters Information
     getGameDetails = () => {
-        const { game } = this.props;
+        const { game, serverURL } = this.props;
         
         let gameArr = [];
-        fetch('http://localhost:3005/getgame', {
+        fetch(serverURL + 'getgame', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -165,15 +165,6 @@ import GameReportQuarter from './GameReportQuarter';
             }
         }).catch(err => {console.log(err)});
 	}
-	
-
- 	gameStats = () => {
-        
-      //  let attempts = this.state.totals.missedTwo + this.state.totals.missedThree + (this.state.totals.threePointers/3) + (this.state.totals.fieldGoals/2);
-      //  let finalArray = [];
-    	//console.table(finalArray);
-    	//console.log(`Final Stats: ${attempts} attempts`)
-	} 
 	
 	handleHomeClick = () => {
 		//this.props.holdGameInfo();
