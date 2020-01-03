@@ -145,7 +145,7 @@ render(){
             <nav className="navbar navbar-dark bg-dark">
                 <p className="navbar-brand" >
                     <img src={logo}  width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
-                    &nbsp; BBall Player Stats - {player}
+                    &nbsp; BBall Player Stats - <strong>{player}</strong>
                 </p>
             </nav>
             </div>
