@@ -183,11 +183,12 @@ class Game extends React.Component {
             const { started, timeIn, timeOut, fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
                     freeThrows,missedTwo, missedThree, missedFT, notes } = this.state[current];
             const { currentQuarter } = this.state;
+            const { serverURL } = this.props;
             
             let info = {...this.state.info, gameId: this.props.gameInfo[6]};
             this.setState({info});
          
-                fetch('http://localhost:3005/savequarter', {
+                fetch(serverURL + 'savequarter', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -229,9 +230,10 @@ class Game extends React.Component {
         const { fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
             freeThrows,missedTwo, missedThree, missedFT, minutesPlayed } = this.state.totals;
         const { gameId } = this.state.info;
+        const { serverURL } = this.props;
             //Get Totals, minutes played, scores
             let tp = this.totalsCalc('points', 'totals');
-        fetch('http://localhost:3005/savetotals', {
+        fetch(serverURL + 'savetotals', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
