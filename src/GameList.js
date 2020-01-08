@@ -15,12 +15,11 @@
      fixDate(array);
       return array.map((item, index)  => 
             <tr key={index}>
-                 <th scope="row">{index+1}</th>
-                    <td>{item.gamedate}</td>
-                    <td>{item.team}</td>
-                    <td>{item.opponent}</td>
-                  
-                <th scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info">Details</button></th>
+                <th className='p-1' scope="row">{index+1}</th>
+                    <td className='p-1'>{item.gamedate}</td>
+                    <td className='p-1'>{item.team}</td>
+                    <td className='p-1'>{item.opponent}</td>
+                <th className='p-1' scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info btn-sm">Details</button></th>
             </tr>
     
         );

@@ -27,7 +27,7 @@
                     <td>{item.orebounds}</td>
                     <td>{item.pf}</td>
                     <td>{item.ft}</td>
-                <th scope="col"><button type="button" value={item.game} onClick={handleButtonClick} className="btn btn-info">Details</button></th>
+                <th scope="col"><button type="button" value={item.game} onClick={handleButtonClick} className="btn btn-info btn-sm">Details</button></th>
             </tr>
     
         );

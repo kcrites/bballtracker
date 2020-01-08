@@ -19,14 +19,13 @@ class Buttons extends React.Component {
     };
 
 componentWillMount(){
-this.setState({time: ''});   
+this.setState({time: '', notes: ''});   
 }
 
 handleShot = (event) => {
    let name = event.target.name;
    let value = event.target.value;
    value = parseInt(value);
-   //console.log(`Name: ${name} Value: ${value}`);
    this.props.addPoints(name, this.props.currentQuarter, value);
 }
  
@@ -34,7 +33,6 @@ handleShot = (event) => {
     let name = event.target.name;
     let value = event.target.value;
     value = parseInt(value);
-   // console.log(`Name: ${name} Value: ${value}`);
     this.props.addPlay(name, this.props.currentQuarter, value);
  }
 
@@ -47,26 +45,22 @@ handleShot = (event) => {
  handleTime = (event) => {
     const { subTime } = this.props;
     let value = event.target.value;
-
     this.setState({time: value});
- 
-    subTime(value, this.state.checked);
-         
+    subTime(value, this.state.checked);   
  }
 
  handleScore = (event) => {
      let value = event.target.value;
      let who = event.target.name;
      value = parseInt(value);
-    // let forthQuarter = {...this.state.forthQuarter, [who]: score};
      this.setState({[who]: value});
-   
  }
 
  handleNotes = (event) => {
      let notes = event.target.value;
-     this.props.addNotes("notes", notes); 
      this.setState({notes: notes});
+     this.props.addNotes("notes", notes); 
+     
  }
 
  handleEnd = (event) => {
@@ -87,18 +81,14 @@ handleShot = (event) => {
         this.props.gameScore(scoreArray);
         this.props.changeQuarter(scoreArray);
         
-        this.setState({time: '', checked: false});
-       
-     
+        this.setState({time: '', checked: false, notes: ''});   
  }
 
- 
 
 render() {
 const { currentQuarter } = this.props;
 const { checked, time, notes } = this.state;
 const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleScore, handleNotes} = this;
-
 
         return (
             <div> 
@@ -123,8 +113,8 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleSco
                     <Button variant="primary" name='blockedPass' value="1" onClick={handlePlay}>Blocked Pass</Button>
                     <Button variant="primary" name='dRebounds' value="1" onClick={handlePlay}>Defensive Rebound</Button>
                     <Button variant="primary" name='oRebounds' value="1" onClick={handlePlay}>Offensive Rebound</Button>
-                    <Button variant="danger" name='personalFouls' value="1" onClick={handlePlay}>Personal Foul</Button>
-                    <Button variant="dark" name='End of Quarter' value='eoq' onClick={handleEnd}>End of Quarter</Button>
+                    <Button variant="danger"  name='personalFouls' value="1" onClick={handlePlay}>Personal Foul</Button>
+                    <Button variant="dark"    name='End of Quarter' value='eoq' onClick={handleEnd}>End of Quarter</Button>
                 </div>
             </div>
         );
