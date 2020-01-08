@@ -162,17 +162,14 @@ class Game extends React.Component {
 // End of Quarter
     changeQuarter = (array) => {
         let tempQ = this.state.currentQuarter;
-        
         let current = this.findQuarterName(tempQ);
- 
-            let tp = this.totalsCalc('points', 'totals');
-            let totals = {...this.state.totals, points: tp} 
-            this.saveQuarterResults(current);
-            this.gameScore(array);
-            tempQ++;
-            this.setState({currentQuarter: tempQ, totals});
+        let tp = this.totalsCalc('points', 'totals');
+        let totals = {...this.state.totals, points: tp} 
+        this.saveQuarterResults(current);
+        this.gameScore(array);
+        tempQ++;
+        this.setState({currentQuarter: tempQ, totals});
             
-
         if(tempQ > 4) {
             this.endGame(array);
         }

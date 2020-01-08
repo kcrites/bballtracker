@@ -12,7 +12,7 @@ class GameInfo extends React.Component {
             opponent: 'MBCA',
             gamedate: '2019-11-30',
             venue: 'Home',
-            qTime: 10,
+            qTime: '10:00',
             gameId: 0,
         }
     };
@@ -66,7 +66,7 @@ class GameInfo extends React.Component {
                         </div>
                         <div className="form-group">
                             <label className="form-control-label" htmlFor="qTime">Quarter Length</label>
-                            <select className="form-control" onChange={this.handleInput} id="qTime" name="qTime"><option value="10">10:00</option><option value="8">8:00</option></select>
+                            <select className="form-control" onChange={this.handleInput} id="qTime" name="qTime"><option value="10:00">10:00</option><option value="8:00">8:00</option></select>
                         </div>
                     
                         <button className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>

@@ -220,7 +220,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			</nav>
 		</div>
 
-		<p className="pt-1">
+		<div className="btn-group btn-group-sm">
 		  <button className="btn btn-primary" name="q1" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ1" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 1
 		  </button>
@@ -233,7 +233,7 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 		  <button className="btn btn-primary" name="q4" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ4" aria-expanded="false" aria-controls="collapseExample">
 		    Quarter 4
 		  </button>
-		</p>
+		</div>
 
 		<h2>Game Totals</h2>
 
