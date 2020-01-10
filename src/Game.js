@@ -230,6 +230,7 @@ class Game extends React.Component {
         const { serverURL } = this.props;
             //Get Totals, minutes played, scores
             let tp = this.totalsCalc('points', 'totals');
+            let totalTime = this.gameTime();
         fetch(serverURL + 'savetotals', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -237,7 +238,7 @@ class Game extends React.Component {
                 game: gameId,
                 teamScore: array[0],
                 opponentScore: array[1],
-                minutesPlayed: minutesPlayed,
+                minutesPlayed: totalTime,
                 points: tp,
                 fieldGoals: fieldGoals,
                 assists: assists,
@@ -311,34 +312,71 @@ class Game extends React.Component {
         }
     }
 
-    gameTime = (time, inOrOut) => {
+    gameTime = () => {
         const { qTime } = this.state.info;
-        let tempArray = time.split(":");
-        let min = parseInt(tempArray[0]);
-        let sec = parseInt(tempArray[1]);
-        let timeArray = [];
+        const { firstQuarter, secondQuarter, thirdQuarter, forthQuarter } = this.state;
+        const quarterArray = [[firstQuarter.timeIn, firstQuarter.timeOut], [secondQuarter.timeIn, secondQuarter.timeOut],
+                        [thirdQuarter.timeIn, thirdQuarter.timeOut], [forthQuarter.timeIn, forthQuarter.timeOut]];
+        const { parseTime, timeConvert } = this;
         
-        if(time === '0:00'){
-            tempArray[0] = 10;
-            tempArray[1] = 0;
-            return tempArray;
-        }
 
-        if(inOrOut === 'timeIn') {
-            // Difference between qTime and timeIn (i.e. 10:00, 3:52 = 6:08) 2:00
-            timeArray[0] = qTime - min;// 7  8
-            timeArray[1]= 60 - sec; //08  60
-            if (timeArray[1] > 0) timeArray[0]-- ; //6  7
-            if (timeArray[1] === 60) timeArray[1] = 0;
-            return timeArray;
+        let totalArray = quarterArray.map((qt,index) => {
+
+            if(qt[0] ==='0:00' && qt[1] === '0:00'){
+            //played full quarter
+                return [[10,0]];
+        
+            } else if (qt[0] ==='0:00' && qt[0] !== '10:00'){
+            //started the quarter but was subed out
             
-        } else if (inOrOut === 'timeOut') {
-            timeArray[0] = min;
-            timeArray[1] = sec;
-            return timeArray;
+                let temp = parseTime(qt[1], qTime);
+                return temp;
+            } else if (qt[1] ==='0:00'&& qt[0] !== '10:00'){
+            //Didn't start quarter but was subed in
+                let temp = parseTime(qt[0], qTime);
+                return temp;
+            } else {
+            //Player didn't go in
+            return [[0,0]];
+            }
+        });
+       // console.table(totalArray);
+        let totalMin = 0;
+        let totalSec = 0;
+        totalArray.forEach((x) => {
+            totalMin += x[0][0];
+            totalSec += x[0][1];
+        })
+        if(totalSec > 59) {
+            let timeObj = timeConvert(totalSec)
+            totalSec = timeObj.sec;
+            totalMin += timeObj.min;
         }
+      this.setState({totals: totalMin + ':' + totalSec});
+      return totalMin + ':' + totalSec;
+        };
 
-    }
+    timeConvert = (n) => {
+        var num = n;
+        var hours = (num / 60);
+        var rhours = Math.floor(hours);
+        var minutes = (hours - rhours) * 60;
+        var rminutes = Math.round(minutes);
+        return {min:   rhours, sec: rminutes };
+        };
+            
+    parseTime = (array, qTime) => {
+            let time = array, timeArray = [];
+            let tempArray = time.split(":");
+            let min = parseInt(tempArray[0]);
+            let sec = parseInt(tempArray[1]);
+            timeArray[0] = qTime - min;// 7 8
+            timeArray[1]=60 - sec; //08 60
+            if (timeArray[1] >0) timeArray[0]-- ; //6 7
+            if (timeArray[1] ===60) timeArray[1] = 0;
+        
+            return [[timeArray[0],timeArray[1]]];
+        };
 
    findQuarterName = (q) => {
        let quarter='';

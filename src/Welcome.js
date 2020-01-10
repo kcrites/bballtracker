@@ -17,7 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                   Record a New Game
                 </button>
                 <br/>
-                <button onClick={handleGameClick} value="gamelist">List of Previous Games</button>
+                <button onClick={handleGameClick} value="gamelist">Previous Games</button>
                 <br/>
                 <button onClick={handleGameClick} value="player">Player Stats Report</button>
 
