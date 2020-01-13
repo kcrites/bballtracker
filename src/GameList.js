@@ -1,6 +1,6 @@
 
     import React from 'react';
-    import logo from './bballlogo.png'
+    import Header from './Header';
   
     const fixDate = (array) => {
         array.map((item) => {
@@ -68,19 +68,11 @@ handleHomeClick = (event) => {
 }
     
 render(){
+    let headerInfo = {type: 'gamelist', title: 'BBall Game List', player: '', quarter: ''};
     return (
         <div>
             <div className="container">
-		        <div className="pos-f-t">
-	
-            <nav className="navbar navbar-dark bg-dark">
-                <p className="navbar-brand" >
-                    <img src={logo}  width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
-                    &nbsp; BBall Game List
-                </p>
-            </nav>
-            </div>
-
+                <Header headerInfo={headerInfo} />
 		<table className="table table-hover">
 		  <thead>
 		    <tr>

@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from './bballlogo.png';
 import GameReportQuarter from './GameReportQuarter';
+import Header from './Header';
    
 
 
@@ -192,7 +192,7 @@ import GameReportQuarter from './GameReportQuarter';
     
 render(){
 	
-const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, opponentscore} = this.state.totals;
+const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, minutesplayed, opponentscore} = this.state.totals;
 const { team, opponent, venue, gamedate } = this.props.gameInfo;
 
 let quarterSelected = this.state.qSelected;
@@ -204,21 +204,14 @@ let ftp = (ftAttempts > 0) ? (100 * ft)/ftAttempts : 0;
 let totalRebounds = orebounds + drebounds;
 let threeAttempts = threefg + m3fg;
 let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
-
+let headerInfo = {type: 'gamereport', title: 'Game Report', player: '', quarter: ''};
     return (
 		(this.state.qToggle) ? <GameReportQuarter quarterInfo={this.state.games[quarterSelected]} onRouteChange={this.props.onRouteChange} handle2Click={this.handle2Click} /> : 
 
         <div>
             <div className="container">
-		<div className="pos-f-t">
+				<Header headerInfo={headerInfo} />
 
-			<nav className="navbar navbar-dark bg-dark">
-			  <p className="navbar-brand">
-			    <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
-			    &nbsp; Game Report
-			  </p>
-			</nav>
-		</div>
 
 		<div className="btn-group btn-group-sm">
 		  <button className="btn btn-primary" name="q1" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ1" aria-expanded="false" aria-controls="collapseExample">
@@ -300,10 +293,11 @@ let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 			      <div className="card-body">
 			        <h5 className="card-header">Game Info</h5>
 					<ul className="list-group list-group-flush text-left">
-					<div className="list-group-item"><strong>Date</strong> {gamedate}</div>	
-					<div className="list-group-item"><strong>Team</strong> {team}</div>	
-					<div className="list-group-item"><strong>Opponent</strong> {opponent}</div>	
-					<div className="list-group-item"><strong>Venue</strong> {venue}</div>	
+					<div className="list-group-item"><strong>Date:</strong> {gamedate}</div>	
+					<div className="list-group-item"><strong>Team:</strong> {team}</div>	
+					<div className="list-group-item"><strong>Opponent:</strong> {opponent}</div>	
+					<div className="list-group-item"><strong>Venue:</strong> {venue}</div>
+					<div className="list-group-item"><strong>Minutes:</strong> {minutesplayed}</div>	
 					</ul>
 			      </div>
 			    </div>
