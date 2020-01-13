@@ -1,5 +1,4 @@
 import React from 'react';
-//import logo from './bballlogo.png';
 import Header from './Header';
 //<i className="fas fa-basketball-ball"></i>
 const GameReportQuarter = (props) => {
@@ -31,20 +30,9 @@ const GameReportQuarter = (props) => {
     }
     
     return (
-        
-            <div>
-                <div className="container">
-       {/*      <div className="pos-f-t">
-    
-                <nav className="navbar navbar-dark bg-dark">
-                  <p className="navbar-brand">
-                    <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
-                    &nbsp; Quarter {quarter} Report
-                  </p>
-                </nav>
-            </div> */}
-    
-<Header headerInfo={headerInfo} />
+          <div>
+              <div className="container">
+                  <Header headerInfo={headerInfo} />
             <h2>Quarter {quarter} Totals</h2>
     
                 <div className='row'>

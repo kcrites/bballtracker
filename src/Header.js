@@ -1,8 +1,6 @@
 //Renders a screen to choose starting a game or going to list of previous games
 import React from 'react';
 import logo from './bball.png';
-//import './App.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
  
  const Header = (props) => {
 

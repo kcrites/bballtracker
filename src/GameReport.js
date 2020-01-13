@@ -1,5 +1,4 @@
 import React from 'react';
-//import logo from './bballlogo.png';
 import GameReportQuarter from './GameReportQuarter';
 import Header from './Header';
    
@@ -211,15 +210,8 @@ let headerInfo = {type: 'gamereport', title: 'Game Report', player: '', quarter:
 
         <div>
             <div className="container">
-<Header headerInfo={headerInfo} />
-	{/* 	<div className="pos-f-t">
-			<nav className="navbar navbar-dark bg-dark">
-			  <p className="navbar-brand">
-			    <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="Bball Logo"/>
-			    &nbsp; Game Report
-			  </p>
-			</nav>
-		</div> */}
+				<Header headerInfo={headerInfo} />
+
 
 		<div className="btn-group btn-group-sm">
 		  <button className="btn btn-primary" name="q1" type="button" data-toggle="collapse" onClick={this.handleCollapseClick} data-target="#collapseQ1" aria-expanded="false" aria-controls="collapseExample">
