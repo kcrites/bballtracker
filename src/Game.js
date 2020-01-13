@@ -225,7 +225,7 @@ class Game extends React.Component {
 
     sendTotals = (array) => {
         const { fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
-            freeThrows,missedTwo, missedThree, missedFT, minutesPlayed } = this.state.totals;
+            freeThrows,missedTwo, missedThree, missedFT } = this.state.totals;
         const { gameId } = this.state.info;
         const { serverURL } = this.props;
             //Get Totals, minutes played, scores
@@ -329,18 +329,18 @@ class Game extends React.Component {
             } else if (qt[0] ==='0:00' && qt[0] !== '10:00'){
             //started the quarter but was subed out
             
-                let temp = parseTime(qt[1], qTime);
+                let temp = parseTime(qt[1], qTime, 'out');
                 return temp;
             } else if (qt[1] ==='0:00'&& qt[0] !== '10:00'){
             //Didn't start quarter but was subed in
-                let temp = parseTime(qt[0], qTime);
+                let temp = parseTime(qt[0], qTime, 'in');
                 return temp;
             } else {
             //Player didn't go in
             return [[0,0]];
             }
         });
-       // console.table(totalArray);
+        
         let totalMin = 0;
         let totalSec = 0;
         totalArray.forEach((x) => {
@@ -349,12 +349,17 @@ class Game extends React.Component {
         })
         if(totalSec > 59) {
             let timeObj = timeConvert(totalSec)
-            totalSec = timeObj.sec;
+            if(timeObj.sec === 0){
+                totalSec = '00';
+            } else totalSec = timeObj.sec;
             totalMin += timeObj.min;
+        } else if(totalSec === 0){
+            this.setState({totals: totalMin + ':00'});
+            return totalMin + ':00';
         }
-      this.setState({totals: totalMin + ':' + totalSec});
-      return totalMin + ':' + totalSec;
-        };
+        this.setState({totals: totalMin + ':' + totalSec});
+        return totalMin + ':' + totalSec;
+    };
 
     timeConvert = (n) => {
         var num = n;
@@ -365,18 +370,28 @@ class Game extends React.Component {
         return {min:   rhours, sec: rminutes };
         };
             
-    parseTime = (array, qTime) => {
+    parseTime = (array, qTime, type) => {
             let time = array, timeArray = [];
+            // Playing time in the quarter
             let tempArray = time.split(":");
             let min = parseInt(tempArray[0]);
             let sec = parseInt(tempArray[1]);
-            timeArray[0] = qTime - min;// 7 8
-            timeArray[1]=60 - sec; //08 60
-            if (timeArray[1] >0) timeArray[0]-- ; //6 7
-            if (timeArray[1] ===60) timeArray[1] = 0;
-        
+            // Quarter length
+            let tempQArray = qTime.split(":");
+            let minQ = parseInt(tempQArray[0]);
+            // Calculations
+            if(type === 'in'){
+                timeArray[0] = min;
+                timeArray[1] = sec;
+            } else {
+                timeArray[0] = minQ - min;// 7 8
+                timeArray[1] = 60 - sec; //08 60
+                if (timeArray[1] > 0 && timeArray[1] !== 60) timeArray[0]-- ; //6 7
+                if (timeArray[1] ===60) timeArray[1] = 0;
+            }       
             return [[timeArray[0],timeArray[1]]];
         };
+
 
    findQuarterName = (q) => {
        let quarter='';
@@ -398,44 +413,32 @@ class Game extends React.Component {
         if(q === 1) {
             quarter = 'firstQuarter';
             let newValue = this.state.firstQuarter[type];
-           
             newValue = newValue + value;
-            
             let firstQuarter = {...this.state.firstQuarter, [type]: newValue};
             this.setState({firstQuarter});
-
             this.savePoints(value, type, quarter);
         } else if(q === 2){
             quarter = 'secondQuarter';
             let newValue = this.state.secondQuarter[type];
-           
             newValue = newValue + value;
-           
             let secondQuarter = {...this.state.secondQuarter, [type]: newValue};
             this.setState({secondQuarter});
-
             this.savePoints(value, type, quarter);
         }
         else if(q === 3){
             quarter = 'thirdQuarter';
             let newValue = this.state.thirdQuarter[type];
-           
             newValue = newValue + value;
-           
             let thirdQuarter = {...this.state.thirdQuarter, [type]: newValue};
             this.setState({thirdQuarter});
-
             this.savePoints(value, type, quarter);
         }
         else if(q === 4){
             quarter = 'forthQuarter';
             let newValue = this.state.forthQuarter[type];
-           
             newValue = newValue + value;
-           
             let forthQuarter = {...this.state.forthQuarter, [type]: newValue};
             this.setState({forthQuarter});
-
             this.savePoints(value, type, quarter);
         }
     }
@@ -468,7 +471,7 @@ class Game extends React.Component {
     }
 
     checked = (checked) => {
-        this.subTime('0', checked)
+        this.subTime('0:00', checked)
     }
 
     //Records time in or out of a quarter, and started status (Bool)
@@ -477,7 +480,6 @@ class Game extends React.Component {
         let q = this.state.currentQuarter;
         let x = '';
         let y = ';'
-      //  console.log(`subtime started: ${started}, ${q}`)
         if(started)
             { x = 'timeOut'; y = "timeIn"} else {x = 'timeIn'; y = 'timeOut'};
         if(q === 1) {
@@ -485,7 +487,6 @@ class Game extends React.Component {
             this.setState({firstQuarter});
         } else if(q === 2){
             let secondQuarter = {...this.state.secondQuarter, [x]: value, [y]: '0:00',started: started};
-         //   console.log(`second quarter: ${started}, ${value}, ${x}`)
             this.setState({secondQuarter});
         }
         else if(q === 3){
@@ -499,7 +500,6 @@ class Game extends React.Component {
     }
     
     gameScore = (array) => {
-       // console.log(`scoreArray from gameScore: ${array[0]}, ${array[1]}`);
         //Called from Buttons, saves game scores, time, and started bool to state
         let ts = array[0];
         let os = array[1];
@@ -562,16 +562,16 @@ class Game extends React.Component {
     }
 
 
-
 render() {
    // const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot} = this;
    let cq = '';
-   //console.log(this.props.gameInfo[6]);
+  
    const { currentQuarter } = this.state;
     const { team, opponent } = this.state.info;
     const { personalFouls, assists, freeThrows } = this.state.totals;
     if(currentQuarter === 5) {
-        cq = "forthQuarter"
+        cq = "forthQuarter";
+        return<div><h1>Game Over - Loading Game Stats</h1></div>
     } else (cq = this.findQuarterName(currentQuarter));
 
     let tr = this.totalsCalc('rebounds', 'totals');

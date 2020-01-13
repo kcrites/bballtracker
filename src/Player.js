@@ -1,6 +1,7 @@
 
     import React from 'react';
-    import logo from './bballlogo.png'
+   // import logo from './bballlogo.png'
+    import Header from './Header';
   
     const fixDate = (array) => {
         array.map((item) => {
@@ -136,11 +137,11 @@ render(){
     ftTotal, blocksTotal, bpTotal, dreboundTotal, oreboundTotal, pfTotal } = this.state.totals;
     const { games } = this.state;
     const { player } = this.props;
-
+    let headerInfo = {type: 'player', title: 'BBall Player Stats', player: player, quarter: ''};
     return (
         <div>
             <div className="container">
-		        <div className="pos-f-t">
+		       {/*  <div className="pos-f-t">
 	
             <nav className="navbar navbar-dark bg-dark">
                 <p className="navbar-brand" >
@@ -148,7 +149,8 @@ render(){
                     &nbsp; BBall Player Stats - <strong>{player}</strong>
                 </p>
             </nav>
-            </div>
+            </div> */}
+            <Header headerInfo={headerInfo} />
             <h3>Totals</h3>
         <div style={{overflow: 'auto'}}>
             <table className='table table-small'>

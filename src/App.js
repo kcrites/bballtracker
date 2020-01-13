@@ -8,8 +8,8 @@ import Player from './Player';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//const serverURL = 'http://localhost:3005/';
-const serverURL = 'https://cryptic-wildwood-13483.herokuapp.com/';
+const serverURL = 'http://localhost:3005/';
+//const serverURL = 'https://cryptic-wildwood-13483.herokuapp.com/';
 
 class App extends React.Component {
   constructor(props){

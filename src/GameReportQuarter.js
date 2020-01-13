@@ -1,5 +1,6 @@
 import React from 'react';
-import logo from './bballlogo.png';
+//import logo from './bballlogo.png';
+import Header from './Header';
 //<i className="fas fa-basketball-ball"></i>
 const GameReportQuarter = (props) => {
   const{ quarter, started, timein, timeout, fg, assists, blocks, blockedpass, threefg, steals,
@@ -14,6 +15,7 @@ const GameReportQuarter = (props) => {
     let totalRebounds = orebounds + drebounds;
     let threeAttempts = threefg + m3fg;
     let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
+    let headerInfo = {type: 'quarter', title: 'GQuarter', player: '', quarter: quarter};
     
     const timeDisplay = (started, timein, timeout) => {
       if(started){
@@ -32,7 +34,7 @@ const GameReportQuarter = (props) => {
         
             <div>
                 <div className="container">
-            <div className="pos-f-t">
+       {/*      <div className="pos-f-t">
     
                 <nav className="navbar navbar-dark bg-dark">
                   <p className="navbar-brand">
@@ -40,9 +42,9 @@ const GameReportQuarter = (props) => {
                     &nbsp; Quarter {quarter} Report
                   </p>
                 </nav>
-            </div>
+            </div> */}
     
-
+<Header headerInfo={headerInfo} />
             <h2>Quarter {quarter} Totals</h2>
     
                 <div className='row'>
