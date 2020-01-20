@@ -17,16 +17,17 @@
             <tr key={index}>
                  <th scope="row">{index+1}</th>
                     <td>{item.points}</td>
-                    <td>{item.fg}</td>
+                    <td>{(item.drebounds + item.orebounds)}</td>
                     <td>{item.assists}</td>
-                    <td>{item.blocks}</td>
-                    <td>{item.blockedpass}</td>
-                    <td>{item.threefg}</td>
                     <td>{item.steals}</td>
+                    <td>{item.blocks}</td>
+                    <td>{item.fg}</td>
+                    <td>{item.threefg}</td>
                     <td>{item.drebounds}</td>
                     <td>{item.orebounds}</td>
                     <td>{item.pf}</td>
                     <td>{item.ft}</td>
+                    <td>{item.blockedpass}</td>
                 <th scope="col"><button type="button" value={item.game} onClick={handleButtonClick} className="btn btn-info btn-sm">Details</button></th>
             </tr>
     
@@ -187,16 +188,17 @@ render(){
 		    <tr>
 		      <th scope="col">#</th>
 		      <th scope="col">Points</th>
-		      <th scope="col">FG</th>
+		      <th scope="col">Rebounds</th>
 		      <th scope="col">Assists</th>
-              <th scope="col">Blocks</th>
-              <th scope="col">Blocked Passes</th>
-              <th scope="col">3 FG</th>
               <th scope="col">Steals</th>
-              <th scope="col">D Rebounds</th>
-              <th scope="col">O Rebounds</th>
+              <th scope="col">Blocks</th>
+              <th scope="col">FG</th>
+              <th scope="col">3 FG</th>
+              <th scope="col">D Reb</th>
+              <th scope="col">O Reb</th>
               <th scope="col">PF</th>
               <th scope="col">FT</th>
+              <th scope="col">Tips</th>
 		      <th scope="col">Details</th>
 		    </tr>
 		  </thead>

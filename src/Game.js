@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
+import Spinner from 'react-bootstrap/Spinner'
 import './Game.css';
 
 let scoreArray = [];
@@ -571,7 +572,7 @@ render() {
     const { personalFouls, assists, freeThrows } = this.state.totals;
     if(currentQuarter === 5) {
         cq = "forthQuarter";
-        return<div><h1>Game Over - Loading Game Stats</h1></div>
+        return<div><Spinner animation="border" size="sm" as="span" variant="light"><h2>Game Over - Loading Game Stats</h2></Spinner></div>
     } else (cq = this.findQuarterName(currentQuarter));
 
     let tr = this.totalsCalc('rebounds', 'totals');
