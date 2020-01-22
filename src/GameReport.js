@@ -26,6 +26,7 @@ import Header from './Header';
 		mft: 0,
 		teamscore: 0,
 		opponentscore: 0,
+		turnovers: 0,
 		notes: ''
 	},
 	q2: {
@@ -49,6 +50,7 @@ import Header from './Header';
 		mft: 0,
 		teamscore: 0,
 		opponentscore: 0,
+		turnovers: 0,
 		notes: ''
 	},
 	q3: {
@@ -72,6 +74,7 @@ import Header from './Header';
 		mft: 0,
 		teamscore: 0,
 		opponentscore: 0,
+		turnovers: 0,
 		notes: ''
 	},
 	q4: {
@@ -95,6 +98,7 @@ import Header from './Header';
 		mft: 0,
 		teamscore: 0,
 		opponentscore: 0,
+		turnovers: 0,
 		notes: ''
 	}
 };
@@ -192,7 +196,7 @@ import Header from './Header';
     
 render(){
 	
-const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, minutesplayed, opponentscore} = this.state.totals;
+const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, minutesplayed, opponentscore, turnovers} = this.state.totals;
 const { team, opponent, venue, gamedate } = this.props.gameInfo;
 
 let quarterSelected = this.state.qSelected;
@@ -270,7 +274,8 @@ let headerInfo = {type: 'gamereport', title: 'Game Report', player: '', quarter:
 				  		<div className="list-group-item"><strong>Assists:</strong> {assists}</div>
 						<div className="list-group-item"><strong>Steals: </strong>{steals}</div>
                         <div className="list-group-item"><strong>Blocks: </strong>{blocks}</div>
-                        <div className="list-group-item"><strong>Blocked Passes:</strong> {blockedpass}</div>
+                        <div className="list-group-item"><strong>Tips:</strong> {blockedpass}</div>
+						<div className="list-group-item"><strong>Turnovers:</strong> {turnovers}</div>
 						</ul>
 			      </div>
 			    </div>

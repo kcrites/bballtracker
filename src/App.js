@@ -18,8 +18,22 @@ class App extends React.Component {
           route: 'home',
           gameInfo: [],
           gameId: 0,
+          dbAwake: false,
         }
     };
+
+    componentWillMount = () => {
+      fetch(serverURL, {
+        method: 'get',
+        headers: {'Content-Type': 'application/json'},
+      })
+      .then(response => {
+       if(response.length < 1){
+         console.log('Error waking the DB');
+       } else this.setState({dbAwake: true});
+        
+     }).catch(err => {console.log(err)});
+    }
 
 
    loadGameInfo = (details) => {
@@ -89,10 +103,10 @@ class App extends React.Component {
     }
 
     renderOption = (route) => {
-        const { gameInfo, gameId } = this.state;
+        const { gameInfo, gameId, dbAwake } = this.state;
         
         if(route === 'home'){
-          return <div> <Welcome onRouteChange={this.onRouteChange} /></div> 
+          return <div> <Welcome onRouteChange={this.onRouteChange} dbAwake={dbAwake} /></div> 
         }
         else if (route === 'game'){
           return <div> <Game onRouteChange={this.onRouteChange} gameDetails={this.gameDetails} 

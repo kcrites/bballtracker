@@ -17,16 +17,18 @@
             <tr key={index}>
                  <th scope="row">{index+1}</th>
                     <td>{item.points}</td>
-                    <td>{item.fg}</td>
+                    <td>{(item.drebounds + item.orebounds)}</td>
                     <td>{item.assists}</td>
-                    <td>{item.blocks}</td>
-                    <td>{item.blockedpass}</td>
-                    <td>{item.threefg}</td>
                     <td>{item.steals}</td>
+                    <td>{item.blocks}</td>
+                    <td>{item.turnovers}</td>
+                    <td>{item.fg}</td>
+                    <td>{item.threefg}</td>
                     <td>{item.drebounds}</td>
                     <td>{item.orebounds}</td>
                     <td>{item.pf}</td>
                     <td>{item.ft}</td>
+                    <td>{item.blockedpass}</td>
                 <th scope="col"><button type="button" value={item.game} onClick={handleButtonClick} className="btn btn-info btn-sm">Details</button></th>
             </tr>
     
@@ -52,7 +54,8 @@
                 bpTotal: 0,
                 dreboundTotal: 0,
                 oreboundTotal: 0,
-                pfTotal: 0
+                pfTotal: 0,
+                turnoverTotals: 0
             }  
         } 
     };
@@ -85,7 +88,7 @@
     getTotals = (array) => {
         let pointsTotal = 0, reboundsTotal = 0, assistTotal = 0, stealsTotal = 0;
         let fgTotal = 0, threefgTotal = 0, ftTotal = 0, blocksTotal = 0, bpTotal = 0;
-        let dreboundTotal = 0, oreboundTotal = 0, pfTotal = 0;
+        let dreboundTotal = 0, oreboundTotal = 0, pfTotal = 0, turnoverTotals = 0;
 
         array.map((e) => {
            pointsTotal += e.points;
@@ -100,7 +103,7 @@
            dreboundTotal += e.drebounds;
            oreboundTotal += e.orebounds;
            pfTotal += e.pf;
-
+           turnoverTotals += e.turnovers;
            return array;
         })
        
@@ -116,7 +119,8 @@
             bpTotal: bpTotal,
             dreboundTotal: dreboundTotal,
             oreboundTotal: oreboundTotal,
-            pfTotal: pfTotal
+            pfTotal: pfTotal,
+            turnoverTotals: turnoverTotals
         }})
     }
    
@@ -133,7 +137,7 @@ handleHomeClick = (event) => {
     
 render(){
     const{ pointsTotal, reboundsTotal, assistTotal, stealsTotal, fgTotal, threefgTotal,
-    ftTotal, blocksTotal, bpTotal, dreboundTotal, oreboundTotal, pfTotal } = this.state.totals;
+    ftTotal, blocksTotal, bpTotal, dreboundTotal, oreboundTotal, pfTotal, turnoverTotals } = this.state.totals;
     const { games } = this.state;
     const { player } = this.props;
     let headerInfo = {type: 'player', title: 'BBall Player Stats', player: player, quarter: ''};
@@ -155,7 +159,8 @@ render(){
                         <th scope="col">3FG</th>
                         <th scope="col">FT</th>
                         <th scope="col">Blocks</th>
-                        <th scope="col">Blocked Passes</th>
+                        <th scope="col">Tips</th>
+                        <th scope="col">TO</th>
                         <th scope="col">D Rebounds</th>
                         <th scope="col">O Rebounds</th>
                         <th scope="col">PF</th>
@@ -173,6 +178,7 @@ render(){
                         <td>{ftTotal}</td>
                         <td>{blocksTotal}</td>
                         <td>{bpTotal}</td>
+                        <td>{turnoverTotals}</td>
                         <td>{dreboundTotal}</td>
                         <td>{oreboundTotal}</td>
                         <td>{pfTotal}</td>
@@ -187,16 +193,18 @@ render(){
 		    <tr>
 		      <th scope="col">#</th>
 		      <th scope="col">Points</th>
-		      <th scope="col">FG</th>
+		      <th scope="col">Rebounds</th>
 		      <th scope="col">Assists</th>
-              <th scope="col">Blocks</th>
-              <th scope="col">Blocked Passes</th>
-              <th scope="col">3 FG</th>
               <th scope="col">Steals</th>
-              <th scope="col">D Rebounds</th>
-              <th scope="col">O Rebounds</th>
+              <th scope="col">Blocks</th>
+              <th scope="col">TO</th>
+              <th scope="col">FG</th>
+              <th scope="col">3 FG</th>
+              <th scope="col">D Reb</th>
+              <th scope="col">O Reb</th>
               <th scope="col">PF</th>
               <th scope="col">FT</th>
+              <th scope="col">Tips</th>
 		      <th scope="col">Details</th>
 		    </tr>
 		  </thead>

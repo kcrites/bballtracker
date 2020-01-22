@@ -19,7 +19,7 @@
                     <td className='p-1'>{item.gamedate}</td>
                     <td className='p-1'>{item.team}</td>
                     <td className='p-1'>{item.opponent}</td>
-                <th className='p-1' scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info btn-sm">Details</button></th>
+                <th className='p-1' scope="col"><button type="button" value={item.gameid} onClick={handleButtonClick} className="btn btn-info btn-sm">Info</button></th>
             </tr>
     
         );
@@ -81,7 +81,7 @@ render(){
 		      <th scope="col">Team</th>
 		      <th scope="col">Opponent</th>
 		     
-		      <th scope="col">Details</th>
+		      <th scope="col">Info</th>
 		    </tr>
 		  </thead>
 		  <tbody>
