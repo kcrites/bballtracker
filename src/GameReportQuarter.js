@@ -3,7 +3,7 @@ import Header from './Header';
 //<i className="fas fa-basketball-ball"></i>
 const GameReportQuarter = (props) => {
   const{ quarter, started, timein, timeout, fg, assists, blocks, blockedpass, threefg, steals,
-            drebounds, orebounds, pf, ft, mfg, m3fg, mft, teamscore, opponentscore, notes} = props.quarterInfo;
+            drebounds, orebounds, pf, ft, mfg, m3fg, mft, teamscore, opponentscore, turnovers, notes} = props.quarterInfo;
 
     let attempts = fg + threefg + mfg + m3fg;
     let points = (2*fg) + (3*threefg) + ft;
@@ -75,7 +75,8 @@ const GameReportQuarter = (props) => {
                         <div className="list-group-item"><strong>Assists:</strong> {assists}</div>
 						            <div className="list-group-item"><strong>Steals: </strong>{steals}</div>
                         <div className="list-group-item"><strong>Blocks: </strong>{blocks}</div>
-                        <div className="list-group-item"><strong>Blocked Passes:</strong> {blockedpass}</div>
+                        <div className="list-group-item"><strong>Tips:</strong> {blockedpass}</div>
+                        <div className="list-group-item"><strong>Turnovers:</strong> {turnovers}</div>
                       </ul>
                       </div>
                     </div>

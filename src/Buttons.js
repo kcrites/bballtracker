@@ -117,7 +117,7 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleSco
                     <Button variant="primary" name='dRebounds' value="1" onClick={handlePlay}>Defensive Rebound</Button>
                     <Button variant="primary" name='oRebounds' value="1" onClick={handlePlay}>Offensive Rebound</Button>
                     <Button variant="danger"  name='personalFouls' value="1" onClick={handlePlay}>Personal Foul</Button>
-                    <Button variant="warning"  name='turnover' value="1" >Turnover</Button>
+                    <Button variant="warning" name='turnovers' value="1" onClick={handlePlay}>Turnover</Button>
                 </div>
             </div>
         );

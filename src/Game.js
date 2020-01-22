@@ -39,6 +39,7 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      turnovers: 0,
       notes: '',
     },
     secondQuarter: {
@@ -60,6 +61,7 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      turnovers: 0,
       notes: '',
     },
     thirdQuarter: {
@@ -81,6 +83,7 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      turnovers: 0,
       notes: '',
     },
     forthQuarter: {
@@ -102,6 +105,7 @@ const gameObject = {
       missedFT: 0,
       teamScore: 0,
       opponentScore: 0,
+      turnovers: 0,
       notes: '',
     },
     totals: {
@@ -122,6 +126,7 @@ const gameObject = {
         missedTwo: 0,
         missedThree: 0,
         missedFT: 0,
+        turnovers: 0,
     }
   }
 
@@ -179,7 +184,7 @@ class Game extends React.Component {
     saveQuarterResults = (current) => {
         //manage end of 4th
             const { started, timeIn, timeOut, fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
-                    freeThrows,missedTwo, missedThree, missedFT, notes } = this.state[current];
+                    freeThrows,missedTwo, missedThree, missedFT, notes, turnovers } = this.state[current];
             const { currentQuarter } = this.state;
             const { serverURL } = this.props;
             
@@ -210,6 +215,7 @@ class Game extends React.Component {
                         missedFT: missedFT,
                         teamScore: parseInt(scoreArray[0]),
                         opponentScore: parseInt(scoreArray[1]),
+                        turnovers: turnovers,
                         notes: notes
                     })
                 })
@@ -226,7 +232,7 @@ class Game extends React.Component {
 
     sendTotals = (array) => {
         const { fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
-            freeThrows,missedTwo, missedThree, missedFT } = this.state.totals;
+            freeThrows,missedTwo, missedThree, missedFT, turnovers } = this.state.totals;
         const { gameId } = this.state.info;
         const { serverURL } = this.props;
             //Get Totals, minutes played, scores
@@ -254,6 +260,7 @@ class Game extends React.Component {
                 missedTwo: missedTwo,
                 missedThree: missedThree,
                 missedFT: missedFT,
+                turnovers: turnovers,
             })
         })
         .then(response => response.json())
@@ -541,13 +548,14 @@ class Game extends React.Component {
 
     //Calculates totals for sidebar
     totalsCalc = (type, period) => {
-        const { fieldGoals, freeThrows, threePointers, oRebounds, dRebounds, personalFouls, assists } = this.state[period];
+        const { fieldGoals, freeThrows, threePointers, oRebounds, dRebounds, personalFouls, assists, turnovers } = this.state[period];
 
         let totalRebounds = oRebounds + dRebounds;
         let totalPoints = (fieldGoals * 2) + freeThrows + (threePointers * 3);
         let totalFT = freeThrows;
         let totalPF = personalFouls;
         let totalAssists = assists;
+        let totalTurnovers = turnovers;
 
         if(type === 'points'){
             return totalPoints;}
@@ -559,6 +567,8 @@ class Game extends React.Component {
             return totalPF;
         } else if(type === 'assists') {
             return totalAssists;
+        } else if(type === 'turnovers'){
+            return totalTurnovers;
         }
     }
 
@@ -572,7 +582,7 @@ render() {
     const { personalFouls, assists, freeThrows } = this.state.totals;
     if(currentQuarter === 5) {
         cq = "forthQuarter";
-        return<div className='game-body'><Spinner animation="border" size="sm" as="span" variant="light"><h2>Game Over - Loading Game Stats</h2></Spinner></div>
+        return<div className='game-body'><h2>Game Over - Loading Game Stats</h2> <Spinner animation="border" size="sm" as="span" variant="light"></Spinner></div>
     } else (cq = this.findQuarterName(currentQuarter));
 
     let tr = this.totalsCalc('rebounds', 'totals');
