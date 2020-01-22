@@ -572,7 +572,7 @@ render() {
     const { personalFouls, assists, freeThrows } = this.state.totals;
     if(currentQuarter === 5) {
         cq = "forthQuarter";
-        return<div><Spinner animation="border" size="sm" as="span" variant="light"><h2>Game Over - Loading Game Stats</h2></Spinner></div>
+        return<div className='game-body'><Spinner animation="border" size="sm" as="span" variant="light"><h2>Game Over - Loading Game Stats</h2></Spinner></div>
     } else (cq = this.findQuarterName(currentQuarter));
 
     let tr = this.totalsCalc('rebounds', 'totals');
@@ -587,10 +587,10 @@ render() {
     return (
       <div className="App App-home">
         <Container name="Main Container">
-            <Row>
+            <Row name='teams'>
                 <Col med="true">{team} vs {opponent}</Col>
             </Row>
-            <Row>
+            <Row name='buttons_card'>
                 <Col >
                     <Card className='App-body'>
                     <Card.Body>
@@ -599,7 +599,7 @@ render() {
                              subTime={this.subTime} totals={this.state.totals} addNotes={this.addNotes} checked={this.checked} /></Card.Body></Card></Col>
 
             </Row>
-            <Row className="justify-content-md-center">
+            <Row name='totals_table' className="justify-content-md-center">
             <Col lg={7}>Totals
                 <Table responsive striped bordered hover variant="dark" size="sm">
                     <tbody className="text-left">
