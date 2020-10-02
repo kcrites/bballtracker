@@ -1,0 +1,56 @@
+.stat_table {
+    width:500px;
+}
+.report_title {
+    width: 500px;
+    font-size: large;
+    text-align: center;
+    font-weight: 900;
+}
+.table_div {
+ padding-bottom: 5px;
+ width: 500px;
+}
+.score {
+    max-width: 500px;
+    border: 1px solid lightblue;
+    margin-right: auto;
+    margin-left: auto;
+}
+.score_title {
+    font-weight: 700;
+    width: auto;
+    padding-right: 10px;;
+    background-color: lightsteelblue;
+}
+.team_name {
+    padding-right: 10px;
+}
+.team_score {
+    text-align: right;
+}
+.date_place {
+    border-top: solid lightblue 2px;
+}
+.stat_name {
+ font-weight: 600;
+ background-color: lightgray;
+ width: 25%;
+ padding-top: 3px;
+ padding-bottom: 3px;
+}
+.period_name {
+    width: 14%;
+}
+.title_color {
+    background-color: rgb(82, 80, 80);
+    color: white;
+}
+.heading_title {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: lightsteelblue;
+}
+.table_cell {
+    text-align: right;
+}

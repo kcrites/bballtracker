@@ -5,11 +5,11 @@ import GameInfo from './GameInfo';
 import GameList from './GameList';
 import GameReport from './GameReport';
 import Player from './Player';
+import { serverURL } from './server-path';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//const serverURL = 'http://localhost:3005/';
-const serverURL = 'https://cryptic-wildwood-13483.herokuapp.com/';
+//DON"T FORGET SERVER URL
 
 class App extends React.Component {
   constructor(props){

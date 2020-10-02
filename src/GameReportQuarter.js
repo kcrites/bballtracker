@@ -33,6 +33,20 @@ const GameReportQuarter = (props) => {
           <div>
               <div className="container">
                   <Header headerInfo={headerInfo} />
+                  <div className="btn-group btn-group-sm">
+		  <button className="btn btn-primary" name="q1" type="button" data-toggle="collapse" onClick={props.handleCollapseClick} data-target="#collapseQ1" aria-expanded="false" aria-controls="collapseExample">
+		    Quarter 1
+		  </button>
+		  <button className="btn btn-primary" name="q2" type="button" data-toggle="collapse"  onClick={props.handleCollapseClick} data-target="#collapseQ2" aria-expanded="false" aria-controls="collapseExample">
+		    Quarter 2
+		  </button>
+		  <button className="btn btn-primary" name="q3" type="button" data-toggle="collapse" onClick={props.handleCollapseClick} data-target="#collapseQ3" aria-expanded="false" aria-controls="collapseExample">
+		    Quarter 3
+		  </button>
+		  <button className="btn btn-primary" name="q4" type="button" data-toggle="collapse" onClick={props.handleCollapseClick} data-target="#collapseQ4" aria-expanded="false" aria-controls="collapseExample">
+		    Quarter 4
+		  </button>
+		</div>
             <h2>Quarter {quarter} Totals</h2>
     
                 <div className='row'>

@@ -1,6 +1,8 @@
 .container_buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;/*175px 175px;*/
+    grid-template-columns: 80px 80px 80px;/*.5fr .5fr;175px 175px;*/
+    align-items: center;
+    justify-content: center;
     gap: 15px;
 }
 
@@ -30,4 +32,9 @@
 .timebox {
     width: 75px;
     text-align: right;
+}
+
+.button_text {
+    /* font-size: .25em; */
+    height: 60px;
 }

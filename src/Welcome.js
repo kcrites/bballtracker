@@ -22,7 +22,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 <br/>
                 <button onClick={handleGameClick} value="player">Player Stats Report</button>
 
-    <p className='font-weight-light mt-3' style={{fontSize: '.75rem'}}>Version 1.75 {(props.dbAwake) ? '' : 
+    <p className='font-weight-light mt-3' style={{fontSize: '.75rem'}}>Version 1.9 {(props.dbAwake) ? '' : 
                                    <Spinner animation="border" size="sm" as="span" variant="light" />}</p>
             </header>
     );

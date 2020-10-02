@@ -1,5 +1,7 @@
 import React from 'react';
 import GameReportQuarter from './GameReportQuarter';
+import {EmailReport} from './Email';
+import { serverURL } from './server-path';
 import Header from './Header';
    
 
@@ -110,7 +112,8 @@ import Header from './Header';
         this.state = {
 			games: {},
 			totals: [],
-			qToggle: false
+			qToggle: false,
+			qSelected: ''
         }
     };
 
@@ -120,10 +123,11 @@ import Header from './Header';
 		this.getGameTotals();
 		this.getGameDetails();
 		
+		
 	}
 	
 	getGameTotals = () => {
-		const { game, serverURL } = this.props;
+		const { game } = this.props;
 
 		fetch(serverURL + 'gettotals', {
 			method: 'post',
@@ -142,7 +146,7 @@ import Header from './Header';
 
 	//Quarters Information
     getGameDetails = () => {
-        const { game, serverURL } = this.props;
+        const { game } = this.props;
         
         let gameArr = [];
         fetch(serverURL + 'getgame', {
@@ -176,11 +180,15 @@ import Header from './Header';
 	}
 
 	handleCollapseClick = (event) => {
+		if(event.target.name === this.state.qSelected || this.state.qSelected === ''){
 		this.setState({
 			qSelected: event.target.name,
 			qToggle: !this.state.qToggle
-
-		});
+			
+		});}
+		else {
+			this.setState({qSelected: event.target.name});
+		} //click on a different Q 
 	}
 
 	handle2Click = (event) => {
@@ -193,12 +201,17 @@ import Header from './Header';
 	handleListClick = (event) => {
 		this.props.onRouteChange('gamelist');
 	}
+
+	email = (event) => {
+		EmailReport(this.props.game, this.props.gameInfo)
+		return window.alert('Game Report sent by email');
+	}
     
 render(){
 	
 const { points, assists, orebounds, drebounds, steals, blocks, fg , threefg, ft, mft, mfg, m3fg, blockedpass, teamscore, minutesplayed, opponentscore, turnovers} = this.state.totals;
 const { team, opponent, venue, gamedate } = this.props.gameInfo;
-
+//console.log(this.state.qSelected)
 let quarterSelected = this.state.qSelected;
 let attempts = fg + mfg ;
 let made = fg ;
@@ -210,7 +223,7 @@ let threeAttempts = threefg + m3fg;
 let threeP = (threeAttempts > 0) ? (100 * threefg)/threeAttempts : 0;
 let headerInfo = {type: 'gamereport', title: 'Game Report', player: '', quarter: ''};
     return (
-		(this.state.qToggle) ? <GameReportQuarter quarterInfo={this.state.games[quarterSelected]} onRouteChange={this.props.onRouteChange} handle2Click={this.handle2Click} /> : 
+		(this.state.qToggle) ? <GameReportQuarter quarterInfo={this.state.games[quarterSelected]} handleCollapseClick={this.handleCollapseClick} onRouteChange={this.props.onRouteChange} handle2Click={this.handle2Click} /> : 
 
         <div>
             <div className="container">
@@ -312,7 +325,9 @@ let headerInfo = {type: 'gamereport', title: 'Game Report', player: '', quarter:
 			<nav className="navbar navbar-dark bg-dark "> 
 				<div className="container">
 	 			 <p className="navbar-brand" onClick={this.handleHomeClick}><small>Home</small></p>
+				  <p className="navbar-brand" onClick={this.email}><small>Email Report</small></p>
 				  <p className="navbar-brand" onClick={this.handleListClick}><small>Game List</small></p>
+
 	 			</div>
 			</nav>
 	
