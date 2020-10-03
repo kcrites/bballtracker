@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
 import Spinner from 'react-bootstrap/Spinner'
+import {EmailReport} from './Email';
+import { serverURL } from './server-path';
 import './Game.css';
 
 let scoreArray = [];
@@ -186,7 +188,7 @@ class Game extends React.Component {
             const { started, timeIn, timeOut, fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
                     freeThrows,missedTwo, missedThree, missedFT, notes, turnovers } = this.state[current];
             const { currentQuarter } = this.state;
-            const { serverURL } = this.props;
+            
             
             let info = {...this.state.info, gameId: this.props.gameInfo[6]};
             this.setState({info});
@@ -234,7 +236,7 @@ class Game extends React.Component {
         const { fieldGoals, assists, blocks, blockedPass, threePointers, steals, dRebounds, oRebounds, personalFouls,
             freeThrows,missedTwo, missedThree, missedFT, turnovers } = this.state.totals;
         const { gameId } = this.state.info;
-        const { serverURL } = this.props;
+       
             //Get Totals, minutes played, scores
             let tp = this.totalsCalc('points', 'totals');
             let totalTime = this.gameTime();
@@ -275,6 +277,8 @@ class Game extends React.Component {
         //called at the end of 4th q. cleans up localStorage and finalizes stats
         let totals = {...this.state.totals, teamScore: array[0], opponentScore: array[1]};
         this.setState({totals});
+        //email report
+		EmailReport(this.props.game, this.props.gameInfo)
         localStorage.removeItem('bball');
         this.sendTotals(array);
     }

@@ -41,7 +41,7 @@ class GameInfo extends React.Component {
                 <legend>Game Information</legend>
                         <div className="form-group">
                             <label className="form-control-label" htmlFor="team">Team</label>
-                            <select className="form-control" onChange={this.handleInput} id="team" name="team"><option value="Apollo">Apollo U18-3</option><option value="ISA">ISA Varsity</option></select>
+                            <select className="form-control" onChange={this.handleInput} id="team" name="team"><option value="Apollo">Apollo U22-3</option><option value="ISA">ISA Varsity</option></select>
                         </div>
 
                         <div className="form-group">

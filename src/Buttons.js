@@ -101,23 +101,23 @@ const { handleEnd, handlePlay, handleCheckbox, handleTime, handleShot, handleSco
                 </div>
                 <Button variant="dark" block name='End of Quarter' value='eoq' className='my-3' onClick={handleEnd}>End of Quarter</Button>
                 <div className='container_buttons'> 
-                    <Button variant="success" name='fieldGoals' value='1' onClick={handleShot} className="font-weight-bold">Field Goal</Button>
-                    <Button variant="warning" name='missedTwo' value='1' onClick={handlePlay}>Missed 2</Button>
-                    <Button variant="success" name='threePointers' value='1' onClick={handleShot} className="font-weight-bold">3 Points</Button>
-                    <Button variant="warning" name='missedThree' value='1' onClick={handlePlay}>Missed 3</Button>
-                    <Button variant="success" name='freeThrows' value='1' onClick={handleShot} className="font-weight-bold">Free Throw</Button>
-                    <Button variant="warning" name='missedFT' value='1' onClick={handlePlay}>Missed FT</Button>
+                    <Button variant="success" name='fieldGoals' value='1' onClick={handleShot} className="font-weight-bold button_text">Field Goal</Button>
+                    <Button variant="success" name='threePointers' value='1' onClick={handleShot} className="font-weight-bold button_text">3 Points</Button>
+                    <Button variant="success" name='freeThrows' value='1' onClick={handleShot} className="font-weight-bold button_text">Free Throw</Button> 
+                    <Button variant="warning" name='missedTwo' value='1' onClick={handlePlay} className='button_text' >Missed 2</Button>
+                    <Button variant="warning" name='missedThree' value='1' onClick={handlePlay} className='button_text' >Missed 3</Button>
+                    <Button variant="warning" name='missedFT' value='1' onClick={handlePlay} className='button_text' >Missed FT</Button>
                     </div> 
                      <Button className='my-3' variant="secondary" name='slider' block>Slider</Button> 
                     <div className='container_buttons'> 
-                    <Button variant="primary" name='assists' value="1" onClick={handlePlay}>Assist</Button>
-                    <Button variant="primary" name='steals' value="1" onClick={handlePlay}>Steal</Button>
-                    <Button variant="primary" name='blocks' value="1" onClick={handlePlay}>Block</Button>
-                    <Button variant="primary" name='blockedPass' value="1" onClick={handlePlay}>Tip</Button>
-                    <Button variant="primary" name='dRebounds' value="1" onClick={handlePlay}>Defensive Rebound</Button>
-                    <Button variant="primary" name='oRebounds' value="1" onClick={handlePlay}>Offensive Rebound</Button>
-                    <Button variant="danger"  name='personalFouls' value="1" onClick={handlePlay}>Personal Foul</Button>
-                    <Button variant="warning" name='turnovers' value="1" onClick={handlePlay}>Turnover</Button>
+                    <Button variant="primary" name='assists' className='button_text' value="1" onClick={handlePlay}>Assist</Button>
+                    <Button variant="primary" name='steals' className='button_text' value="1" onClick={handlePlay}>Steal</Button>
+                    <Button variant="primary" name='blocks' className='button_text' value="1" onClick={handlePlay}>Block</Button>
+                    <Button variant="primary" name='blockedPass' className='button_text' value="1" onClick={handlePlay}>Tip</Button>
+                    <Button variant="primary" name='dRebounds' className='button_text' value="1" onClick={handlePlay}>Def Reb</Button>
+                    <Button variant="primary" name='oRebounds' className='button_text' value="1" onClick={handlePlay}>Off Reb</Button>
+                    <Button variant="danger"  name='personalFouls' className='button_text' value="1" onClick={handlePlay}>Personal Foul</Button>
+                    <Button variant="warning" name='turnovers' className='button_text' value="1" onClick={handlePlay}>Turnover</Button>
                 </div>
             </div>
         );
